@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  number: 1
+  start_time: 2011-11-29 19:09:34
+  end_time: 2011-11-29 19:09:34
+  capacity: 1
+  event_id: 1
+
+two:
+  number: 1
+  start_time: 2011-11-29 19:09:34
+  end_time: 2011-11-29 19:09:34
+  capacity: 1
+  event_id: 1

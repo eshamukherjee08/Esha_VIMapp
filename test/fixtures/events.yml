@@ -1,0 +1,21 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  event_date: 2011-11-29
+  name: MyString
+  experience: MyString
+  location: MyString
+  description: MyString
+  catagory: MyString
+  tech_spec: MyString
+  admin_id: 1
+
+two:
+  event_date: 2011-11-29
+  name: MyString
+  experience: MyString
+  location: MyString
+  description: MyString
+  catagory: MyString
+  tech_spec: MyString
+  admin_id: 1

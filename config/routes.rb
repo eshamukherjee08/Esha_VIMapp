@@ -1,4 +1,12 @@
 EshaVIMapp::Application.routes.draw do
+  resources :candidates
+
+  resources :batches
+
+  resources :events
+
+  resources :admins
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
