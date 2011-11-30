@@ -4,6 +4,9 @@
 <% if admin_signed_in? %>
   <li><%= link_to 'Invite Admin', new_admin_invitation_path %>
   <li><%= link_to 'Sign Out', destroy_admin_session_path, :method => :delete %></li>
+<% elsif candidate_signed_in? %>
+  <li><%= link_to 'Sign Out Candidate', destroy_candidate_session_path, :method => :delete %></li>
 <% else %>
   <li><%= link_to 'Sign In', new_admin_session_path %></li>
+  <li><%= link_to 'Sign In Candidate', new_candidate_session_path %></li>
 <% end %>

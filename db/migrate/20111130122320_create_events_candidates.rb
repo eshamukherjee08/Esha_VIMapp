@@ -3,6 +3,7 @@ class CreateEventsCandidates < ActiveRecord::Migration
     create_table :events_candidates, :id => false do |t|
       t.integer :event_id
       t.integer :candidate_id
+      t.integer :roll_num
       t.boolean :attended
       t.boolean :waitlist
       t.boolean :cancellation
@@ -10,6 +11,5 @@ class CreateEventsCandidates < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :events_candidates
   end
 end

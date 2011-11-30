@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111130111240) do
+ActiveRecord::Schema.define(:version => 20111130122320) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                                 :default => "", :null => false
@@ -50,6 +50,38 @@ ActiveRecord::Schema.define(:version => 20111130111240) do
     t.datetime "updated_at"
   end
 
+  create_table "candidates", :force => true do |t|
+    t.string   "email",                                     :default => "", :null => false
+    t.string   "encrypted_password",     :limit => 128,     :default => "", :null => false
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",                             :default => 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "name"
+    t.date     "dob"
+    t.text     "address"
+    t.string   "current_state"
+    t.string   "home_town"
+    t.integer  "mobile_number"
+    t.string   "exp"
+    t.string   "salary_exp"
+    t.boolean  "starred"
+    t.integer  "batch_id"
+    t.binary   "resume",                 :limit => 1048576
+  end
+
+  add_index "candidates", ["email"], :name => "index_candidates_on_email", :unique => true
+  add_index "candidates", ["reset_password_token"], :name => "index_candidates_on_reset_password_token", :unique => true
+
   create_table "events", :force => true do |t|
     t.date     "event_date"
     t.string   "name"
@@ -66,6 +98,7 @@ ActiveRecord::Schema.define(:version => 20111130111240) do
   create_table "events_candidates", :id => false, :force => true do |t|
     t.integer "event_id"
     t.integer "candidate_id"
+    t.integer "roll_num"
     t.boolean "attended"
     t.boolean "waitlist"
     t.boolean "cancellation"
