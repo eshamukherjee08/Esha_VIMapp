@@ -30,6 +30,10 @@ EshaVIMapp::Application.configure do
   # Disable Rails's static asset server
   # In production, Apache or nginx will already do this
   config.serve_static_assets = false
+  
+  #set up for default url options
+  config.action_mailer.default_url_options = { :host => 'localhost:3000'}
+  
 
   # Enable serving of images, stylesheets, and javascripts from an asset server
   # config.action_controller.asset_host = "http://assets.example.com"

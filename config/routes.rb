@@ -1,22 +1,22 @@
 EshaVIMapp::Application.routes.draw do
   
   get "home/index"
+  get "candidates/after_accept"
   
   devise_for :admins, :controllers => { :invitations => 'admins/invitations' }
 
-  devise_for :candidates, :controllers => { :sessions => 'candidates/sessions' }
-  
-  resources :candidates
-
   resources :batches
-
   resources :events
   
-  devise_scope :candidate do
-    post "sign_in", :to => "candidates/sessions#index"
-    
-    delete "sign_out", :to => "candidates/sessions#new"
-  end
+  # devise_for :candidates, :controllers => { :sessions => 'candidates/sessions', :passwords => "candidates/passwords", 
+  #   :registrations => "candidates/registrations", :mailer => "candidates/mailer", 
+  #   :confirmations => "confirmations" }, :skip => [:sessions] do    
+  # end
+
+  devise_for :candidates
+
+  
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
