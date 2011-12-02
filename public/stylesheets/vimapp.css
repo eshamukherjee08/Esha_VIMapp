@@ -1,0 +1,46 @@
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 10px;
+}
+
+#banner {
+  background-color: black;
+  height: 150px;
+  text-align: center;
+  color: maroon;
+  margin: 0px;
+  padding: 0px;
+  font: small-caps 80px/80px "Times New Roman", serif;
+}
+
+#banner img {
+  float: left;
+  height: 150px;
+}
+
+#ad_signin {
+  border: 2px outset black;
+  margin-left: 40%;
+  width :300px;
+  height:200px;
+  margin-top: 10%;
+  padding: 10px;
+  padding-left:30px;
+}
+
+#invite {
+  float: left;
+  margin-left:10px;
+  font-size:20px;
+}
+
+#ad_signout {
+  float:right;
+  margin-right:10px;
+  font-size:20px;
+}

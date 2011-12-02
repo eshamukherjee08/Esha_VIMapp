@@ -8,6 +8,9 @@ gem 'rails', '3.0.7'
 gem 'sqlite3'
 gem 'devise', :git => 'git://github.com/plataformatec/devise.git' 
 gem 'devise_invitable'
+gem 'jquery-rails'
+
+gem 'jquery_datepicker'
 
 # Use unicorn as the web server
 # gem 'unicorn'

@@ -1,9 +1,9 @@
 EshaVIMapp::Application.routes.draw do
   
   get "home/index"
-  get "candidates/after_accept"
+  #get "candidates/after_accept"
   
-  devise_for :admins, :controllers => { :invitations => 'admins/invitations' }
+  devise_for :admins, :controllers => { :invitations => 'admins/invitations', :sessions => 'admins/sessions' }
 
   resources :batches
   resources :events

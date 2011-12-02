@@ -7,9 +7,8 @@
     <th>Experience</th>
     <th>Location</th>
     <th>Description</th>
-    <th>Catagory</th>
+    <th>Category</th>
     <th>Tech spec</th>
-    <th>Admin</th>
     <th></th>
     <th></th>
     <th></th>
@@ -22,9 +21,8 @@
     <td><%= event.experience %></td>
     <td><%= event.location %></td>
     <td><%= event.description %></td>
-    <td><%= event.catagory %></td>
+    <td><%= event.category %></td>
     <td><%= event.tech_spec %></td>
-    <td><%= event.admin_id %></td>
     <td><%= link_to 'Show', event %></td>
     <td><%= link_to 'Edit', edit_event_path(event) %></td>
     <td><%= link_to 'Destroy', event, :confirm => 'Are you sure?', :method => :delete %></td>
@@ -35,3 +33,5 @@
 <br />
 
 <%= link_to 'New Event', new_event_path %>
+<div id="ad_signout"><%= link_to 'Sign Out', destroy_admin_session_path, :method => :delete %></div>
+

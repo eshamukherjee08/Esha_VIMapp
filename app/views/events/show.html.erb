@@ -26,20 +26,14 @@
 </p>
 
 <p>
-  <b>Catagory:</b>
-  <%= @event.catagory %>
+  <b>Category:</b>
+  <%= @event.category %>
 </p>
 
 <p>
   <b>Tech spec:</b>
   <%= @event.tech_spec %>
 </p>
-
-<p>
-  <b>Admin:</b>
-  <%= @event.admin_id %>
-</p>
-
 
 <%= link_to 'Edit', edit_event_path(@event) %> |
 <%= link_to 'Back', events_path %>

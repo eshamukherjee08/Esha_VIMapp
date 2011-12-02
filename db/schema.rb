@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111130122320) do
+ActiveRecord::Schema.define(:version => 20111201123053) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                                 :default => "", :null => false
@@ -83,12 +83,12 @@ ActiveRecord::Schema.define(:version => 20111130122320) do
   add_index "candidates", ["reset_password_token"], :name => "index_candidates_on_reset_password_token", :unique => true
 
   create_table "events", :force => true do |t|
-    t.date     "event_date"
+    t.datetime "event_date"
     t.string   "name"
     t.string   "experience"
     t.string   "location"
     t.string   "description"
-    t.string   "catagory"
+    t.string   "category"
     t.string   "tech_spec"
     t.integer  "admin_id"
     t.datetime "created_at"

@@ -1,8 +1,10 @@
 class EventsController < ApplicationController
   # GET /events
   # GET /events.xml
+  before_filter :controlaccess
+  
   def index
-    @events = Event.all
+    @events = Event.all :order => 'event_date'
 
     respond_to do |format|
       format.html # index.html.erb
@@ -40,6 +42,8 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.xml
   def create
+    params[:event][:admin_id] = session["warden.user.admin.key"][1][0]
+    params[:event][:event_date] = DateTime.strptime(params[:event][:event_date], "%m/%d/20%y")
     @event = Event.new(params[:event])
 
     respond_to do |format|
@@ -56,6 +60,7 @@ class EventsController < ApplicationController
   # PUT /events/1
   # PUT /events/1.xml
   def update
+    params[:event][:event_date] = DateTime.strptime(params[:event][:event_date], "%m/%d/20%y")
     @event = Event.find(params[:id])
 
     respond_to do |format|
