@@ -11,6 +11,7 @@ gem 'devise_invitable'
 gem 'jquery-rails'
 
 gem 'jquery_datepicker'
+gem 'geokit'
 
 # Use unicorn as the web server
 # gem 'unicorn'

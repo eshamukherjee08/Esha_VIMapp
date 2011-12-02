@@ -1,3 +1,16 @@
+<script>
+
+  function show_map() {
+     $.ajax({
+       url : "<%= change_map_location_path %>",
+       dataType : 'script',
+       type : 'get',
+       data : "location="+$("#event_location").attr("value")
+     });
+   }
+ 
+</script>
+
 <%= form_for(@event) do |f| %>
   <% if @event.errors.any? %>
     <div id="error_explanation">
@@ -25,7 +38,10 @@
   </div>
   <div class="field">
     <%= f.label :location %><br />
-    <%= f.text_field :location %>
+    <%= f.text_field :location, :onblur => "show_map();" %>
+  </div>
+  <div id="map">
+    <iframe src="/google_map/index/?lat=28.635308&lon=77.22496&zoom=15" width="300" height="300"></iframe>
   </div>
   <div class="field">
     <%= f.label :description %><br />

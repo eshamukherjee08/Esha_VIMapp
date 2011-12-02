@@ -33,6 +33,11 @@ class EventsController < ApplicationController
       format.xml  { render :xml => @event }
     end
   end
+  
+  def change_map
+    p params
+    p @loc = params[:location]
+  end
 
   # GET /events/1/edit
   def edit
