@@ -9,6 +9,7 @@
     <th>Description</th>
     <th>Category</th>
     <th>Tech spec</th>
+    <th>No. Of Batches</th>
     <th></th>
     <th></th>
     <th></th>
@@ -23,6 +24,7 @@
     <td><%= event.description %></td>
     <td><%= event.category %></td>
     <td><%= event.tech_spec %></td>
+    <td><%= event.batches.count %></td>
     <td><%= link_to 'Show', event %></td>
     <td><%= link_to 'Edit', edit_event_path(event) %></td>
     <td><%= link_to 'Destroy', event, :confirm => 'Are you sure?', :method => :delete %></td>

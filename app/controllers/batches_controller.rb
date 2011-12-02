@@ -1,6 +1,9 @@
 class BatchesController < ApplicationController
   # GET /batches
   # GET /batches.xml
+  
+  before_filter :controlaccess
+  
   def index
     @batches = Batch.all
 

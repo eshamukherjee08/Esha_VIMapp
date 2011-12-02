@@ -1,4 +1,4 @@
 class Batch < ActiveRecord::Base
-  belongs_to :event, :depended => :destroy
-  has_many :candidates
+  belongs_to :event
+  #has_many :candidates
 end

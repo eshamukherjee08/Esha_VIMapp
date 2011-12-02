@@ -35,5 +35,12 @@
   <%= @event.tech_spec %>
 </p>
 
+<p>
+  <b>Batch:</b>
+  <% @event.batches.each do |batch| %>
+    <%= batch.capacity %>
+  <% end %>
+</p>
+
 <%= link_to 'Edit', edit_event_path(@event) %> |
 <%= link_to 'Back', events_path %>

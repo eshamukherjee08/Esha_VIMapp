@@ -27,7 +27,8 @@ class EventsController < ApplicationController
   # GET /events/new.xml
   def new
     @event = Event.new
-
+    @event.batches.build
+    
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @event }
@@ -35,8 +36,7 @@ class EventsController < ApplicationController
   end
   
   def change_map
-    p params
-    p @loc = params[:location]
+    @loc = params[:location]
   end
 
   # GET /events/1/edit
@@ -47,7 +47,7 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.xml
   def create
-    params[:event][:admin_id] = session["warden.user.admin.key"][1][0]
+    params[:event][:admin_id] = session["warden.user.admin.key"][1][0] 
     params[:event][:event_date] = DateTime.strptime(params[:event][:event_date], "%m/%d/20%y")
     @event = Event.new(params[:event])
 
