@@ -12,6 +12,9 @@
    function delete_batch(batch) {
      $("#"+batch).remove();
    }
+   function delete_this_batch(batch) {
+      $(batch).parent().remove();
+    }
  
 </script>
 
@@ -59,87 +62,109 @@
     <%= f.label :tech_spec %><br />
     <%= f.text_field :tech_spec %>
   </div>
+  <% if @event.id == nil %>
+    <div class="field">
+      <h3>Batch 1 Details:</h3>
+      <%= f.fields_for :batches do |b|%>
+        <div id="batch_div">
+          <%= b.label :start_time %><br />
+          <%= b.time_select :start_time %>
+        </div>
+        <div id="batch_div">
+          <%= b.label :end_time %><br />
+          <%= b.time_select :end_time %>
+        </div>
+        <div id="batch_div">
+          <%= b.label :capacity %><br />
+          <%= b.text_field :capacity %>
+        </div><br />
+      <% end %>
+    </div><br />
   
-  <div class="field">
-    <h3>Batch 1 Details:</h3>
-    <%= f.fields_for :batches do |b|%>
-      <div id="batch_div">
-        <%= b.label :start_time %><br />
-        <%= b.time_select :start_time %>
-      </div>
-      <div id="batch_div">
-        <%= b.label :end_time %><br />
-        <%= b.time_select :end_time %>
-      </div>
-      <div id="batch_div">
-        <%= b.label :capacity %><br />
-        <%= b.text_field :capacity %>
-      </div><br />
-    <% end %>
-  </div><br />
+    <div class="field" id="batch2">
+      <h3>Batch 2 Details:</h3>
+      <%= f.fields_for :batches do |b|%>
+        <div id="batch_div">
+          <%= b.label :start_time %><br />
+          <%= b.time_select :start_time %>
+        </div>
+        <div id="batch_div">
+          <%= b.label :end_time %><br />
+          <%= b.time_select :end_time %>
+        </div>
+        <div id="batch_div">
+          <%= b.label :capacity %><br />
+          <%= b.text_field :capacity %>
+        </div>
+        <div id="batch_div">
+          <%= submit_tag "Delete Batch", :type => 'button', :onclick => "delete_batch('batch2');" %>
+        </div><br />
+      <% end %>
+    </div><br />  
   
-  <div class="field" id="batch2">
-    <h3>Batch 2 Details:</h3>
-    <%= f.fields_for :batches do |b|%>
-      <div id="batch_div">
-        <%= b.label :start_time %><br />
-        <%= b.time_select :start_time %>
-      </div>
-      <div id="batch_div">
-        <%= b.label :end_time %><br />
-        <%= b.time_select :end_time %>
-      </div>
-      <div id="batch_div">
-        <%= b.label :capacity %><br />
-        <%= b.text_field :capacity %>
-      </div>
-      <div id="batch_div">
-        <%= submit_tag "Delete Batch", :type => 'button', :onclick => "delete_batch('batch2');" %>
-      </div><br />
-    <% end %>
-  </div><br />  
+    <div class="field" id="batch3">
+      <h3>Batch 3 Details:</h3>
+      <%= f.fields_for :batches do |b|%>
+        <div id="batch_div">
+          <%= b.label :start_time %><br />
+          <%= b.time_select :start_time %>
+        </div>
+        <div id="batch_div">
+          <%= b.label :end_time %><br />
+          <%= b.time_select :end_time %>
+        </div>
+        <div id="batch_div">
+          <%= b.label :capacity %><br />
+          <%= b.text_field :capacity %>
+        </div>
+        <div id="batch_div">
+          <%= submit_tag "Delete Batch", :type => 'button', :onclick => "delete_batch('batch3');" %>
+        </div><br />
+      <% end %>
+    </div><br />
   
-  <div class="field" id="batch3">
-    <h3>Batch 3 Details:</h3>
-    <%= f.fields_for :batches do |b|%>
-      <div id="batch_div">
-        <%= b.label :start_time %><br />
-        <%= b.time_select :start_time %>
-      </div>
-      <div id="batch_div">
-        <%= b.label :end_time %><br />
-        <%= b.time_select :end_time %>
-      </div>
-      <div id="batch_div">
-        <%= b.label :capacity %><br />
-        <%= b.text_field :capacity %>
-      </div>
-      <div id="batch_div">
-        <%= submit_tag "Delete Batch", :type => 'button', :onclick => "delete_batch('batch3');" %>
-      </div><br />
-    <% end %>
-  </div><br />
-  
-  <div class="field" id="batch4">
-    <h3>Batch 4 Details:</h3>
-    <%= f.fields_for :batches do |b|%>
-      <div id="batch_div">
-        <%= b.label :start_time %><br />
-        <%= b.time_select :start_time %>
-      </div>
-      <div id="batch_div">
-        <%= b.label :end_time %><br />
-        <%= b.time_select :end_time %>
-      </div>
-      <div id="batch_div">
-        <%= b.label :capacity %><br />
-        <%= b.text_field :capacity %>
-      </div>
-      <div id="batch_div">
-        <%= submit_tag "Delete Batch", :type => 'button', :onclick => "delete_batch('batch4');" %>
-      </div><br />
-    <% end %>
-  </div><br />
+    <div class="field" id="batch4">
+      <h3>Batch 4 Details:</h3>
+      <%= f.fields_for :batches do |b|%>
+        <div id="batch_div">
+          <%= b.label :start_time %><br />
+          <%= b.time_select :start_time %>
+        </div>
+        <div id="batch_div">
+          <%= b.label :end_time %><br />
+          <%= b.time_select :end_time %>
+        </div>
+        <div id="batch_div">
+          <%= b.label :capacity %><br />
+          <%= b.text_field :capacity %>
+        </div>
+        <div id="batch_div">
+          <%= submit_tag "Delete Batch", :type => 'button', :onclick => "delete_batch('batch4');" %>
+        </div><br />
+      <% end %>
+    </div><br />
+  <% else %>
+    <div class="field">
+      <h3>Batch Details:</h3>
+      <%= f.fields_for :batches do |b|%>
+        <br /><div>
+          <div id="batch_div">
+            <%= b.label :start_time %><br />
+            <%= b.time_select :start_time %>
+          </div>
+          <div id="batch_div">
+            <%= b.label :end_time %><br />
+            <%= b.time_select :end_time %>
+          </div>
+          <div id="batch_div">
+            <%= b.label :capacity %><br />
+            <%= b.text_field :capacity %>
+          </div>
+          <%= submit_tag "Delete Batch", :type => 'button', :onclick => "delete_this_batch(this);" %>
+        </div><br />
+      <% end %>
+    </div><br />
+  <% end %>
   
   <br />
   <div class="actions">
