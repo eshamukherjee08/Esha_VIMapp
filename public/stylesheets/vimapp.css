@@ -44,3 +44,9 @@ h1 {
   margin-right:10px;
   font-size:20px;
 }
+
+#batch_div {
+  float: left;
+  display: inline;
+  margin-left: 15px;
+}

@@ -49,6 +49,12 @@ class EventsController < ApplicationController
   def create
     params[:event][:admin_id] = session["warden.user.admin.key"][1][0] 
     params[:event][:event_date] = DateTime.strptime(params[:event][:event_date], "%m/%d/20%y")
+    # params[:event][:batches_attributes].each{ |key,value|
+    #      if params[:event][:batches_attributes][key][:capacity].empty?
+    #        params[:event][:batches_attributes].delete(key)
+    #      end
+    #     }
+    
     @event = Event.new(params[:event])
 
     respond_to do |format|
