@@ -1,41 +1,31 @@
-<h1>Listing events</h1><br />
-<br />
-<table>
-	<!--  Should be displayed only if any records exist -->
-  <tr>
-    <th>Event date</th>
-    <th>Name</th>
-    <th>Experience</th>
-    <th>Location</th>
-    <th>Description</th>
-    <th>Category</th>
-    <th>Tech spec</th>
-    <th>No. Of Batches</th>
-    <th></th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @events.each do |event| %>
-  <tr>
-    <td><%= event.event_date.strftime("%d/%b/%Y") %></td>
-    <td><%= event.name %></td>
-    <td><%= event.experience %></td>
-    <td><%= event.location %></td>
-    <td><%= event.description %></td>
-    <td><%= event.category %></td>
-    <td><%= event.tech_spec %></td>
-    <td><%= event.batches.count %></td>
-    <td></td>
-    <td><%= link_to 'Show', event %> | </td> 
-    <td><%= link_to 'Edit Event', edit_event_path(event) %> | </td>
-    <td><%= link_to 'Delete Event', event, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
+<% if notice %>
+  <p id='notice'><%= notice%></p>
 <% end %>
-</table>
+<h1>ADMIN CONTROL PANEL</h1><br />
+<br />
+<h4>UP COMING EVENTS:</h4><br />
+<% unless (@events.empty?) %>
+  	<!--  Should be displayed only if any records exist -->
+  <% @events.each do |event| %>
+    <br /><b>Event Name:<%= event.name %></b><br />
+    <u>DATE</u>:<%= event.event_date.strftime("%d/%b/%Y") %><br />
+    <u>EXPERIENCE</u>:<%= event.experience %><br />
+    <u>VENUE</u>:<%= event.location %><br />
+    <u>DESCRIPTION</u>:<%= event.description %><br />
+    <u>CATEGORY</u>:<%= event.category %><br />
+    <u>TECHNICAL SPECIFICATIONS</u>:<%= event.tech_spec %><br />
+    <u>NUMBER OF BATCHES</u>:<%= event.batches.count %><br />
+    <%= link_to 'Show', event %> | 
+    <%= link_to 'Edit Event', edit_event_path(event) %> |
+    <%= link_to 'Delete Event', event, :confirm => 'Are you sure?', :method => :delete %>
+    <br />
+  <% end %>
+  <br />
+  <br />
+  <h4>CREATE NEW EVENT :</h4>
+  <%= link_to 'Add New Event', new_event_path %>
+<% else %>
+  <h4>Sorry no events created</h4>
+  <%= link_to 'Add New Event', new_event_path %>
+<% end %>
 
-<br />
-<br />
-<h4>CREATE NEW EVENT :</h4>
-<%= link_to 'Add New Event', new_event_path %>

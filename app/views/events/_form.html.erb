@@ -20,17 +20,7 @@
 
 <%= form_for(@event) do |f| %>
   <!-- Extract this in a partial -->
-	<% if @event.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@event.errors.count, "error") %> prohibited this event from being saved:</h2>
-
-      <ul>
-      <% @event.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= render 'event_error' %>
 
   <div class="field">
     <%= f.label :event_date %><br />
@@ -45,7 +35,7 @@
   <div class="field">
     <%= f.label :experience %><br />
 		<!-- Extract choices in a constant -->
-    <%= f.select(:experience, options_for_select([['Fresher', 'Fresher'], ['0-1 Years', '0-1 Years'], ['1-3 Years', '1-3 Years'], ['3-5 Years', '3-5 Years'], ['>5 Years', '>5 Years']]), :prompt => '--Select Experience--') %>
+    <%= f.select("experience", EXPERIENCE, {:prompt => '--Select Experience--'}) %>
   </div>
 
   <div class="field">
@@ -64,39 +54,20 @@
 
   <div class="field">
     <%= f.label :category %><br />
-    <%= f.select(:category, options_for_select([['Ruby On Rails Developer', 'Ruby On Rails Developer'], ['Android Developer', 'Android Developer'], ['PHP Developer', 'PHP Developer'], ['Project Manager', 'Project Manager']]), :prompt => '--Select Category--') %>
+    <%= f.select("category", CATEGORY, {:prompt => '--Select Category--'}) %>
   </div>
 
   <div class="field">
     <%= f.label :tech_spec %><br />
     <%= f.text_field :tech_spec %>
   </div>
-
-  <% if @event.id == nil %>
-    <div class="field">
-      <h3>Batch 1 Details:</h3>
-      <%= f.fields_for :batches do |b|%>
+  <h3> Batches: </h3>
+    <%= f.fields_for :batches do |b|%>
+      <div class="field">
+        <h5>Batch :- </h5>
         <div id="batch_div">
-          <%= b.label :start_time %><br />
-          <%= b.time_select :start_time %>
-        </div>
-        <div id="batch_div">
-          <%= b.label :end_time %><br />
-          <%= b.time_select :end_time %>
-        </div>
-        <div id="batch_div">
-          <%= b.label :capacity %><br />
-          <%= b.text_field :capacity %>
-        </div><br />
-      <% end %>
-    </div><br />
-  
-    <div class="field" id="batch2">
-      <h3>Batch 2 Details:</h3>
-      <%= f.fields_for :batches do |b|%>
-        <div id="batch_div">
-          <%= b.label :start_time %><br />
-          <%= b.time_select :start_time %>
+        <%= b.label :start_time %><br />
+        <%= b.time_select :start_time %>
         </div>
         <div id="batch_div">
           <%= b.label :end_time %><br />
@@ -107,77 +78,16 @@
           <%= b.text_field :capacity %>
         </div>
         <div id="batch_div">
-					<!-- only 1 submit in a form -->
-          <%= submit_tag "Delete Batch", :type => 'button', :onclick => "delete_batch('batch2');" %>
+          <%= b.check_box :_destroy %><br />
+          <%= b.label :_destroy, 'Delete' %>
         </div><br />
-      <% end %>
-    </div><br />  
-  
-    <div class="field" id="batch3">
-      <h3>Batch 3 Details:</h3>
-      <%= f.fields_for :batches do |b|%>
-        <div id="batch_div">
-          <%= b.label :start_time %><br />
-          <%= b.time_select :start_time %>
-        </div>
-        <div id="batch_div">
-          <%= b.label :end_time %><br />
-          <%= b.time_select :end_time %>
-        </div>
-        <div id="batch_div">
-          <%= b.label :capacity %><br />
-          <%= b.text_field :capacity %>
-        </div>
-        <div id="batch_div">
-          <%= submit_tag "Delete Batch", :type => 'button', :onclick => "delete_batch('batch3');" %>
-        </div><br />
-      <% end %>
-    </div><br />
-  
-    <div class="field" id="batch4">
-      <h3>Batch 4 Details:</h3>
-      <%= f.fields_for :batches do |b|%>
-        <div id="batch_div">
-          <%= b.label :start_time %><br />
-          <%= b.time_select :start_time %>
-        </div>
-        <div id="batch_div">
-          <%= b.label :end_time %><br />
-          <%= b.time_select :end_time %>
-        </div>
-        <div id="batch_div">
-          <%= b.label :capacity %><br />
-          <%= b.text_field :capacity %>
-        </div>
-        <div id="batch_div">
-          <%= submit_tag "Delete Batch", :type => 'button', :onclick => "delete_batch('batch4');" %>
-        </div><br />
-      <% end %>
-    </div><br />
-  <% else %>
-    <div class="field">
-      <h3>Batch Details:</h3>
-      <%= f.fields_for :batches do |b|%>
-        <br /><div>
-          <div id="batch_div">
-            <%= b.label :start_time %><br />
-            <%= b.time_select :start_time %>
-          </div>
-          <div id="batch_div">
-            <%= b.label :end_time %><br />
-            <%= b.time_select :end_time %>
-          </div>
-          <div id="batch_div">
-            <%= b.label :capacity %><br />
-            <%= b.text_field :capacity %>
-          </div>
-          <%= submit_tag "Delete Batch", :type => 'button', :onclick => "delete_this_batch(this);" %>
-        </div><br />
-      <% end %>
-    </div><br />
-  <% end %>
-  
-  <br />
+      </div><br />
+    <% end %>  
+  <br /><br />
+  <p>
+    <%= f.submit 'Add Batch', :name => "add_batch" %>
+    <%= f.submit 'Delete Checked Batches', :name => "remove_ingredient" %>
+  </p><br />
   <div class="actions">
     <%= f.submit %>
   </div>
