@@ -11,7 +11,14 @@
   <div id="banner">
     <%= image_tag("Vinsol_thumb.png") %>
     <%= @page_title || "'V'alk-In Management" %>
-  </div>
+    <div id="details">
+      <% if admin_signed_in? %>
+        <%= link_to 'Invite Admin', new_admin_invitation_path %> |
+        <%= link_to 'Past Events', past_path %> | 
+        <%= link_to 'Sign Out', destroy_admin_session_path, :method => :delete %>
+      <% end %>
+    </div>
+  </div>  
   <div>
     <%= yield %>
   </div>

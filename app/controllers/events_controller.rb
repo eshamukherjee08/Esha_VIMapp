@@ -96,4 +96,13 @@ class EventsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  def past
+    @events = Event.all :order => 'event_date'
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @events }
+    end
+  end
 end

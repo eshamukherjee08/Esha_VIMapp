@@ -50,3 +50,11 @@ h1 {
   display: inline;
   margin-left: 15px;
 }
+
+#details {
+  font-color : red;
+  float: right;
+  display:inline;
+  margin-top: 100px;
+  font-size: 20px;
+}

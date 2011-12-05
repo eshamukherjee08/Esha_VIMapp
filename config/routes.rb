@@ -19,6 +19,10 @@ EshaVIMapp::Application.routes.draw do
 
   get "change_map_location", :to => "events#change_map", :as => "change_map_location"
   
+  controller :events do
+    get "past", :to => "events#past", :as => "past"
+  end
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

@@ -1,5 +1,5 @@
-<h1>Listing events</h1>
-
+<h1>Listing events</h1><br />
+<br />
 <table>
   <tr>
     <th>Event date</th>
@@ -13,11 +13,12 @@
     <th></th>
     <th></th>
     <th></th>
+    <th></th>
   </tr>
 
 <% @events.each do |event| %>
   <tr>
-    <td><%= event.event_date %></td>
+    <td><%= event.event_date.strftime("%d/%b/%Y") %></td>
     <td><%= event.name %></td>
     <td><%= event.experience %></td>
     <td><%= event.location %></td>
@@ -25,16 +26,15 @@
     <td><%= event.category %></td>
     <td><%= event.tech_spec %></td>
     <td><%= event.batches.count %></td>
-    <td><%= link_to 'Show', event %></td>
-    <td><%= link_to 'Edit', edit_event_path(event) %></td>
-    <td><%= link_to 'Destroy', event, :confirm => 'Are you sure?', :method => :delete %></td>
-    
+    <td></td>
+    <td><%= link_to 'Show', event %> | </td> 
+    <td><%= link_to 'Edit Event', edit_event_path(event) %> | </td>
+    <td><%= link_to 'Delete Event', event, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>
 
 <br />
-
-<%= link_to 'New Event', new_event_path %>
-<div id="ad_signout"><%= link_to 'Sign Out', destroy_admin_session_path, :method => :delete %></div>
-
+<br />
+<h4>CREATE NEW EVENT :</h4>
+<%= link_to 'Add New Event', new_event_path %>

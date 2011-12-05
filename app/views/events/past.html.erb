@@ -1,0 +1,29 @@
+<h1>Past Walk-Ins Conducted</h1>
+<% @events.each do |event| %>
+  <% if event.event_date.past? %>
+    <table>
+      <tr>
+        <th>Event date</th>
+        <th>Name</th>
+        <th>Experience</th>
+        <th>Location</th>
+        <th>Description</th>
+        <th>Category</th>
+        <th>Tech spec</th>
+        <th>No. Of Batches</th>
+      </tr>
+      <tr>
+        <td><%= event.event_date.strftime("%d/%b/%Y") %></td>
+        <td><%= event.name %></td>
+        <td><%= event.experience %></td>
+        <td><%= event.location %></td>
+        <td><%= event.description %></td>
+        <td><%= event.category %></td>
+        <td><%= event.tech_spec %></td>
+        <td><%= event.batches.count %></td>
+      </tr>
+    </table>
+  <% end %>
+<% end %>
+
+<%= link_to 'Back', events_path %>
