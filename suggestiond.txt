@@ -1,0 +1,3 @@
+- Correct migrations
+- Flash msg should display that a confirmation mail has been sent
+- Add validations for event form

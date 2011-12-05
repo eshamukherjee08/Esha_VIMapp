@@ -1,38 +1,25 @@
 class EventsController < ApplicationController
-  # GET /events
-  # GET /events.xml
-  before_filter :controlaccess
   
+  before_filter :controlaccess
+
+  # GET /events  
   def index
     @events = Event.all :order => 'event_date'
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @events }
-    end
   end
 
   # GET /events/1
-  # GET /events/1.xml
   def show
+    #### COMMENT - Use where instead of find. Extract in a before_filter
     @event = Event.find(params[:id])
 
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @event }
-    end
   end
 
   # GET /events/new
-  # GET /events/new.xml
   def new
     @event = Event.new
     @event.batches.build
     
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @event }
-    end
   end
   
   def change_map
@@ -45,27 +32,28 @@ class EventsController < ApplicationController
   end
 
   # POST /events
-  # POST /events.xml
   def create
+    #### COMMENT - cannot assign to params
+    #### COMMENT - use current_admin
+    p params
     params[:event][:admin_id] = session["warden.user.admin.key"][1][0] 
     params[:event][:event_date] = DateTime.strptime(params[:event][:event_date], "%m/%d/20%y")
+
     # params[:event][:batches_attributes].each{ |key,value|
     #      if params[:event][:batches_attributes][key][:capacity].empty?
     #        params[:event][:batches_attributes].delete(key)
     #      end
     #     }
     
+    #### Can be written like this
+    # @event = Event.new(params[:event]).merge!({[:event][:admin_id] = current_admin.id })
     @event = Event.new(params[:event])
 
-    respond_to do |format|
       if @event.save
-        format.html { redirect_to(@event, :notice => 'Event was successfully created.') }
-        format.xml  { render :xml => @event, :status => :created, :location => @event }
+        redirect_to(@event, :notice => 'Event was successfully created.') 
       else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
+        render :action => "new" 
       end
-    end
   end
 
   # PUT /events/1
