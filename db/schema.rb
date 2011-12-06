@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111206130658) do
+ActiveRecord::Schema.define(:version => 20111206134103) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                                 :default => "", :null => false
@@ -49,6 +49,24 @@ ActiveRecord::Schema.define(:version => 20111206130658) do
     t.datetime "updated_at"
   end
 
+  create_table "candidates", :force => true do |t|
+    t.string   "name"
+    t.date     "dob"
+    t.text     "address"
+    t.string   "current_state"
+    t.string   "home_town"
+    t.integer  "mobile_number"
+    t.string   "exp"
+    t.string   "salary_exp"
+    t.boolean  "starred"
+    t.boolean  "confirmed",                        :default => false
+    t.integer  "batch_id"
+    t.binary   "resume",        :limit => 1048576
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "email"
+  end
+
   create_table "events", :force => true do |t|
     t.datetime "event_date"
     t.string   "name"
@@ -60,6 +78,15 @@ ActiveRecord::Schema.define(:version => 20111206130658) do
     t.integer  "admin_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "events_candidates", :id => false, :force => true do |t|
+    t.integer "event_id"
+    t.integer "candidate_id"
+    t.integer "roll_num"
+    t.boolean "attended"
+    t.boolean "waitlist"
+    t.boolean "cancellation"
   end
 
 end

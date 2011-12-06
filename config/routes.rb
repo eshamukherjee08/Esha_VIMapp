@@ -1,5 +1,7 @@
 EshaVIMapp::Application.routes.draw do
   
+  resources :candidates
+
   get "google_map/index"
 
   get "home/index"
