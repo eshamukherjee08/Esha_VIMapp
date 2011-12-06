@@ -8,19 +8,19 @@
        data : "location="+$("#event_location").attr("value")
      });
    }
-   
-   function delete_batch(batch) {
-     $("#"+batch).remove();
-   }
-   function delete_this_batch(batch) {
-      $(batch).parent().remove();
-    }
+      // 
+      // function delete_batch(batch) {
+      //   $("#"+batch).remove();
+      // }
+      // function delete_this_batch(batch) {
+      //    $(batch).parent().remove();
+      //  }
  
 </script>
 
-<%= form_for(@event) do |f| %>
+<%= nested_form_for(@event) do |f| %>
   <!-- Extract this in a partial -->
-  <%= render 'event_error' %>
+  <%#= render 'event_error' %>
 
   <div class="field">
     <%= f.label :event_date %><br />
@@ -61,33 +61,20 @@
     <%= f.label :tech_spec %><br />
     <%= f.text_field :tech_spec %>
   </div>
-  <h3> Batches: </h3>
-    <%= f.fields_for :batches do |b|%>
-      <div class="field">
-        <h5>Batch :- </h5>
-        <div id="batch_div">
-        <%= b.label :start_time %><br />
-        <%= b.time_select :start_time %>
-        </div>
-        <div id="batch_div">
-          <%= b.label :end_time %><br />
-          <%= b.time_select :end_time %>
-        </div>
-        <div id="batch_div">
-          <%= b.label :capacity %><br />
-          <%= b.text_field :capacity %>
-        </div>
-        <div id="batch_div">
-          <%= b.check_box :_destroy %><br />
-          <%= b.label :_destroy, 'Delete' %>
-        </div><br />
-      </div><br />
-    <% end %>  
-  <br /><br />
-  <p>
-    <%= f.submit 'Add Batch', :name => "add_batch" %>
-    <%= f.submit 'Delete Checked Batches', :name => "remove_ingredient" %>
-  </p><br />
+  
+  
+  <%= f.fields_for :batches %>
+  
+  <p><%= f.link_to_add "Add a task", :batches %></p>
+  
+  
+  <br /><h3> Batches: </h3>
+    <%#= f.fields_for :batches do |builder| %>
+      <%#= render :partial => 'batch_fields', :locals => { :builder => builder } %>
+    <%# end %>
+    
+  <%#= link_to_add_field "Add Batch", f, :batches %>    
+  
   <div class="actions">
     <%= f.submit %>
   </div>

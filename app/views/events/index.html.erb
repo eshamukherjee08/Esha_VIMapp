@@ -8,7 +8,7 @@
   	<!--  Should be displayed only if any records exist -->
   <% @events.each do |event| %>
     <br /><b>Event Name:<%= event.name %></b><br />
-    <u>DATE</u>:<%= event.event_date.strftime("%d/%b/%Y") %><br />
+    <u>DATE</u>:<%= event.event_date %><br />
     <u>EXPERIENCE</u>:<%= event.experience %><br />
     <u>VENUE</u>:<%= event.location %><br />
     <u>DESCRIPTION</u>:<%= event.description %><br />
