@@ -15,7 +15,6 @@ EshaVIMapp::Application.routes.draw do
   #   :confirmations => "confirmations" }, :skip => [:sessions] do    
   # end
 
-  devise_for :candidates
 
   get "change_map_location", :to => "events#change_map", :as => "change_map_location"
   
