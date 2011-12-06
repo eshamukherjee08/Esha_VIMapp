@@ -8,14 +8,6 @@
        data : "location="+$("#event_location").attr("value")
      });
    }
-   
-   function delete_batch(batch) {
-     $("#"+batch).remove();
-   }
-   function delete_this_batch(batch) {
-      $(batch).parent().remove();
-    }
- 
 </script>
 
 <%= form_for(@event) do |f| %>
