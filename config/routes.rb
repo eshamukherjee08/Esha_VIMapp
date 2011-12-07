@@ -1,5 +1,13 @@
 EshaVIMapp::Application.routes.draw do
   
+  # get "walkin/new"
+  # 
+  #  get "walkin/create"
+  # 
+  #  get "walkin/update"
+  # 
+  #  get "walkin/show"
+  resources :walkin
   resources :candidates
 
   get "google_map/index"
@@ -19,6 +27,10 @@ EshaVIMapp::Application.routes.draw do
 
 
   get "change_map_location", :to => "events#change_map", :as => "change_map_location"
+  
+  get "map_location", :to => "walkin#change_map", :as => "map_location"
+  
+  get "register/new/:event_id", :to => "candidates#new", :as => "register_candidate_for_event"
   
   controller :events do
     get "past", :to => "events#past", :as => "past"

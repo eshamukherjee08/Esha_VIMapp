@@ -4,9 +4,4 @@ class GoogleMapController < ApplicationController
     @lon = params[:lon] || "77.1692714"
     @zoom = params[:zoom] || "10"
   end
-  
-  # def change_map_location
-  #     @loc = params[:location]
-  #   end
-
 end

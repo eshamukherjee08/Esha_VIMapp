@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111206134103) do
+ActiveRecord::Schema.define(:version => 20111207065500) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                                 :default => "", :null => false
@@ -59,12 +59,13 @@ ActiveRecord::Schema.define(:version => 20111206134103) do
     t.string   "exp"
     t.string   "salary_exp"
     t.boolean  "starred"
-    t.boolean  "confirmed",                        :default => false
     t.integer  "batch_id"
-    t.binary   "resume",        :limit => 1048576
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "email"
+    t.string   "resume_file_name"
+    t.string   "resume_content_type"
+    t.integer  "resume_file_size"
   end
 
   create_table "events", :force => true do |t|
@@ -80,13 +81,14 @@ ActiveRecord::Schema.define(:version => 20111206134103) do
     t.datetime "updated_at"
   end
 
-  create_table "events_candidates", :id => false, :force => true do |t|
+  create_table "events_candidates", :force => true do |t|
     t.integer "event_id"
     t.integer "candidate_id"
     t.integer "roll_num"
-    t.boolean "attended"
-    t.boolean "waitlist"
-    t.boolean "cancellation"
+    t.boolean "confirmed",    :default => false
+    t.boolean "attended",     :default => false
+    t.boolean "waitlist",     :default => false
+    t.boolean "cancellation", :default => false
   end
 
 end
