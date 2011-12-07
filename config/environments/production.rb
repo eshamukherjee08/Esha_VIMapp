@@ -33,7 +33,7 @@ EshaVIMapp::Application.configure do
   
   #set up for default url options
   config.action_mailer.default_url_options = { :host => 'localhost:3000'}
-  
+  config.action_mailer.delivery_method = :test
 
   # Enable serving of images, stylesheets, and javascripts from an asset server
   # config.action_controller.asset_host = "http://assets.example.com"

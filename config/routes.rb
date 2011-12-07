@@ -32,6 +32,10 @@ EshaVIMapp::Application.routes.draw do
   
   get "register/new/:event_id", :to => "candidates#new", :as => "register_candidate_for_event"
   
+  get "registered", :to => "candidates#registered", :as => "thank_you_for_registration"
+  
+  get "confirmation/:event_id/:perishable_token", :to => "candidates#confirmation", :as => "thank_you_for_confirmation"
+  
   controller :events do
     get "past", :to => "events#past", :as => "past"
   end

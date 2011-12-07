@@ -15,6 +15,7 @@ gem 'jquery-rails', '1.0.18'
 gem 'jquery_datepicker', '0.3.2'
 gem 'geokit', '1.6.0'
 gem 'paperclip', '~> 2.3'
+gem 'uuid', "~> 2.3.4"
 
 # Use unicorn as the web server
 # gem 'unicorn'
