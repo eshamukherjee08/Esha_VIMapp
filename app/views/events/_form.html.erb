@@ -11,7 +11,7 @@
 </script>
 
 <div id="main_event">
-  <%= nested_form_for(@event) do |f| %>
+  <%= nested_form_for @event do |f| %>
     <!-- Extract this in a partial -->
     <%= render 'event_error' %>
 
@@ -29,19 +29,15 @@
     <div id="fills"><%= f.text_field :name, :size => 100 %></div>
     
     
-    <br /><br /><div class="field" id="odd_field">
-      <%= f.label :description %> : 
-      <%= f.text_area :description, :size => 100 %>
-    </div>
+    <br /><br /><div class="field" id="odd_field"><%= f.label :description %> :</div> 
+    <div id="fills"><%= f.text_field :description, :size => 100 %></div>
 
     <br /><br /><div class="field" id="odd_field"><%= f.label :tech_spec %> : </div>
     <div id="fills"><%= f.text_field :tech_spec, :size => 100 %></div>
     
-    <br /><br /><div class="field" id="odd_field">
-      <%= f.label :experience %> :
+    <br /><br /><div class="field" id="odd_field"><%= f.label :experience %> :</div>
   		<!-- Extract choices in a constant -->
-      <%= f.select("experience", EXPERIENCE, {:prompt => '--Select Experience--'}) %>
-    </div>
+    <div id="fills"><%= f.select("experience", EXPERIENCE, {:prompt => '--Select Experience--'}) %></div>
 
     <br /><br /><div class="field" id="odd_field"><%= f.label :location %> :
     <div style="display:inline; margin-left:25px; margin-right:45px;" ><%= f.text_field :location, :onblur => "show_map();" %></div>
@@ -52,12 +48,10 @@
           
     <div id="main_batch">
       <%= f.fields_for :batches %>
-       <p><%= f.link_to_add "Add a Batch", :batches %></p>
-        <br /><h3> Batches: </h3> 
-        <div class="actions" style="display:inline; float:right; margin-right:270px;" >
-          <%= f.submit %>
-        </div><br /><br />
-      <% end %>
+      <p><%= f.link_to_add "Add a Batch", :batches %></p>
     </div>
+    <div class="actions" style="display:inline; float:right; margin-right:270px;" >
+      <%= f.submit %>
+    </div><br /><br />
   <% end %>  
 </div>
