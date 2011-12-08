@@ -7,7 +7,7 @@ class Event < ActiveRecord::Base
   has_many :candidates, :through => :events_candidates
   
   validates_associated :batches
-  attr_accessible :batches_attributes
-  validates :event_date, :presence => true, :uniqueness => true
-  validates :experience, :name, :location, :description, :candidates, :tech_spec, :presence => true
+  attr_accessible :batches_attributes, :event_date, :category, :name, :description, :tech_spec, :experience, :location, :admin_id
+  validates :event_date, :presence => true
+  validates :experience, :name, :location, :description, :category, :tech_spec, :presence => true
 end

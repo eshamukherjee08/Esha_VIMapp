@@ -38,6 +38,8 @@ EshaVIMapp::Application.routes.draw do
   
   controller :events do
     get "past", :to => "events#past", :as => "past"
+    
+    get "candidate_data", :to => "events#candidate_data", :as => "candidate_data"
   end
   
   # The priority is based upon order of creation:

@@ -12,6 +12,7 @@ gem 'devise', :git => 'git://github.com/plataformatec/devise.git'
 gem 'devise_invitable', '0.6.0'
 gem 'jquery-rails', '1.0.18'
 gem 'nested_form'
+gem 'pdfkit'
 
 gem 'jquery_datepicker', '0.3.2'
 gem 'geokit', '1.6.0'

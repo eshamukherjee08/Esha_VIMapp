@@ -22,22 +22,26 @@
 
     <div class="field" id="even_field">
       <%= f.label :category %> :
-      <%= f.select("category", CATEGORY, {:prompt => '--Select Category--'}) %>
+    <div id="fills"><%= f.select("category", CATEGORY, {:prompt => '--Select Category--'}) %></div>
     </div><br /><br /><br /><br /><br /><br /><br /><br />
 
-    <br /><br /><div class="field" id="odd_field"><%= f.label :name %> :</div>
-    <div id="fills"><%= f.text_field :name, :size => 100 %></div>
+    <br /><br /><div class="field" id="odd_field"><%= f.label :name %> :
+      <div id="fills"><%= f.text_field :name, :size => 100 %></div>
+    </div>
     
     
-    <br /><br /><div class="field" id="odd_field"><%= f.label :description %> :</div> 
-    <div id="fills"><%= f.text_field :description, :size => 100 %></div>
+    <br /><br /><div class="field" id="odd_field"><%= f.label :description %> : 
+      <div id="fills"><%= f.text_field :description, :size => 100 %></div>
+    </div>
 
-    <br /><br /><div class="field" id="odd_field"><%= f.label :tech_spec %> : </div>
-    <div id="fills"><%= f.text_field :tech_spec, :size => 100 %></div>
+    <br /><br /><div class="field" id="odd_field"><%= f.label :tech_spec %> : 
+      <div id="fills"><%= f.text_field :tech_spec, :size => 100 %></div>
+    </div>
     
-    <br /><br /><div class="field" id="odd_field"><%= f.label :experience %> :</div>
+    <br /><br /><div class="field" id="odd_field"><%= f.label :experience %> :
   		<!-- Extract choices in a constant -->
-    <div id="fills"><%= f.select("experience", EXPERIENCE, {:prompt => '--Select Experience--'}) %></div>
+      <div id="fills"><%= f.select("experience", EXPERIENCE, {:prompt => '--Select Experience--'}) %></div>
+    </div>
 
     <br /><br /><div class="field" id="odd_field"><%= f.label :location %> :
     <div style="display:inline; margin-left:25px; margin-right:45px;" ><%= f.text_field :location, :onblur => "show_map();" %></div>

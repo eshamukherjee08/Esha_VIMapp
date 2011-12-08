@@ -1,24 +1,15 @@
 class CandidatesController < ApplicationController
   # GET /candidates
-  # GET /candidates.xml
-  # before_save :generate_perishable_token
-  #  
-  #  def generate_perishable_token
-  #    self.perishable_token = Digest::MD5.hexdigest("#{Time.now}-#{self.email}")
-  #  end
-  
   def index
     @candidates = Candidate.all
   end
 
   # GET /candidates/1
-  # GET /candidates/1.xml
   def show
     @candidate = Candidate.where(:id => params[:id].to_i).first
   end
 
   # GET /candidates/new
-  # GET /candidates/new.xml
   def new
     @candidate = Candidate.new
     @event_id = params[:event_id]
@@ -30,8 +21,7 @@ class CandidatesController < ApplicationController
   end
 
   # POST /candidates
-  # POST /candidates.xml
-  def create
+    def create
     @candidate = Candidate.new(params[:candidate])
     @candidate.perishable_token = Digest::MD5.hexdigest("#{Time.now}")
     respond_to do |format|
@@ -77,7 +67,13 @@ class CandidatesController < ApplicationController
   def confirmation
     @event = Event.find(params[:event_id])
     @candidate = Candidate.where(:perishable_token => params[:perishable_token]).first
-    @events_candidates = EventsCandidates.new(:event_id => @event.id, :candidate_id => @candidate.id, :roll_num => UUID.new.generate.hex,:confirmed => true, :attended => false, :waitlist => false, :cancellation => false )
-    @events_candidates.save!
+    events_candidates = EventsCandidates.where(:event_id => params[:event_id], :candidate_id => @candidate.id )
+    if (events_candidates.empty? or events_candidates.first.confirmed != true )
+      @events_candidates = EventsCandidates.new(:event_id => @event.id, :candidate_id => @candidate.id, :roll_num => UUID.new.generate.hex,:confirmed => true, :attended => false, :waitlist => false, :cancellation => false )
+      @events_candidates.save!
+    else
+      redirect_to(root_path , :notice => 'Thank You, You Have already confirmed your registration.')
+    end
+   #@events_candidates = EventsCandidates.all
   end
 end

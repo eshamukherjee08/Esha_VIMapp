@@ -10,37 +10,14 @@
   <%= @event.name %>
 </p>
 
-<p>
-  <b>Experience:</b>
-  <%= @event.experience %>
-</p>
-
-<p>
-  <b>Location:</b>
-  <%= @event.location %>
-</p>
-
-<p>
-  <b>Description:</b>
-  <%= @event.description %>
-</p>
-
-<p>
-  <b>Category:</b>
-  <%= @event.category %>
-</p>
-
-<p>
-  <b>Tech spec:</b>
-  <%= @event.tech_spec %>
-</p>
-
-<p>
-  <b>Batches Capacity:</b>
-  <% @event.batches.each do |batch| %>
-    <li><%= batch.capacity %></li>
+<h3>Registered Candidates:</h3><br />
+<% @events_candidates.each do |events_candidates| %>
+  <% @candidates.each do |candidate| %>
+    <% if events_candidates.candidate_id == candidate.id %>
+      NAME: <%= candidate.name %><br />
+    <% end %>
   <% end %>
-</p>
+<% end %>
 
 <%= link_to 'Edit', edit_event_path(@event) %> |
 <%= link_to 'Back', events_path %>
