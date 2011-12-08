@@ -13,6 +13,7 @@
 <% if notice %>
   <p id='notice'><%= notice%></p>
 <% end %>
+<%= link_to 'HOME', root_path %><br />
 <% @events.each do |event| %>
   <b>EVENT DATE </b>:<%= event.event_date %><br />
   <u>EXPERIENCE REQUIRED</u>:<%= event.experience %><br />

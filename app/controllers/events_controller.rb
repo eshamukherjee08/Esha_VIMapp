@@ -17,8 +17,9 @@ class EventsController < ApplicationController
   # GET /events/new
   def new
     @event = Event.new
-    @event.batches.build
-    
+    4.times do
+      @event.batches.build
+    end
   end
   
   def change_map

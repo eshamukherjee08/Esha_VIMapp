@@ -9,78 +9,77 @@
      });
    }
 </script>
+<div id="main_event">
+  <%= form_for(@event) do |f| %>
+    <!-- Extract this in a partial -->
+    <%= render 'event_error' %>
 
-<%= form_for(@event) do |f| %>
-  <!-- Extract this in a partial -->
-  <%= render 'event_error' %>
+    <div class="field" id="odd_field">
+      <%= f.label :event_date %> :
+      <%= f.datepicker :event_date %>
+    </div>
 
-  <div class="field">
-    <%= f.label :event_date %><br />
-    <%= f.datepicker :event_date %>
-  </div><br /><br /><br /><br /><br /><br /><br /><br />
+    <div class="field" id="even_field">
+      <%= f.label :category %> :
+      <%= f.select("category", CATEGORY, {:prompt => '--Select Category--'}) %>
+    </div><br /><br /><br /><br /><br /><br /><br /><br />
 
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </div>
+    <br /><br /><div class="field" id="odd_field"><%= f.label :name %> :</div>
+    <div id="fills"><%= f.text_field :name, :size => 100 %></div>
+    
+    
+    <br /><br /><div class="field" id="odd_field">
+      <%= f.label :description %> : 
+      <%= f.text_field :description, :size => 100 %>
+    </div>
 
-  <div class="field">
-    <%= f.label :experience %><br />
-		<!-- Extract choices in a constant -->
-    <%= f.select("experience", EXPERIENCE, {:prompt => '--Select Experience--'}) %>
-  </div>
+    <br /><br /><div class="field" id="odd_field"><%= f.label :tech_spec %> : </div>
+    <div id="fills"><%= f.text_field :tech_spec, :size => 100 %></div>
+    
+    <br /><br /><div class="field" id="odd_field">
+      <%= f.label :experience %> :
+  		<!-- Extract choices in a constant -->
+      <%= f.select("experience", EXPERIENCE, {:prompt => '--Select Experience--'}) %>
+    </div>
 
-  <div class="field">
-    <%= f.label :location %><br />
-    <%= f.text_field :location, :onblur => "show_map();" %>
-  </div>
-
-  <div id="map">
-    <iframe src="/google_map/index/?lat=28.635308&lon=77.22496&zoom=15" width="300" height="300"></iframe>
-  </div>
-
-  <div class="field">
-    <%= f.label :description %><br />
-    <%= f.text_field :description %>
-  </div>
-
-  <div class="field">
-    <%= f.label :category %><br />
-    <%= f.select("category", CATEGORY, {:prompt => '--Select Category--'}) %>
-  </div>
-
-  <div class="field">
-    <%= f.label :tech_spec %><br />
-    <%= f.text_field :tech_spec %>
-  </div>
-  <h3> Batches: </h3>
-    <%= f.fields_for :batches do |b|%>
-      <div class="field">
-        <h5>Batch :- </h5>
-        <div id="batch_div">
-        <%= b.label :start_time %><br />
-        <%= b.time_select :start_time %>
-        </div>
-        <div id="batch_div">
-          <%= b.label :end_time %><br />
-          <%= b.time_select :end_time %>
-        </div>
-        <div id="batch_div">
-          <%= b.label :capacity %><br />
-          <%= b.text_field :capacity %>
-        </div>
-        <div id="batch_div">
-          <%= b.check_box :_destroy %><br />
-          <%= b.label :_destroy, 'Delete' %>
-        </div><br />
-      </div><br />
-    <% end %>  
-  <br /><br />
-  <p>
-    <%= f.submit 'Add Batch', :name => "add_batch" %>
-    <%= f.submit 'Delete Checked Batches', :name => "remove_ingredient" %>
-  </p><br />
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+    <br /><br /><div class="field" id="odd_field"><%= f.label :location %> :
+    <div style="display:inline; margin-left:25px; margin-right:45px;" ><%= f.text_field :location, :onblur => "show_map();" %></div>
+    </div>
+    <div id="map">
+      <iframe src="/google_map/index/?lat=28.635308&lon=77.22496&zoom=15" width="300" height="300" ></iframe>
+    </div>
+          
+    <div id="main_batch">
+      <h3> Batches: </h3>
+        <%= f.fields_for :batches do |b|%>
+          <div class="field">
+            <h5>Batch :- </h5>
+            <div id="batch_div">
+            <%= b.label :start_time %><br />
+            <%= b.time_select :start_time %>
+            </div>
+            <div id="batch_div">
+              <%= b.label :end_time %><br />
+              <%= b.time_select :end_time %>
+            </div>
+            <div id="batch_div">
+              <%= b.label :capacity %><br />
+              <%= b.text_field :capacity %>
+            </div>
+            <div id="batch_div">
+              <%= b.label :_destroy, 'Delete' %><br />
+              <%= b.check_box :_destroy %>
+            </div><br />
+          </div><br />
+        <% end %>
+      </div>  
+    <br /><br />
+    <p id="buttons">
+      <%= f.submit 'Add Batch', :name => "add_batch" %>
+      <%= f.submit 'Delete Checked Batches', :name => "remove_ingredient" %>
+    </p><br /><br /><br />
+    <div class="actions" style="display:inline; float:right; margin-right:270px;" >
+      <%= f.submit %>
+    </div><br /><br />
+  <% end %>
+</div>

@@ -6,6 +6,9 @@
 h1 {
   text-align: center;
   margin-top: 10px;
+  color : maroon;
+  font-style: "Comic Sans";
+  text-decoration:underline;
 }
 
 #banner {
@@ -55,9 +58,59 @@ h1 {
   font-color : red;
   float: right;
   display:inline;
-  margin-top: 100px;
+  margin-top: 0px;
   font-size: 20px;
 }
 #batch_element {
   float :left;
+}
+
+/*Styling for map*/
+
+#map {
+  display: inline;
+}
+
+/* Styling for event form */
+
+#main_event {
+  border: 5px maroon outset;
+  margin : 45px;
+  padding : 20px;
+}
+
+#even_field {
+  display:inline;
+  margin-left : 30px;
+  font-size : 20px;
+}
+
+#odd_field {
+  display:inline;
+  float:left;
+  margin-left : 300px;
+  font-size : 20px;
+}
+
+#fills {
+  display:inline;
+  float:right;
+  margin-right: 300px;
+}
+
+/*style for batches */
+
+#main_batch {
+  border: 5px green outset;
+  margin:20px;
+  padding : 40px;
+  width : 600px;
+  margin-left: 300px;
+  
+}
+
+#buttons {
+  margin-right:270px;
+  display:inline;
+  float:right;
 }
