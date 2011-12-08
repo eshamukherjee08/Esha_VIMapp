@@ -17,9 +17,7 @@ class EventsController < ApplicationController
   # GET /events/new
   def new
     @event = Event.new
-    4.times do
-      @event.batches.build
-    end
+    4.times { @event.batches.build }
   end
   
   def change_map
@@ -39,23 +37,11 @@ class EventsController < ApplicationController
     #### Can be written like this
     @event = Event.new(params[:event].merge!( { :admin_id => current_admin.id }))
     @event = Event.new(params[:event])
-    if params[:add_batch]
-      #add empty batch associated with @event.
-      @event.batches.build
-    elsif params[:remove_batch]
-      # nested model that have _destroy attribute = 1 automatically deleted by rails
+    if @event.save
+      redirect_to(@event, :notice => 'Event was successfully created.') 
     else
-      if @event.save
-        flash[:notice] = "Successfully created batch."
-        redirect_to @event and return
-      end
+      render :action => "new" 
     end
-    render :action => "new"
-      # if @event.save
-      #        redirect_to(@event, :notice => 'Event was successfully created.') 
-      #      else
-      #        render :action => "new" 
-      #      end
   end
 
   # PUT /events/1
@@ -63,44 +49,17 @@ class EventsController < ApplicationController
   def update
     params[:event][:event_date] = DateTime.strptime(params[:event][:event_date], "%m/%d/20%y") unless(params[:event][:event_date] == "")
     @event = Event.where(:id => params[:id].to_i).first
-    if params[:add_batch]
-      #rebuild the batch attributes that doesnt hav an id.
-      unless params[:event][:batches_attributes].blank?
-        for attribute in params[:event][:batches_attributes]
-          @event.batches.build(attribute.last.except(:_destroy)) unless attribute.last.has_key?(:id)
-        end
-      end
-      #add one more empty batch attribute
-      @event.batches.build
-    elsif params[:remove_batch]
-      #collect all marked for delete batch ids
-      removed_batches = params[:event][:batches_attributes].collect{ |i, att| att[:id] if (att[:id] && att[:_destroy].to_i == 1) }
-      # physically removing the batch from database
-      Batch.delete(removed_batches)
-      flash[:notice] = "Batch removed"
-      for attribute in params[:event][:batches_attributes]
-        #rebuilding batch attributes that doesnt have an id and its _destroy attribute is not 1.
-        @event.batches.build(attribute.last.except(:_destroy)) if (!attribute.last.has_key?(:id) && attribute.last[:_destroy].to_i == 0)
-      end
-    else
+    respond_to do |format|
       if @event.update_attributes(params[:event])
-        flash[:notice] = "Successfully updated event."
-        redirect_to @event and return
+        format.html { redirect_to(@event, :notice => 'Event was successfully updated.') }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
       end
     end
-    render :action => "edit"
   end 
-
-    # respond_to do |format|
-    #       if @event.update_attributes(params[:event])
-    #         format.html { redirect_to(@event, :notice => 'Event was successfully updated.') }
-    #         format.xml  { head :ok }
-    #       else
-    #         format.html { render :action => "edit" }
-    #         format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
-    #       end
-    #     end
-
+  
   # DELETE /events/1
   # DELETE /events/1.xml
   def destroy

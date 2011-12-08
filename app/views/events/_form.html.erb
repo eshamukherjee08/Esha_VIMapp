@@ -9,8 +9,9 @@
      });
    }
 </script>
+
 <div id="main_event">
-  <%= form_for(@event) do |f| %>
+  <%= nested_form_for(@event) do |f| %>
     <!-- Extract this in a partial -->
     <%= render 'event_error' %>
 
@@ -30,7 +31,7 @@
     
     <br /><br /><div class="field" id="odd_field">
       <%= f.label :description %> : 
-      <%= f.text_field :description, :size => 100 %>
+      <%= f.text_area :description, :size => 100 %>
     </div>
 
     <br /><br /><div class="field" id="odd_field"><%= f.label :tech_spec %> : </div>
@@ -50,36 +51,13 @@
     </div>
           
     <div id="main_batch">
-      <h3> Batches: </h3>
-        <%= f.fields_for :batches do |b|%>
-          <div class="field">
-            <h5>Batch :- </h5>
-            <div id="batch_div">
-            <%= b.label :start_time %><br />
-            <%= b.time_select :start_time %>
-            </div>
-            <div id="batch_div">
-              <%= b.label :end_time %><br />
-              <%= b.time_select :end_time %>
-            </div>
-            <div id="batch_div">
-              <%= b.label :capacity %><br />
-              <%= b.text_field :capacity %>
-            </div>
-            <div id="batch_div">
-              <%= b.label :_destroy, 'Delete' %><br />
-              <%= b.check_box :_destroy %>
-            </div><br />
-          </div><br />
-        <% end %>
-      </div>  
-    <br /><br />
-    <p id="buttons">
-      <%= f.submit 'Add Batch', :name => "add_batch" %>
-      <%= f.submit 'Delete Checked Batches', :name => "remove_ingredient" %>
-    </p><br /><br /><br />
-    <div class="actions" style="display:inline; float:right; margin-right:270px;" >
-      <%= f.submit %>
-    </div><br /><br />
-  <% end %>
+      <%= f.fields_for :batches %>
+       <p><%= f.link_to_add "Add a Batch", :batches %></p>
+        <br /><h3> Batches: </h3> 
+        <div class="actions" style="display:inline; float:right; margin-right:270px;" >
+          <%= f.submit %>
+        </div><br /><br />
+      <% end %>
+    </div>
+  <% end %>  
 </div>
