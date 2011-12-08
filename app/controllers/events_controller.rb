@@ -33,10 +33,13 @@ class EventsController < ApplicationController
   def create
     #### COMMENT - cannot assign to params
     #### COMMENT - use current_admin
-    params[:event][:event_date] = DateTime.strptime(params[:event][:event_date], "%m/%d/20%y") unless(params[:event][:event_date] == "")
+    # params[:event][:event_date] = DateTime.strptime(params[:event][:event_date], "%m/%d/20%y") unless(params[:event][:event_date] == "")
     #### Can be written like this
+
     @event = Event.new(params[:event].merge!( { :admin_id => current_admin.id }))
-    @event = Event.new(params[:event])
+    @event.event_date = DateTime.strptime(params[:event][:event_date], "%m/%d/20%y") unless(params[:event][:event_date] == "")
+
+    #### Can be written like this
     if @event.save
       redirect_to(@event, :notice => 'Event was successfully created.') 
     else
