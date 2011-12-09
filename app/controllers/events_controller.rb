@@ -1,26 +1,19 @@
 class EventsController < ApplicationController
   
   before_filter :controlaccess
-  #before_filter :find_event, :only => [:show, :edit, :update, :destroy]
+  before_filter :find_event, :only => [:show, :edit, :update, :destroy]
   
-  # def find_event
-  #    @event = Event.where(:id => params[:id].to_i).first
-  #  end
 
-  # GET /events  
   def index
     @events = Event.all :order => 'event_date'
   end
 
-  # GET /events/1
   def show
     #### COMMENT - Use where instead of find. Extract in a before_filter
-    @event = Event.where(:id => params[:id].to_i).first
     @candidates = Candidate.all
     @events_candidate = EventsCandidate.where(:event_id => params[:id].to_i).all
   end
 
-  # GET /events/new
   def new
     @event = Event.new
     4.times { @event.batches.build }
@@ -30,12 +23,9 @@ class EventsController < ApplicationController
     @loc = params[:location]
   end
 
-  # GET /events/1/edit
   def edit
-    @event = Event.where(:id => params[:id].to_i).first
   end
 
-  # POST /events
   def create
     #### COMMENT - cannot assign to params
     #### COMMENT - use current_admin
@@ -52,10 +42,8 @@ class EventsController < ApplicationController
     end
   end
 
-  # PUT /events/1
-  # PUT /events/1.xml
+
   def update
-    @event = Event.where(:id => params[:id]).first
     @event.event_date = DateTime.strptime(params[:event][:event_date], "%m/%d/20%y") unless(params[:event][:event_date] == "")
     respond_to do |format|
       if @event.update_attributes(params[:event])
@@ -66,10 +54,7 @@ class EventsController < ApplicationController
     end
   end 
   
-  # DELETE /events/1
-  # DELETE /events/1.xml
   def destroy
-    @event = Event.where(:id => params[:id].to_i).first
     @event.destroy
 
     respond_to do |format|
@@ -84,5 +69,11 @@ class EventsController < ApplicationController
   def candidate_data
     @candidates = Candidate.all
   end
+  
+  protected
+  
+    def find_event
+       @event = Event.where(:id => params[:id].to_i).first
+    end
     
 end

@@ -2,16 +2,11 @@ class CandidatesController < ApplicationController
 
   before_filter :find_candidate, :only => [:show, :edit, :update, :destroy]
   
-  def change_candidate_find
-    @candidate = Candidate.where(:id => params[:id].to_i).first
-  end
-  
   def index
     @candidates = Candidate.all
   end
 
   def show
-    @candidate = Candidate.where(:id => params[:id].to_i).first
   end
 
   def new
@@ -20,12 +15,12 @@ class CandidatesController < ApplicationController
   end
 
   def edit
-    @candidate = Candidate.where(:id => params[:id].to_i).first
   end
 
   def create
     @candidate = Candidate.new(params[:candidate])
     @candidate.perishable_token = Digest::MD5.hexdigest("#{Time.now}")
+    @candidate.dob = DateTime.strptime(params[:candidate][:dob], "%m/%d/20%y") unless(params[:candidate][:dob] == "")
     respond_to do |format|
       if @candidate.save
         CandidateMailer.confirm_email(@candidate, params[:event_id]).deliver
@@ -37,7 +32,6 @@ class CandidatesController < ApplicationController
   end
 
   def update
-    @candidate = Candidate.where(:id => params[:id].to_i).first
 
     respond_to do |format|
       if @candidate.update_attributes(params[:candidate])
@@ -50,7 +44,6 @@ class CandidatesController < ApplicationController
 
 
   def destroy
-    @candidate = Candidate.where(:id => params[:id].to_i).first
     @candidate.destroy
     redirect_to(candidates_url) 
   end
@@ -59,7 +52,7 @@ class CandidatesController < ApplicationController
     @event = Event.where(:id => params[:event_id]).first
     @candidate = Candidate.where(:perishable_token => params[:perishable_token]).first
     events_candidate = EventsCandidate.where(:event_id => params[:event_id], :candidate_id => @candidate.id )
-    if (events_candidate.empty? or events_candidate.first.confirmed != true )
+    if (events_candidate.empty? or events_candidate.first.confirmed == false )
       @events_candidate = EventsCandidate.new(:event_id => @event.id, :candidate_id => @candidate.id, :roll_num => UUID.new.generate.hex, :confirmed => 1, :attended => false, :waitlist => false, :cancellation => false )
       @events_candidate.save
     else
@@ -71,5 +64,10 @@ class CandidatesController < ApplicationController
     @event = Event.where(:id => params[:event_id]).first
     @candidate = Candidate.where(:id => params[:candidate_id]).first
   end
+  
+  protected
+    def find_candidate
+      @candidate = Candidate.where(:id => params[:id].to_i).first
+    end
     
 end

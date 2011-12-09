@@ -44,6 +44,10 @@ EshaVIMapp::Application.routes.draw do
     get "candidate_data", :to => "events#candidate_data", :as => "candidate_data"
   end
   
+  resource :events do
+    resource :candidates
+  end
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
