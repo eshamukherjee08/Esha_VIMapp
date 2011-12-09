@@ -1,6 +1,7 @@
-class EventsController < ApplicationController
+class EventsControllers < ApplicationController
   
   before_filter :controlaccess
+  #before_filter :change_event_find, :only => [:show, :edit, :update, :destroy]
 
   # GET /events  
   def index
@@ -41,7 +42,7 @@ class EventsController < ApplicationController
 
     #### Can be written like this
     if @event.save
-      redirect_to(@event, :notice => 'Event was successfully created.') 
+      redirect_to( events_url, :notice => 'Event was successfully created.') 
     else
       render :action => "new" 
     end

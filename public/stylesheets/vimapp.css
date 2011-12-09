@@ -4,8 +4,10 @@
 }
 
 h1 {
+  display:inline;
   text-align: center;
-  margin-top: 10px;
+  padding: 20px;
+  margin-left: 500px;
   color : maroon;
   font-style: "Comic Sans";
   text-decoration:underline;
@@ -16,9 +18,7 @@ h1 {
   height: 150px;
   text-align: center;
   color: maroon;
-  margin: 0px;
-  padding: 0px;
-  font: small-caps 80px/80px "Times New Roman", serif;
+  font: small-caps 80px/90px "Times New Roman", serif;
 }
 
 #banner img {
@@ -55,10 +55,7 @@ h1 {
 }
 
 #details {
-  font-color : red;
   float: right;
-  display:inline;
-  margin-top: 0px;
   font-size: 20px;
 }
 #batch_element {
@@ -81,36 +78,64 @@ h1 {
 
 #even_field {
   display:inline;
-  margin-left : 30px;
+  float:right;
+  margin-right :500px;
+  margin-bottom:0px;
   font-size : 20px;
 }
 
 #odd_field {
   display:inline;
-  float:left;
-  margin-left : 300px;
   font-size : 20px;
 }
 
 #fills {
   display:inline;
   float:right;
-  margin-right: 300px;
+  margin-right: 80px;
 }
 
 /*style for batches */
 
 #main_batch {
+  display:inline;
+  float:right;
   border: 5px green outset;
-  margin:20px;
-  padding : 40px;
-  width : 600px;
-  margin-left: 300px;
-  
+  width : 590px;
+  padding-left:10px;  
 }
 
 #buttons {
-  margin-right:270px;
+  margin-top:50px;
+  display:inline;
+  float:left;
+}
+
+/*Style for normal display in admin panel */
+
+#heads {
+  margin-left : 20px;
+  color:maroon;
+  font-style: Times;
+  font-weight : bold;
+}
+
+#links {
+  margin-left:25px;
+  font-size: 15px;
+}
+
+#event_list {
+  margin-left:30px;
+  font-size:15px;
+  border-bottom: 2px black dashed;
+}
+
+#link_list {
   display:inline;
   float:right;
+}
+
+#line {
+  border-bottom : 2px black inset;
 }

@@ -1,5 +1,7 @@
 class CandidatesController < ApplicationController
   # GET /candidates
+  before_filter :change_candidate_find, :only => [:show, :edit, :update, :destroy]
+  
   def index
     @candidates = Candidate.all
   end
@@ -28,10 +30,8 @@ class CandidatesController < ApplicationController
       if @candidate.save
         CandidateMailer.confirm_email(@candidate, params[:event_id]).deliver
         format.html { redirect_to(thank_you_for_registration_path , :notice => 'Candidate was successfully created.') }
-        format.xml  { render :xml => @candidate, :status => :created, :location => @candidate }
       else
         format.html { render :action => "new" }
-        format.xml  { render :xml => @candidate.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -44,10 +44,8 @@ class CandidatesController < ApplicationController
     respond_to do |format|
       if @candidate.update_attributes(params[:candidate])
         format.html { redirect_to(@candidate, :notice => 'Candidate was successfully updated.') }
-        format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @candidate.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -60,12 +58,11 @@ class CandidatesController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to(candidates_url) }
-      format.xml  { head :ok }
     end
   end
   
   def confirmation
-    @event = Event.find(params[:event_id])
+    @event = Event.where(:event_id => params[:event_id].to_i).first
     @candidate = Candidate.where(:perishable_token => params[:perishable_token]).first
     events_candidates = EventsCandidates.where(:event_id => params[:event_id], :candidate_id => @candidate.id )
     if (events_candidates.empty? or events_candidates.first.confirmed != true )
