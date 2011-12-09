@@ -1,29 +1,29 @@
 class CandidatesController < ApplicationController
-  # GET /candidates
-  before_filter :change_candidate_find, :only => [:show, :edit, :update, :destroy]
+
+  before_filter :find_candidate, :only => [:show, :edit, :update, :destroy]
+  
+  def change_candidate_find
+    @candidate = Candidate.where(:id => params[:id].to_i).first
+  end
   
   def index
     @candidates = Candidate.all
   end
 
-  # GET /candidates/1
   def show
     @candidate = Candidate.where(:id => params[:id].to_i).first
   end
 
-  # GET /candidates/new
   def new
     @candidate = Candidate.new
     @event_id = params[:event_id]
   end
 
-  # GET /candidates/1/edit
   def edit
     @candidate = Candidate.where(:id => params[:id].to_i).first
   end
 
-  # POST /candidates
-    def create
+  def create
     @candidate = Candidate.new(params[:candidate])
     @candidate.perishable_token = Digest::MD5.hexdigest("#{Time.now}")
     respond_to do |format|
@@ -36,8 +36,6 @@ class CandidatesController < ApplicationController
     end
   end
 
-  # PUT /candidates/1
-  # PUT /candidates/1.xml
   def update
     @candidate = Candidate.where(:id => params[:id].to_i).first
 
@@ -50,27 +48,28 @@ class CandidatesController < ApplicationController
     end
   end
 
-  # DELETE /candidates/1
-  # DELETE /candidates/1.xml
+
   def destroy
     @candidate = Candidate.where(:id => params[:id].to_i).first
     @candidate.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(candidates_url) }
-    end
+    redirect_to(candidates_url) 
   end
   
   def confirmation
-    @event = Event.where(:event_id => params[:event_id].to_i).first
+    @event = Event.where(:id => params[:event_id]).first
     @candidate = Candidate.where(:perishable_token => params[:perishable_token]).first
-    events_candidates = EventsCandidates.where(:event_id => params[:event_id], :candidate_id => @candidate.id )
-    if (events_candidates.empty? or events_candidates.first.confirmed != true )
-      @events_candidates = EventsCandidates.new(:event_id => @event.id, :candidate_id => @candidate.id, :roll_num => UUID.new.generate.hex,:confirmed => true, :attended => false, :waitlist => false, :cancellation => false )
-      @events_candidates.save!
+    events_candidate = EventsCandidate.where(:event_id => params[:event_id], :candidate_id => @candidate.id )
+    if (events_candidate.empty? or events_candidate.first.confirmed != true )
+      @events_candidate = EventsCandidate.new(:event_id => @event.id, :candidate_id => @candidate.id, :roll_num => UUID.new.generate.hex, :confirmed => 1, :attended => false, :waitlist => false, :cancellation => false )
+      @events_candidate.save
     else
       redirect_to(root_path , :notice => 'Thank You, You Have already confirmed your registration.')
     end
-   #@events_candidates = EventsCandidates.all
   end
+  
+  def admitcard
+    @event = Event.where(:id => params[:event_id]).first
+    @candidate = Candidate.where(:id => params[:candidate_id]).first
+  end
+    
 end

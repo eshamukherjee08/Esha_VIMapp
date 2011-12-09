@@ -3,7 +3,7 @@ class Event < ActiveRecord::Base
   has_many :batches, :dependent => :destroy
   accepts_nested_attributes_for :batches, :allow_destroy => true, :reject_if => lambda { |attributes| attributes['capacity'].blank? }
   
-  has_many :events_candidates
+  has_many :events_candidates , :dependent => :destroy
   has_many :candidates, :through => :events_candidates
   
   validates_associated :batches

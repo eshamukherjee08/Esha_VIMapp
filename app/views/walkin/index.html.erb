@@ -15,12 +15,14 @@
 <% end %>
 <%= link_to 'HOME', root_path %><br />
 <% @events.each do |event| %>
-  <b>EVENT DATE </b>:<%= event.event_date %><br />
-  <u>EXPERIENCE REQUIRED</u>:<%= event.experience %><br />
-  <u>VENUE</u>:<%= event.location %><br />
-  <u>DESCRIPTION</u>:<%= event.description %><br />
-  <u>CATEGORY</u>:<%= event.category %><br />
-  <u>TECHNICAL SPECIFICATIONS</u>:<%= event.tech_spec %><br />
-  <%= link_to 'REGISTER ME', register_candidate_for_event_path(event) %>
-  <br /><br /><br />
+  <% if !(event.event_date.past?) %>
+    <b>EVENT DATE </b>:<%= event.event_date %><br />
+    <u>EXPERIENCE REQUIRED</u>:<%= event.experience %><br />
+    <u>VENUE</u>:<%= event.location %><br />
+    <u>DESCRIPTION</u>:<%= event.description %><br />
+    <u>CATEGORY</u>:<%= event.category %><br />
+    <u>TECHNICAL SPECIFICATIONS</u>:<%= event.tech_spec %><br />
+    <%= link_to 'REGISTER ME', register_candidate_for_event_path(event) %>
+    <br /><br /><br />
+  <% end %>
 <% end %>

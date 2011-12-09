@@ -1,7 +1,11 @@
-class EventsControllers < ApplicationController
+class EventsController < ApplicationController
   
   before_filter :controlaccess
-  #before_filter :change_event_find, :only => [:show, :edit, :update, :destroy]
+  #before_filter :find_event, :only => [:show, :edit, :update, :destroy]
+  
+  # def find_event
+  #    @event = Event.where(:id => params[:id].to_i).first
+  #  end
 
   # GET /events  
   def index
@@ -13,7 +17,7 @@ class EventsControllers < ApplicationController
     #### COMMENT - Use where instead of find. Extract in a before_filter
     @event = Event.where(:id => params[:id].to_i).first
     @candidates = Candidate.all
-    @events_candidates = EventsCandidates.where(:event_id => params[:id].to_i).all
+    @events_candidate = EventsCandidate.where(:event_id => params[:id].to_i).all
   end
 
   # GET /events/new

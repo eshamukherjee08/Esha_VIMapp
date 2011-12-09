@@ -11,9 +11,9 @@
 </p>
 
 <h3>Registered Candidates:</h3><br />
-<% @events_candidates.each do |events_candidates| %>
+<% @events_candidate.each do |events_candidate| %>
   <% @candidates.each do |candidate| %>
-    <% if events_candidates.candidate_id == candidate.id %>
+    <% if events_candidate.candidate_id == candidate.id %>
       NAME: <%= candidate.name %><br />
     <% end %>
   <% end %>

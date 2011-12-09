@@ -36,6 +36,8 @@ EshaVIMapp::Application.routes.draw do
   
   get "confirmation/:event_id/:perishable_token", :to => "candidates#confirmation", :as => "thank_you_for_confirmation"
   
+  get "admitcard/:event_id/:candidate_id", :to => "candidates#admitcard", :as => "admit_card"
+  
   controller :events do
     get "past", :to => "events#past", :as => "past"
     

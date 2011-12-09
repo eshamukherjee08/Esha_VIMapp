@@ -7,13 +7,4 @@ class ApplicationController < ActionController::Base
       redirect_to root_path, :notice => "Please log in"
     end 
   end
-  
-  # def change_event_find
-  #     @event = Event.where(:id => params[:id].to_i).first
-  #   end
-  
-  # def change_candidate_find
-  #     @candidate = Candidate.where(:id => params[:id].to_i).first
-  #   end
-  
 end

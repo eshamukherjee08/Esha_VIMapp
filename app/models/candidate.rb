@@ -1,5 +1,5 @@
 class Candidate < ActiveRecord::Base
-  has_many :events_candidates
+  has_many :events_candidates , :dependent => :destroy
   has_many :events, :through => :events_candidates
   belongs_to :batch
   # validates :name, :address, :current_state, :home_town, :mobile_number, :exp, :salary_exp, :resume, :presence => true
