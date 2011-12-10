@@ -7,6 +7,7 @@ class CandidatesController < ApplicationController
   end
 
   def show
+    @event = Event.where(:id => params[:event_id]).first
   end
 
   def new
@@ -24,7 +25,7 @@ class CandidatesController < ApplicationController
     respond_to do |format|
       if @candidate.save
         CandidateMailer.confirm_email(@candidate, params[:event_id]).deliver
-        format.html { redirect_to(thank_you_for_registration_path , :notice => 'Candidate was successfully created.') }
+        format.html { redirect_to(event_candidate_path(:event_id => params[:event_id], :id => @candidate.id ) , :notice => 'Registered Successfully.') }
       else
         format.html { render :action => "new" }
       end

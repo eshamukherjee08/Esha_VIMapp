@@ -66,10 +66,6 @@ class EventsController < ApplicationController
     @events = Event.all :order => 'event_date'
   end
   
-  def candidate_data
-    @candidates = Candidate.all
-  end
-  
   protected
   
     def find_event

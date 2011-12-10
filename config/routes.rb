@@ -1,51 +1,29 @@
 EshaVIMapp::Application.routes.draw do
   
-  # get "walkin/new"
-  # 
-  #  get "walkin/create"
-  # 
-  #  get "walkin/update"
-  # 
-  #  get "walkin/show"
-  resources :walkin
+  get "walkins/index", :to => "walkins#index", :as => "walkins_index"
+
   resources :candidates
 
   get "google_map/index"
 
   get "home/index"
-  #get "candidates/after_accept"
   
   devise_for :admins, :controllers => { :invitations => 'admins/invitations', :sessions => 'admins/sessions' }
 
   resources :batches
   resources :events
   
-  # devise_for :candidates, :controllers => { :sessions => 'candidates/sessions', :passwords => "candidates/passwords", 
-  #   :registrations => "candidates/registrations", :mailer => "candidates/mailer", 
-  #   :confirmations => "confirmations" }, :skip => [:sessions] do    
-  # end
-
-
   get "change_map_location", :to => "events#change_map", :as => "change_map_location"
   
-  get "map_location", :to => "walkin#change_map", :as => "map_location"
+  get "map_location", :to => "walkins#change_map", :as => "map_location"
+          
+  get "past", :to => "events#past", :as => "past"
   
-  get "register/new/:event_id", :to => "candidates#new", :as => "register_candidate_for_event"
-  
-  get "registered", :to => "candidates#registered", :as => "thank_you_for_registration"
-  
-  get "confirmation/:event_id/:perishable_token", :to => "candidates#confirmation", :as => "thank_you_for_confirmation"
-  
-  get "admitcard/:event_id/:candidate_id", :to => "candidates#admitcard", :as => "admit_card"
-  
-  controller :events do
-    get "past", :to => "events#past", :as => "past"
-    
-    get "candidate_data", :to => "events#candidate_data", :as => "candidate_data"
-  end
-  
-  resource :events do
-    resource :candidates
+  resources :events do
+    resources :candidates do
+      get "admitcard", :to => "candidates#admitcard", :as => "admit_card"
+      get "confirmation/:perishable_token", :to => "candidates#confirmation", :as => "confirmation"
+    end
   end
   
   # The priority is based upon order of creation:
