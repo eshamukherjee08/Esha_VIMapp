@@ -66,6 +66,21 @@ class CandidatesController < ApplicationController
     @candidate = Candidate.where(:id => params[:candidate_id]).first
   end
   
+  def cancel
+    @events_candidate = EventsCandidate.where(:event_id => 48).where(:candidate_id => 28).first
+    if !(EventsCandidate.where(:event_id => 48).where(:candidate_id => 28).empty?)
+      if (@events_candidate.cancellation == false )
+        @events_candidate.update_attributes( :cancellation => true )
+        @events_candidate.save
+        redirect_to(root_path , :notice => 'Your Registration has been Cancelled successfully!')
+      else
+        redirect_to(root_path , :notice => 'You have already cancelled your registration!')
+      end
+    else
+      redirect_to(root_path , :notice => 'Sorry enter correct roll number/register for event!')
+    end
+  end
+  
   protected
     def find_candidate
       @candidate = Candidate.where(:id => params[:id].to_i).first

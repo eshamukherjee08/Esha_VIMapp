@@ -8,6 +8,10 @@ EshaVIMapp::Application.routes.draw do
 
   get "home/index"
   
+  get "home/search", :to => "home#search", :as => "search"
+  
+  get "find_search_data", :to => "home#find_data", :as => "find_search_data"
+  
   devise_for :admins, :controllers => { :invitations => 'admins/invitations', :sessions => 'admins/sessions' }
 
   resources :batches
@@ -23,6 +27,7 @@ EshaVIMapp::Application.routes.draw do
     resources :candidates do
       get "admitcard", :to => "candidates#admitcard", :as => "admit_card"
       get "confirmation/:perishable_token", :to => "candidates#confirmation", :as => "confirmation"
+      get "cancel", :to => "candidates#cancel", :as => "cancel"
     end
   end
   

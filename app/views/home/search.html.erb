@@ -1,0 +1,21 @@
+<script>
+
+  function search_num() {
+     $.ajax({
+       url : "<%= find_search_data_path %>",
+       dataType : 'script',
+       type : 'get',
+       data : "roll_num="+$("#search").attr("value")
+     });
+   }
+</script>
+
+
+
+
+<h1>SEARCH PANEL</h1>
+<br />
+<%= text_field_tag('search', 'Enter Roll Number') %>
+<input type="button", value="SEARCH", onclick="search_num();" >
+
+<div id="result"> WELCOME </div>
