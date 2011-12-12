@@ -54,8 +54,18 @@ class CandidatesController < ApplicationController
     @candidate = Candidate.where(:perishable_token => params[:perishable_token]).first
     events_candidate = EventsCandidate.where(:event_id => params[:event_id], :candidate_id => @candidate.id )
     if (events_candidate.empty? or events_candidate.first.confirmed == false )
-      @events_candidate = EventsCandidate.new(:event_id => @event.id, :candidate_id => @candidate.id, :roll_num => UUID.new.generate.hex, :confirmed => 1, :attended => false, :waitlist => false, :cancellation => false )
-      @events_candidate.save
+      if (@event.batches.sum(:capacity) == @event.candidates.count )
+        @events_candidate = EventsCandidate.new(:event_id => @event.id, :candidate_id => @candidate.id, :roll_num => UUID.new.generate.hex, :confirmed => true, :attended => false, :waitlist => true, :cancellation => false )
+        @events_candidate.save
+      else
+        @event.batches.each do |batch|
+          if !(batch.capacity == batch.candidates.count)
+            @events_candidate = EventsCandidate.new(:event_id => @event.id, :candidate_id => @candidate.id, :batch_id => batch.id, :roll_num => UUID.new.generate.hex, :confirmed => true, :attended => false, :waitlist => false, :cancellation => false )
+            @events_candidate.save
+            break
+          end
+        end
+      end
     else
       redirect_to(root_path , :notice => 'Thank You, You Have already confirmed your registration.')
     end
