@@ -1,3 +1,7 @@
+<% if notice %>
+  <p id='notice'><%= notice%></p>
+<% end %>
+
 <script>
 
   function search_num() {
@@ -10,12 +14,11 @@
    }
 </script>
 
-
-
-
 <h1>SEARCH PANEL</h1>
 <br />
 <%= text_field_tag('search', 'Enter Roll Number') %>
 <input type="button", value="SEARCH", onclick="search_num();" >
 
 <div id="result"> WELCOME </div>
+
+<%= link_to 'Back To Main', root_path %>

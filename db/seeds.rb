@@ -9,5 +9,3 @@
 admin = Admin.new(:email => 'esha.dummy@gmail.com', :password => 'password', :password_confirmation => 'password')
 admin.skip_confirmation!
 admin.save!
-
-Categorydbfalw

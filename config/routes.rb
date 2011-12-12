@@ -24,6 +24,11 @@ EshaVIMapp::Application.routes.draw do
   get "past", :to => "events#past", :as => "past"
   
   resources :events do
+    # collection do
+    #      get :past
+    #      get :list ### events for candidates
+    #    end
+    post "mark_attended", :to => "events#mark_attended", :as => "mark_attended"
     resources :candidates do
       get "admitcard", :to => "candidates#admitcard", :as => "admit_card"
       get "confirmation/:perishable_token", :to => "candidates#confirmation", :as => "confirmation"

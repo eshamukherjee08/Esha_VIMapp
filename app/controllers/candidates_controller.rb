@@ -21,7 +21,7 @@ class CandidatesController < ApplicationController
   def create
     @candidate = Candidate.new(params[:candidate])
     @candidate.perishable_token = Digest::MD5.hexdigest("#{Time.now}")
-    @candidate.dob = DateTime.strptime(params[:candidate][:dob], "%m/%d/20%y") unless(params[:candidate][:dob] == "")
+    # @candidate.dob = DateTime.strptime(params[:candidate][:dob], "%m/%d/20%y") unless(params[:candidate][:dob] == "")
     respond_to do |format|
       if @candidate.save
         CandidateMailer.confirm_email(@candidate, params[:event_id]).deliver
@@ -67,17 +67,13 @@ class CandidatesController < ApplicationController
   end
   
   def cancel
-    @events_candidate = EventsCandidate.where(:event_id => 48).where(:candidate_id => 28).first
-    if !(EventsCandidate.where(:event_id => 48).where(:candidate_id => 28).empty?)
-      if (@events_candidate.cancellation == false )
-        @events_candidate.update_attributes( :cancellation => true )
-        @events_candidate.save
-        redirect_to(root_path , :notice => 'Your Registration has been Cancelled successfully!')
-      else
-        redirect_to(root_path , :notice => 'You have already cancelled your registration!')
-      end
+    @events_candidate = EventsCandidate.where(:event_id => params[:event_id]).where(:candidate_id => params[:candidate_id]).first
+    if (@events_candidate.cancellation == false )
+      @events_candidate.update_attributes( :cancellation => true )
+      @events_candidate.save
+      redirect_to(root_path , :notice => 'Your Registration has been Cancelled successfully!')
     else
-      redirect_to(root_path , :notice => 'Sorry enter correct roll number/register for event!')
+      redirect_to(root_path , :notice => 'You have already cancelled your registration!')
     end
   end
   

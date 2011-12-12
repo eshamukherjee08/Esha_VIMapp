@@ -9,13 +9,27 @@
   <b>Name:</b>
   <%= @event.name %>
 </p>
-
 <h3>Registered Candidates:</h3><br />
-<% @events_candidate.each do |events_candidate| %>
-  <% @candidates.each do |candidate| %>
-    <% if events_candidate.candidate_id == candidate.id %>
-      NAME: <%= candidate.name %><br />
+
+<% form_tag event_mark_attended_path(@event) do %>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Attended</th>
+    </tr>
+  <% @events_candidates.each do |e| %>
+    <% if ( e.cancellation == false and e.attended == false )%>
+      <tr>
+        <td><%= e.candidate.name %></td>
+        <td><%= check_box_tag(e.candidate.id) %></td>
+      </tr>
     <% end %>
   <% end %>
+  </table>
+  <div class="actions">
+    <%= submit_tag 'Mark Attended' %>
+  </div>
 <% end %>
+
 <%= link_to 'Back', events_path %>
+

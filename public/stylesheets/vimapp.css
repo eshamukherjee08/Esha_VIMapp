@@ -139,3 +139,31 @@ h1 {
 #line {
   border-bottom : 2px black inset;
 }
+
+/*candidate form styling*/
+#main_candidate {
+  border: 5px maroon outset;
+  margin:auto;
+  margin-top:0px;
+  padding : 50px;
+  width:800px;
+}
+
+#head {
+ color:maroon;
+ margin-left:550px;
+ font-size:30px;
+ font-weight:bold;
+  
+}
+#even_f {
+  display:inline;
+  float:right;
+  margin-bottom:0px;
+  font-size : 20px;
+}
+
+#odd_f {
+  display:inline;
+  font-size : 20px;
+}

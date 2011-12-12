@@ -10,4 +10,5 @@ class Event < ActiveRecord::Base
   attr_accessible :batches_attributes, :event_date, :category, :name, :description, :tech_spec, :experience, :location, :admin_id
   validates :event_date, :presence => true
   validates :experience, :name, :location, :description, :category, :tech_spec, :presence => true
+  attr_accessible :cb_attend
 end
