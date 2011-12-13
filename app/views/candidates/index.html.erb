@@ -1,25 +1,43 @@
-<h1>Listing candidates</h1>
+<script>
 
+  function mark_candidate(candidate_id) {
+     $.ajax({
+       url : "<%= mark_candidate_star_path %>",
+       dataType : 'script',
+       type : 'get',
+       data : "candidate_id="+ candidate_id
+     });
+   }
+</script>
+
+<h1>Listing candidates</h1>
 <table>
   <tr>
+    <th>Important</th>
     <th>Name</th>
     <th>Experience</th>
     <th>Current State</th>
     <th>Resume</th>
     <th></th>
   </tr>
-
 <% @candidates.each do |candidate| %>
-  <tr>
-    <td><%= candidate.name %></td>
-    <td><%= candidate.exp %></td>
-    <td><%= candidate.current_state %></td>
-    <td><%= candidate.resume_file_name %></td>
-    <td><%= link_to 'Destroy', candidate, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
+  <div id="mark">
+    <tr>
+      <% if !candidate.starred %>
+        <td><span id= "span_<%= candidate.id %>" onclick = 'mark_candidate(<%= candidate.id %>)'><u>Mark</u></span></td>
+      <% else %>
+        <td><span id= "span_<%= candidate.id %>" >****</span></td>
+      <% end %>
+      <td><%= candidate.name %></td>
+      <td><%= candidate.exp %></td>
+      <td><%= candidate.current_state %></td>
+      <td><%= candidate.resume_file_name %></td>
+      <td><%= link_to 'Destroy', candidate, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  </div>
 <% end %>
 </table>
-
 <br />
 
 <%= link_to 'Back', events_path %>
+ 

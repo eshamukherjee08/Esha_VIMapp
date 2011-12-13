@@ -1,6 +1,7 @@
 class CandidatesController < ApplicationController
 
   before_filter :find_candidate, :only => [:show, :edit, :update, :destroy]
+  #after_save :send_mail
   
   def index
     @candidates = Candidate.all
@@ -85,6 +86,12 @@ class CandidatesController < ApplicationController
     else
       redirect_to(root_path , :notice => 'You have already cancelled your registration!')
     end
+  end
+  
+  def mark_candidate_star
+    @candidate = Candidate.where(:id => params[:candidate_id]).first
+    @candidate.update_attributes(:starred => true)
+    @candidate.save
   end
   
   protected

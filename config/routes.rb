@@ -3,7 +3,8 @@ EshaVIMapp::Application.routes.draw do
   get "walkins/index", :to => "walkins#index", :as => "walkins_index"
 
   resources :candidates
-
+  get "mark_candidate_star", :to => "candidates#mark_candidate_star", :as => "mark_candidate_star"
+   
   get "google_map/index"
 
   get "home/index"
@@ -25,9 +26,9 @@ EshaVIMapp::Application.routes.draw do
   
   resources :events do
     # collection do
-    #      get :past
-    #      get :list ### events for candidates
-    #    end
+    #       get :past, :to => "events#past", :as => "past"
+    #       #get :list ### events for candidates
+    #     end
     post "mark_attended", :to => "events#mark_attended", :as => "mark_attended"
     resources :candidates do
       get "admitcard", :to => "candidates#admitcard", :as => "admit_card"

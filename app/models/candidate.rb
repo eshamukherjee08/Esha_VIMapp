@@ -9,4 +9,8 @@ class Candidate < ActiveRecord::Base
   #                    :format => {:with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i}
   #  
   has_attached_file :resume, :styles => { :medium => "150x150>", :thumb => "100x100#" }
+  # protected
+  #   def send_mail
+  #     CandidateMailer.confirm_email(@candidate, params[:event_id]).deliver
+  #   end
 end
