@@ -46,8 +46,8 @@ class CandidatesController < ApplicationController
 
 
   def destroy
+    @candidate = Candidate.where(:id => params[:candidate_id]).first
     @candidate.destroy
-    redirect_to(candidates_url) 
   end
   
   def confirmation
@@ -94,9 +94,22 @@ class CandidatesController < ApplicationController
     @candidate.save
   end
   
+  def find_category
+    @events = Event.where(:category => params[:category].to_s).all
+  end
+  
+  def download_resume
+    @candidate = Candidate.where(:id => params[:id]).first
+    send_file(@candidate.resume.path , :content_type => @candidate.resume_content_type)
+  end
+  
   protected
     def find_candidate
       @candidate = Candidate.where(:id => params[:id].to_i).first
     end
+    
+    #   def send_mail
+     #     CandidateMailer.confirm_email(@candidate, params[:event_id]).deliver
+     #   end
     
 end

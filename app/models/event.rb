@@ -5,7 +5,6 @@ class Event < ActiveRecord::Base
   
   has_many :events_candidates , :dependent => :destroy
   has_many :candidates, :through => :events_candidates
-  #has_many :batches, :through => :events_candidates
   
   validates_associated :batches
   attr_accessible :batches_attributes, :event_date, :category, :name, :description, :tech_spec, :experience, :location, :admin_id

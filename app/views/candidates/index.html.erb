@@ -8,35 +8,60 @@
        data : "candidate_id="+ candidate_id
      });
    }
+   
+   function s_category() {
+      $.ajax({
+        url : "<%= find_category_path %>",
+        dataType : 'script',
+        type : 'get',
+        data : "category="+$("#category").attr("value")
+      });
+    }
+    
+    function delete_candidate(candidate_id) {
+        $.ajax({
+          url : "<%= delete_candidate_path() %>",
+          dataType : 'script',
+          type : 'get',
+          data : "candidate_id="+ candidate_id
+        });
+      }
 </script>
 
-<h1>Listing candidates</h1>
-<table>
-  <tr>
-    <th>Important</th>
-    <th>Name</th>
-    <th>Experience</th>
-    <th>Current State</th>
-    <th>Resume</th>
-    <th></th>
-  </tr>
-<% @candidates.each do |candidate| %>
-  <div id="mark">
+<h1>Listing candidates</h1><br /><br />
+<h3>SEARCH PANEL:
+<%= select_tag('category', options_for_select(CATEGORY)) %><br />
+<input type="button", value="SEARCH", onclick="s_category();" ></h3>
+<div id="search_category">
+  <table>
     <tr>
-      <% if !candidate.starred %>
-        <td><span id= "span_<%= candidate.id %>" onclick = 'mark_candidate(<%= candidate.id %>)'><u>Mark</u></span></td>
-      <% else %>
-        <td><span id= "span_<%= candidate.id %>" >****</span></td>
-      <% end %>
-      <td><%= candidate.name %></td>
-      <td><%= candidate.exp %></td>
-      <td><%= candidate.current_state %></td>
-      <td><%= candidate.resume_file_name %></td>
-      <td><%= link_to 'Destroy', candidate, :confirm => 'Are you sure?', :method => :delete %></td>
+      <th>Important</th>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Experience</th>
+      <th>Current State</th>
+      <th>Resume</th>
+      <th>Delete Candidate</th>
     </tr>
-  </div>
-<% end %>
+  <% @candidates.each do |candidate| %>
+    <div id="mark">
+      <tr>
+        <% if !candidate.starred %>
+          <td><span id= "span_<%= candidate.id %>" onclick = 'mark_candidate(<%= candidate.id %>)'><u>Mark</u></span></td>
+        <% else %>
+          <td><span id= "span_<%= candidate.id %>" >****</span></td>
+        <% end %>
+        <td><%= candidate.id %></td>
+        <td><%= candidate.name %></td>
+        <td><%= candidate.exp %></td>
+        <td><%= candidate.current_state %></td>
+        <td><%= link_to "Download Resume", download_resume_path(candidate.id) %></td>
+        <td><span id= "delete_<%= candidate.id %>" onclick = 'delete_candidate(<%= candidate.id %>)'><u>Delete</u></span></td>
+      </tr>
+    </div>
+  <% end %>
 </table>
+</div>
 <br />
 
 <%= link_to 'Back', events_path %>

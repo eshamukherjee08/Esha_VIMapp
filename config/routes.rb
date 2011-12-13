@@ -4,6 +4,9 @@ EshaVIMapp::Application.routes.draw do
 
   resources :candidates
   get "mark_candidate_star", :to => "candidates#mark_candidate_star", :as => "mark_candidate_star"
+  get "find_category", :to => "candidates#find_category", :as => "find_category"
+  get "delete_cadidate", :to => "candidates#destroy", :as => "delete_candidate"
+  get "download_resume/:id", :to => "candidates#download_resume", :as => "download_resume"
    
   get "google_map/index"
 
