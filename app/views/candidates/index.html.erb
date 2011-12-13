@@ -2,7 +2,7 @@
 
   function mark_candidate(candidate_id) {
      $.ajax({
-       url : "<%= mark_candidate_star_path %>",
+       url : "<%= mark_candidate_star_candidates_path %>",
        dataType : 'script',
        type : 'get',
        data : "candidate_id="+ candidate_id
@@ -11,7 +11,7 @@
    
    function s_category() {
       $.ajax({
-        url : "<%= find_category_path %>",
+        url : "<%= find_category_candidates_path %>",
         dataType : 'script',
         type : 'get',
         data : "category="+$("#category").attr("value")
@@ -20,7 +20,7 @@
     
     function delete_candidate(candidate_id) {
         $.ajax({
-          url : "<%= delete_candidate_path() %>",
+          url : "<%= delete_candidate_candidates_path() %>",
           dataType : 'script',
           type : 'get',
           data : "candidate_id="+ candidate_id
@@ -55,7 +55,7 @@
         <td><%= candidate.name %></td>
         <td><%= candidate.exp %></td>
         <td><%= candidate.current_state %></td>
-        <td><%= link_to "Download Resume", download_resume_path(candidate.id) %></td>
+        <td><%= link_to "Download Resume", download_resume_candidate_path(candidate.id) %></td>
         <td><span id= "delete_<%= candidate.id %>" onclick = 'delete_candidate(<%= candidate.id %>)'><u>Delete</u></span></td>
       </tr>
     </div>

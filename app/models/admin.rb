@@ -4,6 +4,13 @@ class Admin < ActiveRecord::Base
   devise :invitable, :database_authenticatable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me
+  
+  after_destroy :ensure_an_admin_remains
+
+    def ensure_an_admin_remains 
+      if Admin.count.zero? 
+        raise "Can't delete last user" 
+      end 
+    end
 end

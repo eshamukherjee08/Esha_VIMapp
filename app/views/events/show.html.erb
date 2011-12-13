@@ -23,6 +23,8 @@
         <td><%= e.candidate.name %></td>
         <td><%= check_box_tag(e.candidate.id) %></td>
       </tr>
+    <% else %>
+      <tr><h5>NO RAGISTRATIONS YET</h5></tr><br /><br />
     <% end %>
   <% end %>
   </table>

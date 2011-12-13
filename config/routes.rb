@@ -1,19 +1,24 @@
 EshaVIMapp::Application.routes.draw do
   
   get "walkins/index", :to => "walkins#index", :as => "walkins_index"
+  
+  get "past", :to => "events#past", :as => "past"
 
-  resources :candidates
-  get "mark_candidate_star", :to => "candidates#mark_candidate_star", :as => "mark_candidate_star"
-  get "find_category", :to => "candidates#find_category", :as => "find_category"
-  get "delete_cadidate", :to => "candidates#destroy", :as => "delete_candidate"
-  get "download_resume/:id", :to => "candidates#download_resume", :as => "download_resume"
-   
-  get "google_map/index"
+  resources :candidates do
+    collection do
+      get "mark_candidate_star"
+      get "find_category"
+      get "delete_candidate", :to => "candidates#destroy"
+    end
+    
+    member do
+      get "download_resume", :to => "candidates#download_resume", :as => "download_resume"
+    end
+  end
+     
 
   get "home/index"
-  
   get "home/search", :to => "home#search", :as => "search"
-  
   get "find_search_data", :to => "home#find_data", :as => "find_search_data"
   
   devise_for :admins, :controllers => { :invitations => 'admins/invitations', :sessions => 'admins/sessions' }
@@ -22,16 +27,13 @@ EshaVIMapp::Application.routes.draw do
   resources :events
   
   get "change_map_location", :to => "events#change_map", :as => "change_map_location"
-  
+  get "google_map/index"
   get "map_location", :to => "walkins#change_map", :as => "map_location"
-          
-  get "past", :to => "events#past", :as => "past"
-  
+            
   resources :events do
-    # collection do
-    #       get :past, :to => "events#past", :as => "past"
-    #       #get :list ### events for candidates
-    #     end
+    # collection do (raising error in show page)
+    #     get :past, :to => "events#past"
+    #   end
     post "mark_attended", :to => "events#mark_attended", :as => "mark_attended"
     resources :candidates do
       get "admitcard", :to => "candidates#admitcard", :as => "admit_card"

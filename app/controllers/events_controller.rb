@@ -10,13 +10,14 @@ class EventsController < ApplicationController
 
   def show
     #### COMMENT - Use where instead of find. Extract in a before_filter
+    @event = Event.where(:id => params[:id].to_i).first
     @candidates = Candidate.all
     @events_candidates = EventsCandidate.where(:event_id => params[:id].to_i).all
   end
 
   def new
     @event = Event.new
-    4.times { @event.batches.build }
+    3.times { @event.batches.build }
   end
   
   def change_map
