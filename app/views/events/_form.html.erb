@@ -16,8 +16,13 @@
     <%= render 'event_error' %>
 
     <div class="field" id="odd_field">
-      <%= f.label :event_date %> :
-      <%= f.datepicker :event_date, :minDate => 0 %>
+      <% if @event.new_record? %>
+        <%= f.label :event_date %> :
+        <%= f.datepicker :event_date, :minDate => 0 %>
+      <% else %>
+        <%= f.label :event_date %> :
+        <%= f.datepicker :event_date, :minDate => 0, :format => '%m/%d/20%y' %>
+      <%end%>
     </div>
 
     <div class="field" style="display:inline; float:right; margin-right:350px; font-size:20px;">

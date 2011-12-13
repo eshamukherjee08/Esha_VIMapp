@@ -9,19 +9,15 @@ class Event < ActiveRecord::Base
   validates_associated :batches
   attr_accessible :batches_attributes, :event_date, :category, :name, :description, :tech_spec, :experience, :location, :admin_id
   
-  validates :event_date, :presence => true
   validates :experience, :name, :location, :description, :category, :tech_spec, :presence => true
-  validates :event_date, :date => {:after => Proc.new {Time.zone.now}}
+  validates :event_date, :presence => true, :date => {:after => Proc.new {Time.zone.now}}
   
-  validate :confirm_count ######
-  
-  # after_update :batch_end_time
-  
-  # after_update :batch_start_time
+  validate :confirm_count
     
-  scope :upcoming_events, lambda { where("event_date >= ?", Time.zone.now).order(:event_date) } ######
+    
+  scope :upcoming_events, lambda { where("event_date >= ?", Time.zone.now - 1.day) }
   
-  scope :past_events, lambda { where("event_date <= ?", Time.zone.now).order(:event_date) }
+  scope :past_events, lambda { where("event_date < ?", Time.zone.now - 1.day) }
   
   before_update :waitlist_allocation
   
@@ -51,7 +47,7 @@ class Event < ActiveRecord::Base
    
    def batch_end_time
      self.batches.each do |batch|
-       if (batch.end_time < batch.start_time)
+       if (batch.end_time <= batch.start_time)
         errors.add_to_base "Keep a gap after start time: #{batch.start_time.strftime('%H:%M')}"
        end
      end
@@ -60,8 +56,8 @@ class Event < ActiveRecord::Base
    def batch_start_time
      i = self.batches.length
      while i >= 2
-       if (self.batches[i-1].start_time < self.batches[i-2].end_time)
-         errors.add_to_base "Please start batch after 1 hour of end time of batch #{i-2}"
+       if !(self.batches[i-1].start_time > self.batches[i-2].end_time)
+         errors.add_to_base "Please start batch #{i} after the end time of batch #{i-1}"
        end
        i = i-1
      end

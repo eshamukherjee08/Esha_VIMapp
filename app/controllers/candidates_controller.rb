@@ -85,8 +85,12 @@ class CandidatesController < ApplicationController
   
   
   def find_category
-    @events = Event.where(:category => params[:category].to_s)
-    #    @candidates = @events.collect{|x| x.events_candidates.collect{|y| y.candidate}}[1]
+    if params[:category] == "SELECT CATEGORY"
+      redirect_to candidates_path
+      # @events = Event.all
+    else
+      @events = Event.where(:category => params[:category].to_s)
+    end
   end
   
   

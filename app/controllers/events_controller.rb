@@ -1,11 +1,11 @@
 class EventsController < ApplicationController
   
-  before_filter :controlaccess
+  #before_filter :controlaccess
   before_filter :find_event, :only => [:show, :edit, :update, :destroy, :wait_list]
   
 
   def index
-    @events = Event.upcoming_events
+    @events = Event.upcoming_events #.order(:event_date)
   end
 
   def show
@@ -31,10 +31,8 @@ class EventsController < ApplicationController
   def create
     params[:event][:event_date] = DateTime.strptime(params[:event][:event_date],"%m/%d/20%y") unless (params[:event][:event_date].blank?)
     @event = Event.new(params[:event].merge!( { :admin_id => current_admin.id }))
-    # @event.event_date = DateTime.strptime(params[:event][:event_date],"%m/%d/20%y") unless (params[:event][:event_date].blank?)
-    # above is making event_date as string.DB addition is failing and storing date as null.
     if @event.save
-      redirect_to( events_url, :notice => 'Event was successfully created.') 
+      redirect_to( events_path, :notice => 'Event was successfully created.') 
     else
       render :action => "new" 
     end
@@ -43,8 +41,6 @@ class EventsController < ApplicationController
 
   def update
     params[:event][:event_date] = DateTime.strptime(params[:event][:event_date],"%m/%d/20%y") unless (params[:event][:event_date].blank?)
-    # @event.event_date = DateTime.strptime(params[:event][:event_date], "%m/%d/20%y") unless(params[:event][:event_date] == "")
-    # above is making event_date as string.DB addition is failing and storing date as null.
     if @event.update_attributes(params[:event])
       redirect_to( events_path , :notice => 'Event was successfully updated.' )
     else
@@ -60,12 +56,12 @@ class EventsController < ApplicationController
   
   
   def past
-    @events = Event.past_events
+    @events = Event.past_events #.order(:event_date)
   end
   
   def wait_list
     @events_candidates = @event.events_candidates.where(:waitlist => true)
-    unless @events_candidates.nil?
+    if @events_candidates.nil?
       redirect_to( events_path , :notice => 'NO WAITLISTED CANDIDATES YET!' )
     end
   end
@@ -75,9 +71,7 @@ class EventsController < ApplicationController
   
   def find_event
      @event = Event.where(:id => params[:id].to_i).first
-     unless @event
-       error_walkins_path
-     end
+     redirect_to( error_walkins_path , :notice => 'NOT FOUND' )  unless @event
   end
     
 end

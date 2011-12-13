@@ -7,6 +7,9 @@
  Event Name: <%= @event.name %><br/>
  
  Date : <%= @event.event_date %><br/>
+ <% if @candidate.events_candidates.first.waitlist? %>
+  You are in our waitlist, on confirmation you'll be informed personally!
+ <% end %><br />
  Roll Number : <%= @candidate.events_candidates.first.roll_num %><br />
  Venue : <%= @event.location %><br/> 
  

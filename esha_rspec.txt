@@ -1,0 +1,107 @@
+
+CandidatesController
+  INDEX
+[31m    get request should be successful (FAILED - 1)[0m
+
+EventsController
+  INDEX
+[32m    get request should be successful[0m
+  SHOW
+[31m    should find a record and render show template (FAILED - 2)[0m
+  PAST
+[32m    get request should be successful[0m
+
+PasswordsController
+  EDIT
+[31m    edit request should be successful (FAILED - 3)[0m
+
+WalkinsController
+  INDEX
+[32m    get request should be successful[0m
+
+Batch
+[32m  should create a new instance given valid attributes[0m
+[32m  should have one event[0m
+[32m  should have many batches[0m
+[32m  should have many events_candidates[0m
+
+Candidate
+[32m  should create a new instance given valid attributes[0m
+  Validation Of Resume
+[32m    should have an attached resume[0m
+  Validations
+[32m    should have a date of birth[0m
+[32m    should have a address[0m
+[32m    should have a current_state[0m
+[32m    should have a exp[0m
+[32m    should have a salary_exp[0m
+[32m    should validate format of email[0m
+[32m    should have unique email address[0m
+[32m    should validate format of mobile_number[0m
+[32m    should have unique mobile number[0m
+[32m    should validate format of name[0m
+[32m    should validate format of home town[0m
+[32m    should have resume with valid format[0m
+  Relations
+[32m    should have many batches[0m
+[32m    should have many events_candidates[0m
+[32m    should have many events[0m
+
+Event
+[32m  should create a new instance given valid attributes[0m
+[32m  should have a name[0m
+[32m  should have a event_date[0m
+[32m  should have a experience[0m
+[32m  should have a location[0m
+[32m  should have a description[0m
+[32m  should have a category[0m
+[32m  should have a tech_spec[0m
+[32m  should accept nested attributes for batches[0m
+[32m  should have one admin[0m
+[32m  should have many batches[0m
+[32m  should have many events_candidates[0m
+[32m  should have many candidates[0m
+[32m  includes events created after or at current time[0m
+[32m  should have batch end time greater than batch start time[0m
+[32m  should not have batch end time less than or equal batch start time[0m
+[32m  should have start time of second batch greater than end time of first batch[0m
+[32m  should not have start time of second batch lesser than end time of first batch[0m
+[32m  should have atleast one batch[0m
+[32m  should have atleast one batch[0m
+[32m  should create batch[0m
+
+EventsCandidate
+[32m  should create a new instance given valid attributes[0m
+[32m  should have one event[0m
+
+Failures:
+
+  1) CandidatesController INDEX get request should be successful
+     [31mFailure/Error:[0m [31mget :index[0m
+     [31mActionView::Template::Error:[0m
+       [31mundefined method `authenticate' for nil:NilClass[0m
+[36m     # ./app/views/layouts/application.html.erb:17:in `_app_views_layouts_application_html_erb___52153519512580848_2183734360__1055280919950768102'[0m
+[36m     # ./spec/controllers/candidates_controller_spec.rb:30:in `block (3 levels) in <top (required)>'[0m
+
+  2) EventsController SHOW should find a record and render show template
+     [31mFailure/Error:[0m [31mget :show, :id => 1[0m
+     [31mNoMethodError:[0m
+       [31mundefined method `events_candidates' for nil:NilClass[0m
+[36m     # ./app/controllers/events_controller.rb:12:in `show'[0m
+[36m     # ./spec/controllers/events_controller_spec.rb:64:in `block (3 levels) in <top (required)>'[0m
+
+  3) PasswordsController EDIT edit request should be successful
+     [31mFailure/Error:[0m [31mput :edit, :id => 1[0m
+     [31mActionView::Template::Error:[0m
+       [31mNo route matches {:action=>"show", :controller=>"passwords"}[0m
+[36m     # ./app/views/passwords/edit.html.erb:18:in `_app_views_passwords_edit_html_erb__2033589404912612455_2183894480__1055280919950768102'[0m
+[36m     # ./spec/controllers/passwords_controller_spec.rb:30:in `block (3 levels) in <top (required)>'[0m
+
+Finished in 13.95 seconds
+[31m50 examples, 3 failures[0m
+
+Failed examples:
+
+[31mrspec ./spec/controllers/candidates_controller_spec.rb:26[0m [36m# CandidatesController INDEX get request should be successful[0m
+[31mrspec ./spec/controllers/events_controller_spec.rb:61[0m [36m# EventsController SHOW should find a record and render show template[0m
+[31mrspec ./spec/controllers/passwords_controller_spec.rb:29[0m [36m# PasswordsController EDIT edit request should be successful[0m

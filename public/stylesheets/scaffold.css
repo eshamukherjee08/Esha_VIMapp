@@ -5,7 +5,7 @@ pre {
   font-size: 11px;
 }
 
-a { color: black; }
+a { color: red; }
 a:visited { color: maroon; }
 a:hover { color: #fff; background-color:#000; }
 

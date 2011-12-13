@@ -13,15 +13,16 @@ describe Event do
       :category => "category1",
       :tech_spec => "tech_spec1",
       :admin_id => 1,
-      :batches_attributes => {'0' => { 'start_time' => Time.zone.now, 'end_time' => Time.zone.now + 1.hour , 'capacity' => 20, 'event_id '=> 1}}
+      :batches_attributes => {'0' => { 'start_time' => Time.zone.now, 'end_time' => Time.zone.now + 1.hour , 'capacity' => 20, 'event_id '=> 1},
+                              '1' => { 'start_time' => Time.zone.now + 1.hour + 1.minute , 'end_time' => Time.zone.now + 2.hour + 1.minute , 'capacity' => 20, 'event_id '=> 1}}
     }
   
     @event1 = Event.new(@valid_attributes)
   end
   
   it "should create a new instance given valid attributes" do
-    p @event1.valid?
-    p @event1.errors.full_messages
+    # p @event1.valid?
+    # p @event1.errors.full_messages
     @event1.should be_valid
   end
   
@@ -71,7 +72,7 @@ describe Event do
   end
   
   it "should have many candidates" do
-    @event1.should have_many(:candidates)
+    @event1.should have_many(:candidates).through(:events_candidates)
   end
   
   it "includes events created after or at current time" do
@@ -86,4 +87,56 @@ describe Event do
       :batches_attributes => {'0' => { 'start_time' => Time.zone.now, 'end_time' => Time.zone.now + 1.hour , 'capacity' => 20, 'event_id '=> 1}} )
     e.should be_valid
   end
+  
+  it "should have batch end time greater than batch start time" do
+    @event1.batches.first.start_time = Time.zone.now
+    @event1.batches.first.end_time = Time.zone.now + 1.hour
+    @event1.should be_valid
+  end
+  
+  
+  it "should not have batch end time less than or equal batch start time" do
+    @event1.batches.first.start_time = Time.zone.now
+    @event1.batches.first.end_time = Time.zone.now - 1.hour
+    @event1.should_not be_valid
+  end
+  
+  it "should have start time of second batch greater than end time of first batch" do
+    @event1.batches[0].end_time = Time.zone.now
+    @event1.batches[1].start_time = Time.zone.now + 1.minute
+    @event1.should be_valid
+  end
+  
+  it "should not have start time of second batch lesser than end time of first batch" do
+    @event1.batches[0].end_time = Time.zone.now
+    @event1.batches[1].start_time = Time.zone.now - 1.minute
+    @event1.should_not be_valid
+  end
+  
+  it "should have atleast one batch" do
+    if !@event1.batches.length.zero?
+      @event1.should be_valid
+    end
+  end
+  
+  it "should have atleast one batch" do
+    if @event1.batches.length.zero?
+      @event1.should_not be_valid
+    end
+  end
+  
+  it "should create batch" do
+    
+    e = Event.create!(:event_date => Time.zone.now + 1.day ,
+      :name => "event1",
+      :experience => "fresher",
+      :location => "location1",
+      :description => "description1",
+      :category => "category1",
+      :tech_spec => "tech_spec1",
+      :admin_id => 1,
+      :batches_attributes => {'0' => { 'start_time' => Time.zone.now, 'end_time' => Time.zone.now + 1.hour , 'capacity' => 20, 'event_id '=> 1}} )
+    e.should have(1).batch
+  end
+    
 end

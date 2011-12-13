@@ -32,7 +32,7 @@ function delete_candidate(candidate_id) {
 <%= link_to 'Back', events_path %>
 
 <div id="search">SEARCH PANEL:
-<%= select_tag('category', options_for_select(CATEGORY)) %>
+<%= select_tag('category', options_for_select([['SELECT CATEGORY', 'SELECT CATEGORY'], ['Ruby On Rails Developer', 'Ruby On Rails Developer'], ['Android Developer', 'Android Developer'], ['PHP Developer', 'PHP Developer'], ['Project Manager', 'Project Manager']])) %>
 <input type="button", value="SEARCH", onclick="s_category();" ></div>
 
 <div id="search_category">

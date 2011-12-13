@@ -2,10 +2,13 @@
   <p id='notice'><%= notice%></p>
 <% end %>
 <br /><br /><h1>ADMIN CONTROL PANEL</h1><br /><br />
-<h2 id="heads">UP COMING EVENTS:</h2><br />
 <% unless (@events.empty?) %>
+  <h2 id="heads">CREATE NEW EVENT :</h2><br />
+  <p id="links"><%= link_to 'Add New Event', new_event_path %></p><br /><br /><br />
+  <p id="line"></p><br/><br />
+  <h2 id="heads">UP COMING EVENTS:</h2><br />
   <% @events.each do |event| %>
-    <% if !(event.event_date.past?) %>
+    <% if event.event_date.today? or event.event_date.future?  %>
     <div id="event_list">
       <br /><h3><b>Event Name:<%= event.name %></b></h3><br />
       <u>DATE</u>:<%= event.event_date %><br />
@@ -16,7 +19,7 @@
       <u>TECHNICAL SPECIFICATIONS</u>:<%= event.tech_spec %><br />
       <u>NUMBER OF BATCHES</u>:<%= event.batches.count %><br />
       <p id="link_list">
-        <%= link_to 'View Registrations', event %> | 
+        <%= link_to 'View Confirmed List', event %> | 
          <%= link_to 'View Wait List', wait_list_event_path(event) %> |
         <%= link_to 'Edit Event', edit_event_path(event) %> |
         <%= link_to 'Delete Event', event, :confirm => 'Are you sure?', :method => :delete %>
@@ -27,9 +30,6 @@
   <% end %>
   <br />
   <br />
-<p id="line"></p><br/><br />
-  <h2 id="heads">CREATE NEW EVENT :</h2><br />
-  <p id="links"><%= link_to 'Add New Event', new_event_path %></p><br /><br /><br />
 <% else %>
 <h2 id="heads">Sorry no events created</h2><br />
 <p id="links"><%= link_to 'Add New Event', new_event_path %></p><br /><br /><br />
