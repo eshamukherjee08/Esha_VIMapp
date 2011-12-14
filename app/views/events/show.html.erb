@@ -25,12 +25,19 @@
         <th>Attended</th>
       </tr>
     <% @events_candidates.each do |e| %>
-      <% if ( e.cancellation == false and e.attended == false )%>
+      <% if !e.attended %>
         <tr>
           <td style="width:1px"><%= e.candidate.name %></td>
           <td style="width:1px"><%= e.candidate.salary_exp %></td>
           <td style="width:1px"><%= e.candidate.batches.first.id %></td>
           <td style="width:1px"><%= check_box_tag(e.candidate.id) %></td>
+        </tr>
+      <% else %>
+        <tr>
+          <td style="width:1px"><%= e.candidate.name %></td>
+          <td style="width:1px"><%= e.candidate.salary_exp %></td>
+          <td style="width:1px"><%= e.candidate.batches.first.id %></td>
+          <td style="width:1px"><%= image_tag("check.jpg") %></td>
         </tr>
       <% end %>
     <% end %>

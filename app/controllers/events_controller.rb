@@ -46,13 +46,11 @@ class EventsController < ApplicationController
 
   def update
     @event.event_date = DateTime.strptime(params[:event][:event_date], "%m/%d/20%y") unless(params[:event][:event_date] == "")
-    respond_to do |format|
       if @event.update_attributes(params[:event])
-        format.html { redirect_to(@event, :notice => 'Event was successfully updated.') }
+        redirect_to(@event, :notice => 'Event was successfully updated.')
       else
-        format.html { render :action => "edit" }
+        render :action => "edit" 
       end
-    end
   end 
   
   def destroy
@@ -69,6 +67,7 @@ class EventsController < ApplicationController
   
   
   def mark_attended
+    p "*******************************"
     @events_candidates = EventsCandidate.where(:event_id => params[:id].to_i).where(:cancellation => false)
     @events_candidates.each do |e|
       if params.has_key?("#{e.candidate_id}")

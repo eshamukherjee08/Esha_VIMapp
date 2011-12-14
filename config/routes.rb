@@ -1,5 +1,4 @@
 EshaVIMapp::Application.routes.draw do
-    
 
   resources :candidates do
     collection do
@@ -32,6 +31,7 @@ EshaVIMapp::Application.routes.draw do
     collection do 
       get "past"
     end
+    
     member do
       post "mark_attended"
     end
