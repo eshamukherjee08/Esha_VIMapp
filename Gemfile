@@ -18,6 +18,7 @@ gem 'jquery_datepicker', '0.3.2'
 gem 'geokit', '1.6.0'
 gem 'paperclip', '~> 2.3'
 gem 'uuid', "~> 2.3.4"
+gem 'will_paginate', '>= 3.0.pre'
 
 # Use unicorn as the web server
 # gem 'unicorn'
@@ -27,7 +28,7 @@ gem 'uuid', "~> 2.3.4"
 
 # To use debugger (ruby-debug for Ruby 1.8.7+, ruby-debug19 for Ruby 1.9.2+)
 # gem 'ruby-debug'
-# gem 'ruby-debug19', :require => 'ruby-debug'
+gem 'ruby-debug19', :require => 'ruby-debug'
 
 # Bundle the extra gems:
 # gem 'bj'

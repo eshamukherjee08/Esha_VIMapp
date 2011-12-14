@@ -1,37 +1,43 @@
 <p id="notice"><%= notice %></p>
-
+<h1>Registered Candidates</h1><br />
+<%= link_to 'Back', events_path %>
+<div id="search">
 <p>
-  <b>Event date:</b>
+  <h3 style="display:inline"><b>Event date:</b></h3>
   <%= @event.event_date %>
 </p>
 
 <p>
-  <b>Name:</b>
+  <h3 style="display:inline"><b>Name:</b></h3>
   <%= @event.name %>
 </p>
-<h3>Registered Candidates:</h3><br />
-
-<% form_tag event_mark_attended_path(@event) do %>
-  <table>
-    <tr>
-      <th>Name</th>
-      <th>Attended</th>
-    </tr>
-  <% @events_candidates.each do |e| %>
-    <% if ( e.cancellation == false and e.attended == false )%>
+</div><br />
+<% if @events_candidates.empty? %>
+  <h3 style="text-align:center;color:red;margin-top:40px">NO REGISTRATIONS FOR THIS EVENT</h3>
+<% else %>
+  <% form_tag event_mark_attended_path(@event) do %>
+  <div id="search_category">
+    <table id="candidate_table">
       <tr>
-        <td><%= e.candidate.name %></td>
-        <td><%= check_box_tag(e.candidate.id) %></td>
+        <th>Name</th>
+        <th>Salary Expected</th>
+        <th>Batch ID</th>
+        <th>Attended</th>
       </tr>
-    <% else %>
-      <tr><h5>NO RAGISTRATIONS YET</h5></tr><br /><br />
+    <% @events_candidates.each do |e| %>
+      <% if ( e.cancellation == false and e.attended == false )%>
+        <tr>
+          <td style="width:1px"><%= e.candidate.name %></td>
+          <td style="width:1px"><%= e.candidate.salary_exp %></td>
+          <td style="width:1px"><%= e.candidate.batches.first.id %></td>
+          <td style="width:1px"><%= check_box_tag(e.candidate.id) %></td>
+        </tr>
+      <% end %>
     <% end %>
-  <% end %>
-  </table>
-  <div class="actions">
-    <%= submit_tag 'Mark Attended' %>
+    </table>
   </div>
+    <br /><div class="actions" style="float:right;margin-right:170px">
+      <%= submit_tag 'Mark Attended' %>
+    </div>
+  <% end %>
 <% end %>
-
-<%= link_to 'Back', events_path %>
-

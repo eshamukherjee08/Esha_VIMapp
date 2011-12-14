@@ -14,15 +14,40 @@
 <% if notice %>
   <p id='notice'><%= notice%></p>
 <% end %>
+<br /><br /><br />
 <% @events.each do |event| %>
   <% if !(event.event_date.past?) %>
-    <br /><b>EVENT DATE </b>:<%= event.event_date %><br />
-    <u>EXPERIENCE REQUIRED</u>:<%= event.experience %><br />
-    <u>VENUE</u>:<%= event.location %><br />
-    <u>DESCRIPTION</u>:<%= event.description %><br />
-    <u>CATEGORY</u>:<%= event.category %><br />
-    <u>TECHNICAL SPECIFICATIONS</u>:<%= event.tech_spec %><br />
-    <%= link_to 'REGISTER ME', new_event_candidate_path(event) %>
+  <div id="walkin">
+    <table id="walkin_table">
+      <tr>
+        <th><br /><b>EVENT DATE </b>:<%= event.event_date %></th>
+        <th></th>
+      </tr>
+      <tr>
+        <td><u>EXPERIENCE REQUIRED</u></td>
+        <td>:<%= event.experience %></td>
+      </tr>
+      <tr>
+        <td><u>VENUE</u></td>
+        <td>:<%= event.location %></td>
+      </tr>
+      <tr>
+        <td><u>DESCRIPTION</u></td>
+        <td>:<%= event.description %></td>
+      </tr>
+      <tr>
+        <td><u>CATEGORY</u></td>
+        <td>:<%= event.category %></td>
+      </tr>
+      <tr>
+        <td><u>TECHNICAL SPECIFICATIONS</u></td>
+        <td>:<%= event.tech_spec %></td>
+      </tr>
+    </table>
+    <div style="display:inline;float:right;margin-top:25px">
+      <%= link_to 'REGISTER ME', new_event_candidate_path(event) %>
+    </div>
     <br /><br /><br />
+  </div>
   <% end %>
 <% end %>

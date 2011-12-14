@@ -1,4 +1,4 @@
-<table>
+<table id="candidate_table">
   <tr>
     <th>Important</th>
     <th>ID</th>
@@ -13,16 +13,16 @@
     <div id="mark">
       <tr>
         <% if !candidate.starred %>
-          <td><span id= "span_<%= candidate.id %>" onclick = 'mark_candidate(<%= candidate.id %>)'><u>Mark</u></span></td>
+          <td style="width:5px"><span id= "span_<%= candidate.id %>" onclick = 'mark_candidate(<%= candidate.id %>)'><u>Mark</u></span></td>
         <% else %>
-          <td><span id= "span_<%= candidate.id %>" >****</span></td>
+          <td style="width:5px"><span id= "span_<%= candidate.id %>" ><%= image_tag("star.png") %></span></td>
         <% end %>
         <td><%= candidate.id %></td>
         <td><%= candidate.name %></td>
         <td><%= candidate.exp %></td>
         <td><%= candidate.current_state %></td>
-        <td><%= link_to "Download Resume", download_resume_candidate_path(candidate.id) %></td>
-        <td><span id= "delete_<%= candidate.id %>" onclick = 'delete_candidate(<%= candidate.id %>)'><u>Delete</u></span></td>
+        <td style="width:5px"><%= link_to "Download", download_resume_candidate_path(candidate.id) %></td>
+        <td style="width:5px"><span id= "delete_<%= candidate.id %>" onclick = 'delete_candidate(<%= candidate.id %>)'><%= image_tag("delete.png") %></span></td>
       </tr>
     </div>
   <% end %>

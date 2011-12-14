@@ -22,14 +22,18 @@ class CandidatesController < ApplicationController
   def create
     @candidate = Candidate.new(params[:candidate])
     @candidate.perishable_token = Digest::MD5.hexdigest("#{Time.now}")
-    # @candidate.dob = DateTime.strptime(params[:candidate][:dob], "%m/%d/20%y") unless(params[:candidate][:dob] == "")
-    respond_to do |format|
-      if @candidate.save
-        CandidateMailer.confirm_email(@candidate, params[:event_id]).deliver
-        format.html { redirect_to(event_candidate_path(:event_id => params[:event_id], :id => @candidate.id ) , :notice => 'Registered Successfully.') }
-      else
-        format.html { render :action => "new" }
+    @event = Event.where(:id => params[:event_id]).first
+    if @event.experience == @candidate.exp
+      respond_to do |format|
+        if @candidate.save
+          CandidateMailer.confirm_email(@candidate, params[:event_id]).deliver
+          format.html { redirect_to(event_candidate_path(:event_id => params[:event_id], :id => @candidate.id ) , :notice => 'Registered Successfully.') }
+        else
+          format.html { render :action => "new" }
+        end
       end
+    else
+      redirect_to(walkins_index_path , :notice => 'Sorry, your experience is not as per event requirement. Please apply for appropriate event.')
     end
   end
 

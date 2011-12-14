@@ -7,7 +7,7 @@ h1 {
   display:inline;
   text-align: center;
   padding: 20px;
-  margin-left: 500px;
+  margin-left: 550px;
   color : maroon;
   font-style: "Comic Sans";
   text-decoration:underline;
@@ -18,6 +18,8 @@ h1 {
   height: 150px;
   text-align: center;
   color: maroon;
+/*  text-shadow: 0 0 0.2em white, 0 0 0.2em white,0 0 0.2em white;*/
+  text-shadow: 0.2em 0.2em 0.3em white;
   font: small-caps 80px/90px "Times New Roman", serif;
 }
 
@@ -166,4 +168,75 @@ h1 {
 #odd_f {
   display:inline;
   font-size : 20px;
+}
+
+
+/*display table styles*/
+#search_category {
+  border : 5px outset maroon;
+  width:75%;
+  margin:auto;
+}
+
+#candidate_table
+{
+font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+width:100%;
+border-collapse:collapse;
+}
+#candidate_table td, #candidate_table th 
+{
+font-size:1em;
+border:1px solid #660033;
+padding:3px 7px 2px 7px;
+}
+#candidate_table th 
+{
+font-size:1.1em;
+text-align:left;
+padding-top:5px;
+padding-bottom:4px;
+background-color:#990033;
+color:#ffffff;
+}
+
+#search {
+  margin-left:550px;
+  height: 30px;
+}
+
+/*walkin table style*/
+
+#walkin_table
+{
+font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+width:100%;
+border-collapse:collapse;
+}
+#walkin_table td, #walkin_table th 
+{
+font-size:1.1em;
+padding:3px 7px 2px 7px;
+}
+#walkin_table th 
+{
+font-size:1.3em;
+text-align:left;
+padding-top:2px;
+padding-bottom:4px;
+background-color:#990033;
+color:#ffffff;
+}
+#walkin {
+  border : 8px outset maroon;
+  width:800px;
+  margin:auto;
+}
+
+#register {
+  border : 6px outset maroon;
+  width:600px;
+  margin:auto;
+  margin-top:30px;
+  padding:30px;  
 }

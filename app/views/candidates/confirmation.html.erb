@@ -1,6 +1,7 @@
 
 
-<h1>Thank you for confirmation</h1><br />
+<p style="color:maroon;text-align:center;margin-top:20px;font-size:40px">Thank you for confirmation</p><br />
+<div id="register">
  Dear <%= @candidate.name %>,<br />
  Following are your VinSol Walk-in Details:<br/><br/>
  Event Name: <%= @event.name %><br/>
@@ -11,5 +12,6 @@
  
  For any further queries please contact : 011-45675342
  <br/><br/> 
-<%= link_to "Generate Admit Card", event_candidate_admit_card_path(:event_id => @event.id, :candidate_id => @candidate.id ) %>
-<%= link_to "CANCEL CANDIDATURE", event_candidate_cancel_path(:event_id => @event.id, :candidate_id => @candidate.id ), :confirm => 'Are you sure?' %>
+ <%= link_to "Generate Admit Card", event_candidate_admit_card_path(:event_id => @event.id, :candidate_id => @candidate.id ) %>&emsp;|&emsp; 
+ <%= link_to "CANCEL CANDIDATURE", event_candidate_cancel_path(:event_id => @event.id, :candidate_id => @candidate.id ), :confirm => 'Are you sure?' %>
+</div>

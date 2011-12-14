@@ -12,7 +12,7 @@ class EventsController < ApplicationController
     #### COMMENT - Use where instead of find. Extract in a before_filter
     @event = Event.where(:id => params[:id].to_i).first
     @candidates = Candidate.all
-    @events_candidates = EventsCandidate.where(:event_id => params[:id].to_i).all
+    @events_candidates = EventsCandidate.where(:event_id => params[:id].to_i).where(:cancellation=> false).all
   end
 
   def new

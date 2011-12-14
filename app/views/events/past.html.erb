@@ -1,7 +1,8 @@
-<h1>Past Walk-Ins Conducted</h1>
+<h1>Past Walk-Ins Conducted</h1><br />
+<br /><%= link_to 'Back', events_path %><br />
 <% @events.each do |event| %>
   <% if event.event_date.past? %>
-    <table>
+    <br /><table id="candidate_table">
       <tr>
         <th>Event date</th>
         <th>Name</th>
@@ -25,5 +26,3 @@
     </table>
   <% end %>
 <% end %>
-
-<%= link_to 'Back', events_path %>

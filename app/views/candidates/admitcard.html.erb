@@ -5,7 +5,8 @@
  
  Date : <%= @event.event_date %><br/>
  Roll Number : <%= @candidate.events_candidates.first.roll_num %><br />
- Venue : <%= @event.location %><br/> 
+ Venue : <%= @event.location %><br/>
+ Time : <%= @candidate.batches.first.start_time.start_time.strftime('%H:%M') %> Hrs<br /> 
  
  For any further queries please contact : 011-45675342
  <br/><br/>
