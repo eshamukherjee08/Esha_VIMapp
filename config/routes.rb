@@ -1,8 +1,5 @@
 EshaVIMapp::Application.routes.draw do
-  
-  get "walkins/index", :to => "walkins#index", :as => "walkins_index"
-  
-  get "past", :to => "events#past", :as => "past"
+    
 
   resources :candidates do
     collection do
@@ -12,7 +9,7 @@ EshaVIMapp::Application.routes.draw do
     end
     
     member do
-      get "download_resume", :to => "candidates#download_resume", :as => "download_resume"
+      get "download_resume"
     end
   end
      
@@ -24,21 +21,27 @@ EshaVIMapp::Application.routes.draw do
   devise_for :admins, :controllers => { :invitations => 'admins/invitations', :sessions => 'admins/sessions' }
 
   resources :batches
-  resources :events
+  resources :walkins, :only => [:index]
   
   get "change_map_location", :to => "events#change_map", :as => "change_map_location"
   get "google_map/index"
   get "map_location", :to => "walkins#change_map", :as => "map_location"
             
   resources :events do
-    # collection do (raising error in show page)
-    #     get :past, :to => "events#past"
-    #   end
-    post "mark_attended", :to => "events#mark_attended", :as => "mark_attended"
+    
+    collection do 
+      get "past"
+    end
+    member do
+      post "mark_attended"
+    end
+    
     resources :candidates do
-      get "admitcard", :to => "candidates#admitcard", :as => "admit_card"
       get "confirmation/:perishable_token", :to => "candidates#confirmation", :as => "confirmation"
-      get "cancel", :to => "candidates#cancel", :as => "cancel"
+      member do
+        get "admitcard"
+        get "cancel"
+      end
     end
   end
   
@@ -91,7 +94,7 @@ EshaVIMapp::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => 'home#index'
+  root :to => 'walkins#index'
   
   # See how all your routes lay out with "rake routes"
 

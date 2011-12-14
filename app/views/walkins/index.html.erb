@@ -8,19 +8,21 @@
      });
    }
 </script>
-<%= link_to 'HOME', root_path %><br />
-
-<h1>Up Coming Walkins</h1>
 <% if notice %>
   <p id='notice'><%= notice%></p>
 <% end %>
+<%= link_to 'ALREADY REGISTERED?', search_path %><br />
+<% if !admin_signed_in? %>
+  <%= link_to 'ADMIN Sign In', new_admin_session_path %><br />
+<% end %>
+<h1>Up Coming Walkins</h1>
 <br /><br /><br />
 <% @events.each do |event| %>
   <% if !(event.event_date.past?) %>
   <div id="walkin">
     <table id="walkin_table">
       <tr>
-        <th><br /><b>EVENT DATE </b>:<%= event.event_date %></th>
+        <th><br /><b>EVENT DATE </b>:<%= event.event_date.strftime("%b %d, %Y") %></th>
         <th></th>
       </tr>
       <tr>

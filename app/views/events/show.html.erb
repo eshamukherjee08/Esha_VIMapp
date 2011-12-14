@@ -4,7 +4,7 @@
 <div id="search">
 <p>
   <h3 style="display:inline"><b>Event date:</b></h3>
-  <%= @event.event_date %>
+  <%= @event.event_date.strftime("%b %d, %Y") %>
 </p>
 
 <p>
@@ -15,7 +15,7 @@
 <% if @events_candidates.empty? %>
   <h3 style="text-align:center;color:red;margin-top:40px">NO REGISTRATIONS FOR THIS EVENT</h3>
 <% else %>
-  <% form_tag event_mark_attended_path(@event) do %>
+  <% form_tag mark_attended_event_path(@event) do %>
   <div id="search_category">
     <table id="candidate_table">
       <tr>

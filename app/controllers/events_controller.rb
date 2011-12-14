@@ -10,7 +10,7 @@ class EventsController < ApplicationController
 
   def show
     #### COMMENT - Use where instead of find. Extract in a before_filter
-    @event = Event.where(:id => params[:id].to_i).first
+    # @event = Event.where(:id => params[:id].to_i).first
     @candidates = Candidate.all
     @events_candidates = EventsCandidate.where(:event_id => params[:id].to_i).where(:cancellation=> false).all
   end
@@ -64,11 +64,12 @@ class EventsController < ApplicationController
   end
   
   def past
-    @events = Event.all :order => 'event_date'
+    @events = Event.all :order => :event_date
   end
   
+  
   def mark_attended
-    @events_candidates = EventsCandidate.where(:event_id => params[:event_id].to_i).where(:cancellation => false)
+    @events_candidates = EventsCandidate.where(:event_id => params[:id].to_i).where(:cancellation => false)
     @events_candidates.each do |e|
       if params.has_key?("#{e.candidate_id}")
         e.update_attributes( :attended => true )

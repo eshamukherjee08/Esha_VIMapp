@@ -12,6 +12,6 @@
  
  For any further queries please contact : 011-45675342
  <br/><br/> 
- <%= link_to "Generate Admit Card", event_candidate_admit_card_path(:event_id => @event.id, :candidate_id => @candidate.id ) %>&emsp;|&emsp; 
- <%= link_to "CANCEL CANDIDATURE", event_candidate_cancel_path(:event_id => @event.id, :candidate_id => @candidate.id ), :confirm => 'Are you sure?' %>
+ <%= link_to "Generate Admit Card", admitcard_event_candidate_path(:event_id => @event.id, :id => @candidate.id ) %>&emsp;|&emsp; 
+ <%= link_to "CANCEL CANDIDATURE", cancel_event_candidate_path(:event_id => @event.id, :id => @candidate.id ), :confirm => 'Are you sure?' %>
 </div>

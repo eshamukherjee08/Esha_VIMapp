@@ -33,7 +33,7 @@ class CandidatesController < ApplicationController
         end
       end
     else
-      redirect_to(walkins_index_path , :notice => 'Sorry, your experience is not as per event requirement. Please apply for appropriate event.')
+      redirect_to(walkins_path , :notice => 'Sorry, your experience is not as per event requirement. Please apply for appropriate event.')
     end
   end
 
@@ -78,11 +78,11 @@ class CandidatesController < ApplicationController
   
   def admitcard
     @event = Event.where(:id => params[:event_id]).first
-    @candidate = Candidate.where(:id => params[:candidate_id]).first
+    @candidate = Candidate.where(:id => params[:id]).first
   end
   
   def cancel
-    @events_candidate = EventsCandidate.where(:event_id => params[:event_id]).where(:candidate_id => params[:candidate_id]).first
+    @events_candidate = EventsCandidate.where(:event_id => params[:event_id]).where(:candidate_id => params[:id]).first
     if (@events_candidate.cancellation == false )
       @events_candidate.update_attributes( :cancellation => true )
       @events_candidate.save
