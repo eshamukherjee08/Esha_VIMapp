@@ -12,7 +12,7 @@
 
 <div id="main_event">
   <%= nested_form_for @event do |f| %>
-    <!-- Extract this in a partial -->
+
     <%= render 'event_error' %>
 
     <div class="field" id="odd_field">
@@ -20,36 +20,74 @@
       <%= f.datepicker :event_date %>
     </div>
 
-    <div class="field" style="display:inline;float:right;margin-right:350px;font-size:20px;"><%= f.label :category %> :
-    <%= f.select("category", CATEGORY, {:prompt => '--Select Category--'}) %></div>
-    <br /><br /><br /><br /><br /><br /><br /><br />
+    <div class="field" style="display:inline; float:right; margin-right:350px; font-size:20px;">
+			<%= f.label :category %> :
+    	<%= f.select(:category, CATEGORY, {:prompt => '--Select Category--'}) %> 
+		</div>
 
-    <br /><br /><div class="field" id="odd_field"><%= f.label :name %> : </div>
-    <div class="field" id="even_field"><%= f.label :description %> : </div><br /> 
-    <div id="odd_field"><%= f.text_field :name, :size => 100 %></div>
-    <div id="fills"><%= f.text_area :description, :rows => 5, :cols => 73 %></div><br /><br /><br />
+    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 
-    <br /><br /><div class="field" id="odd_field"><%= f.label :tech_spec %> : </div>
-    <div class="field" style="display:inline;float:right;margin-right:350px;font-size:20px;" ><%= f.label :experience %> :
-    <%= f.select("experience", EXPERIENCE, {:prompt => '--Select Experience--'}) %></div><br />
-    <div id="odd_field"><%= f.text_field :tech_spec, :size => 100  %></div>
-  		<!-- Extract choices in a constant -->
+		<div class="field" id="odd_field">
+			<%= f.label :name %> : 
+		</div>
+    
+		<div class="field" id="even_field">
+			<%= f.label :description %> : 
+		</div><br /> 
+    
+		<div id="odd_field">
+			<%= f.text_field :name, :size => 100 %>
+		</div>
+    
+		<div id="fills">
+			<%= f.text_area :description, :rows => 5, :cols => 73 %>
+		</div>
+		
+		<br /><br /><br /><br /><br />
+		
+		<div class="field" id="odd_field">
+			<%= f.label :tech_spec %> : 
+		</div>
+    
+		<div class="field" style="display:inline;float:right;margin-right:350px;font-size:20px;" >
+			<%= f.label :experience %> :
+    	<%= f.select("experience", EXPERIENCE, {:prompt => '--Select Experience--'}) %>
+		</div><br />
+    
+		<div id="odd_field">
+			<%= f.text_field :tech_spec, :size => 100  %>
+		</div>
 
-    <br /><br /><div class="field" id="odd_field"><%= f.label :location %> :
-    <div style="display:inline;margin-left:15px; margin-right:45px;" ><%= f.text_field :location, :size => 80, :onblur => "show_map();" %></div>
+    <br /><br />
+		
+		<div class="field" id="odd_field">
+			<%= f.label :location %> :
+    	<div style="display:inline;margin-left:15px; margin-right:45px;" >
+				<%= f.text_field :location, :size => 80, :onblur => "show_map();" %>
+			</div>
     </div>
-    <div style="display:inline;float:right;margin-right:540px;font-size:20px;">Batches:</div>
-    <br /><div id="main_batch" style="margin-bottom:50px;">
+    
+		<div style="display:inline;float:right;margin-right:540px;font-size:20px;">
+			Batches:
+		</div>
+    <br />
+		
+		<div id="main_batch" style="margin-bottom:50px;">
       <%= f.fields_for :batches %>
       <p><%= f.link_to_add "Add a Batch", :batches %></p>
-    </div><br /><br />
-    <div id="map">
+    </div>
+		
+		<br /><br />
+    
+		<div id="map">
       <iframe src="/google_map/index/?lat=28.635308&lon=77.22496&zoom=15" width="520" height="300" ></iframe>
     </div>
           
 
     <div class="actions" style="margin-top:30px;" >
       <%= f.submit %>
-    </div><br /><br />
+    </div>
+		
+		<br /><br />
   <% end %>  
 </div>

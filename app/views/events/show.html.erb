@@ -2,16 +2,19 @@
 <h1>Registered Candidates</h1><br />
 <%= link_to 'Back', events_path %>
 <div id="search">
-<p>
-  <h3 style="display:inline"><b>Event date:</b></h3>
-  <%= @event.event_date.strftime("%b %d, %Y") %>
-</p>
+	<p>
+  	<h3 style="display:inline"><b>Event date:</b></h3>
+  	<%= @event.event_date.strftime("%b %d, %Y") %>
+	</p>
 
-<p>
-  <h3 style="display:inline"><b>Name:</b></h3>
-  <%= @event.name %>
-</p>
-</div><br />
+	<p>
+  	<h3 style="display:inline"><b>Name:</b></h3>
+  	<%= @event.name %>
+	</p>
+</div>
+
+<br />
+
 <% if @events_candidates.empty? %>
   <h3 style="text-align:center;color:red;margin-top:40px">NO REGISTRATIONS FOR THIS EVENT</h3>
 <% else %>
@@ -24,7 +27,7 @@
        <th>Batch ID</th>
        <th>Attended</th>
      </tr>
-   <% form_for @events_candidates, :url => mark_attended_event_events_candidates_path(@event) do |f| %>
+   <%= form_for @events_candidates, :url => mark_attended_event_events_candidates_path(@event) do |f| %>
      <% @events_candidates.each do |e| %>
        <% if !e.attended %>
          <tr>
@@ -45,9 +48,10 @@
        <% end %>
      <% end %>
      </table>
- </div>
-   <br /><div class="actions" style="float:right;margin-right:170px">
-  <%= f.submit 'Mark Attended' %>
-   </div>
-  <% end %>
+ 		</div>
+ 		<br />
+		<div class="actions" style="float:right;margin-right:170px">
+ 		<%= f.submit 'Mark Attended' %>
+ 		</div>
+ <% end %>
 <% end %>

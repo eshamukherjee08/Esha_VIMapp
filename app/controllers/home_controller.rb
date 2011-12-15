@@ -5,8 +5,10 @@ class HomeController < ApplicationController
   def search
   end
   
+  # Optimize 
   def find_data
-    @events_candidates = EventsCandidate.where(:roll_num => params[:roll_num].to_i).first
+    @events_candidate = EventsCandidate.where(:roll_num => params[:roll_num].to_i).first      
+    
     @flag = 1
     @f = 1
     if @events_candidates.nil?

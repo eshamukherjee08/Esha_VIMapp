@@ -28,14 +28,9 @@ EshaVIMapp::Application.routes.draw do
   get "map_location", :to => "walkins#change_map", :as => "map_location"
             
   resources :events do
-    
     collection do 
       get "past"
     end
-    
-    # member do
-    #   post "mark_attended"
-    # end
     
     resources :candidates do
       get "confirmation/:perishable_token", :to => "candidates#confirmation", :as => "confirmation"

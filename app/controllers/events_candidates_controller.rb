@@ -1,6 +1,7 @@
 class EventsCandidatesController < ApplicationController
   
   def update
+    # Use update_all
     params[:attended].keys.each do |e|
       @events_candidate = EventsCandidate.where(:id => e.to_i ).first.update_attributes( :attended => true )
     end
