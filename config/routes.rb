@@ -17,8 +17,9 @@ EshaVIMapp::Application.routes.draw do
   get "home/search", :to => "home#search", :as => "search"
   get "find_search_data", :to => "home#find_data", :as => "find_search_data"
   
-  devise_for :admins, :controllers => { :invitations => 'admins/invitations', :sessions => 'admins/sessions' }
+  devise_for :admins, :controllers => { :invitations => 'admins/invitations', :sessions => 'admins/sessions', :passwords => 'passwords' }
 
+  resources :passwords
   resources :batches
   resources :walkins, :only => [:index]
   
@@ -32,9 +33,9 @@ EshaVIMapp::Application.routes.draw do
       get "past"
     end
     
-    member do
-      post "mark_attended"
-    end
+    # member do
+    #   post "mark_attended"
+    # end
     
     resources :candidates do
       get "confirmation/:perishable_token", :to => "candidates#confirmation", :as => "confirmation"
@@ -43,7 +44,15 @@ EshaVIMapp::Application.routes.draw do
         get "cancel"
       end
     end
+    
+    resources :events_candidates do
+      collection do
+        post "mark_attended"
+      end
+    end
   end
+  
+  
   
   # The priority is based upon order of creation:
   # first created -> highest priority.

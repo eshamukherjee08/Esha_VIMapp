@@ -66,17 +66,16 @@ class EventsController < ApplicationController
   end
   
   
-  def mark_attended
-    p "*******************************"
-    @events_candidates = EventsCandidate.where(:event_id => params[:id].to_i).where(:cancellation => false)
-    @events_candidates.each do |e|
-      if params.has_key?("#{e.candidate_id}")
-        e.update_attributes( :attended => true )
-        e.save
-      end 
-    end
-    redirect_to( events_path, :notice => 'Attendance for the event marked successfully!')
-  end
+  # def mark_attended
+  #   @events_candidates = EventsCandidate.where(:event_id => params[:id].to_i).where(:cancellation => false)
+  #          @events_candidates.each do |e|
+  #            if params.has_key?("#{e.candidate_id}")
+  #              e.update_attributes( :attended => true )
+  #              e.save
+  #            end 
+  #          end
+  #   redirect_to( events_path, :notice => 'Attendance for the event marked successfully!')
+  # end
   
   protected
   
