@@ -3,7 +3,7 @@ class CandidatesController < ApplicationController
   before_filter :find_candidate, :only => [:show, :edit, :update, :destroy]
   
   def index
-    @candidates = Candidate.all
+    @candidates = Candidate.paginate :page=>params[:page], :per_page => 30
   end
 
   def show
@@ -23,12 +23,13 @@ class CandidatesController < ApplicationController
     @event = Event.where(:id => params[:event_id]).first
     
     # Create a method in model to generate token
-    @candidate.perishable_token = Digest::MD5.hexdigest("#{Time.now}")
+    
+    @candidate.perishable_token = Candidate.generate_token
     
     if @event.experience == @candidate.exp
       if @candidate.save
+        Candidate.send_mail_after_save(@candidate, params[:event_id])
         # Move in model
-        CandidateMailer.confirm_email(@candidate, params[:event_id]).deliver
         redirect_to(event_candidate_path(:event_id => params[:event_id], :id => @candidate.id ) , :notice => 'Registered Successfully.')
       else
         render :action => "new"
@@ -60,12 +61,13 @@ class CandidatesController < ApplicationController
     
     events_candidate = EventsCandidate.where(:event_id => params[:event_id], :candidate_id => @candidate.id )
     
-    if (events_candidate.empty? or events_candidate.first.confirmed == false )
+    if (events_candidate.empty? or !events_candidate.first.confirmed )
       if (@event.batches.sum(:capacity) == @event.candidates.count )
         @events_candidate = EventsCandidate.new(:event_id => @event.id, :candidate_id => @candidate.id, :roll_num => UUID.new.generate.hex, :confirmed => true, :attended => false, :waitlist => true, :cancellation => false )
         @events_candidate.save
       else
         # Move batch allocation in model
+        i=0, flag = true
         @event.batches.each do |batch|
           if !(batch.capacity == batch.candidates.count)
             @events_candidate = EventsCandidate.new(:event_id => @event.id, :candidate_id => @candidate.id, :batch_id => batch.id, :roll_num => UUID.new.generate.hex, :confirmed => true, :attended => false, :waitlist => false, :cancellation => false )
@@ -73,6 +75,15 @@ class CandidatesController < ApplicationController
             break
           end
         end
+        # while( i< @event.batches.length && flag)
+        #          @event.batches.each do |batch|
+        #            if !(batch.capacity == batch.candidates.count)
+        #              @events_candidate = EventsCandidate.new(:event_id => @event.id, :candidate_id => @candidate.id, :batch_id => batch.id, :roll_num => UUID.new.generate.hex, :confirmed => true, :attended => false, :waitlist => false, :cancellation => false )
+        #              @events_candidate.save
+        #              flag = 1
+        #            end
+        #          end 
+        #        end
       end
     else
       redirect_to(root_path , :notice => 'Thank You, You Have already confirmed your registration.')

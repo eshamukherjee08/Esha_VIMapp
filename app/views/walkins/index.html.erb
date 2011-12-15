@@ -24,7 +24,6 @@
 
 <% @events.each do |event| %>
 	<!-- Move in controller -->
-  <% if !(event.event_date.past?) %>
   <div id="walkin">
     <table id="walkin_table">
       <tr>
@@ -57,5 +56,4 @@
     </div>
     <br /><br /><br />
   </div>
-  <% end %>
 <% end %>

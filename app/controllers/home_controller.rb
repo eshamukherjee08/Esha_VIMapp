@@ -8,18 +8,15 @@ class HomeController < ApplicationController
   # Optimize 
   def find_data
     @events_candidate = EventsCandidate.where(:roll_num => params[:roll_num].to_i).first      
-    
-    @flag = 1
-    @f = 1
-    if @events_candidates.nil?
-      @flag = 0
-    else
-      if @events_candidates.cancellation
-        @f = 0
+    unless @events_candidate.nil?
+      unless @events_candidate.cancellation
+        @event = @events_candidate.event
+        @candidate = @events_candidate.candidate
       else
-        @event = Event.where(:id => @events_candidates.event_id).first
-        @candidate = Candidate.where(:id => @events_candidates.candidate_id).first
+        @f = 0
       end
+    else
+      @f =1
     end
   end
 

@@ -1,18 +1,7 @@
 <div id="main_candidate">
   <%= form_for @candidate, :html => { :multipart => true } do |f| %>
 	<!-- Move in partial -->
-    <% if @candidate.errors.any? %>
-      <div id="error_explanation">
-        <h2><%= pluralize(@candidate.errors.count, "error") %> prohibited this candidate from being saved:</h2>
-
-        <ul>
-        <% @candidate.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-        </ul>
-      </div>
-   <% end %>
-
+  <%= render 'candidate_error' %>
    <div id="even_f">
      <div class="field">
        <%= f.label :email %><br />
@@ -40,7 +29,6 @@
        <%= f.date_select :dob %>
      </div>
    </div>
-    <!-- <br /><br /><br /><br /><br /><br /> -->
 
     <br /><br /><br />
 

@@ -1,9 +1,9 @@
 class EventsCandidatesController < ApplicationController
   
-  def update
+  def mark_attended
     # Use update_all
-    params[:attended].keys.each do |e|
-      @events_candidate = EventsCandidate.where(:id => e.to_i ).first.update_attributes( :attended => true )
+    unless EventsCandidate.where("id IN (#{params[:attended].keys.map {|u| u.to_i}.join(",")})").empty?
+      EventsCandidate.where("id IN (#{params[:attended].keys.map {|u| u.to_i}.join(",")})").update_all :attended => true
     end
     redirect_to( events_path, :notice => 'Attendance for the event marked successfully!')
   end

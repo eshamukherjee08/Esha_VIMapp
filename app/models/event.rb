@@ -11,4 +11,10 @@ class Event < ActiveRecord::Base
   validates :event_date, :presence => true
   validates :experience, :name, :location, :description, :category, :tech_spec, :presence => true
   attr_accessible :cb_attend
+  
+  
+  scope :upcoming_events, Event.where("event_date >= ?", Time.now).order('event_date')
+  
+  scope :past_events, Event.where("event_date <= ?", Time.now).order('event_date')
+    
 end

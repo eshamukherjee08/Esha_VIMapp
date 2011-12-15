@@ -1,7 +1,4 @@
 class PasswordsController < ApplicationController
-  
-  before_filter :controlaccess
-  
   def edit
     @admin = current_admin
   end
