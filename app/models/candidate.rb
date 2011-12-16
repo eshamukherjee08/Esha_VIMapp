@@ -2,16 +2,14 @@ class Candidate < ActiveRecord::Base
   has_many :events_candidates , :dependent => :destroy
   has_many :events, :through => :events_candidates
   has_many :batches, :through => :events_candidates
-  attr_accessible :name, :address, :current_state, :home_town, :mobile_number, :exp, :salary_exp, :resume, :email, :dob, :starred
+  attr_accessor :accept
+  attr_accessible :name, :address, :current_state, :home_town, :mobile_number, :exp, :salary_exp, :resume, :email, :dob, :starred 
+  # validate :check_box_accept
+  #validates :accept, :acceptance => true
   
-  # validates :name, :address, :current_state, :home_town, :mobile_number, :exp, :salary_exp, :resume, :presence => true
-  # validates :email, :presence => true, 
-  #                     :length => {:minimum => 3, :maximum => 254},
-  #                     :uniqueness => true,
-  #                     :format => {:with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i}
-  #    
+  validates :name, :email, :address, :current_state, :home_town, :mobile_number, :exp, :salary_exp, :resume, :presence => true
   has_attached_file :resume, :styles => { :medium => "150x150>", :thumb => "100x100#" }
-  
+  validates_attachment_content_type :resume, :content_type => 'text/plain'
    
     def self.send_mail_after_save(candidate, event_id)
       CandidateMailer.confirm_email(candidate, event_id).deliver
@@ -41,4 +39,10 @@ class Candidate < ActiveRecord::Base
         redirect_to(root_path , :notice => 'Thank You, You Have already confirmed your registration.')
       end
     end
+    
+    # def check_box_accept
+    #   unless :accept
+    #     errors.add_to_base "Terms and conditions must be accepted"
+    #   end
+    # end
 end

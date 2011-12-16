@@ -20,6 +20,8 @@ class CandidatesController < ApplicationController
 
 
   def create
+    p "***************"
+    p params[:accept]
     @candidate = Candidate.new(params[:candidate])
     @event = Event.where(:id => params[:event_id]).first
     

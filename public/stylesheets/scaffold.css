@@ -15,6 +15,7 @@ div.field, div.actions {
 
 #notice {
   color: green;
+  font-size: 30px;
 }
 
 .field_with_errors {
