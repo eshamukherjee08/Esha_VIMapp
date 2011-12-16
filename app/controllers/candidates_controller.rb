@@ -12,6 +12,7 @@ class CandidatesController < ApplicationController
 
   def new
     @candidate = Candidate.new
+    @event = Event.where(:id => params[:event_id]).first
   end
 
   def edit
@@ -47,6 +48,7 @@ class CandidatesController < ApplicationController
 
 
   def destroy
+    @candidate = Candidate.where(:id => params[:candidate_id]).first
     @candidate.destroy
   end
   
@@ -54,29 +56,7 @@ class CandidatesController < ApplicationController
   def confirmation
     @event = Event.where(:id => params[:event_id]).first
     @candidate = Candidate.where(:perishable_token => params[:perishable_token]).first
-    
-    # @candidate.assign_to_batch(@event)
-    
-    events_candidate = EventsCandidate.where(:event_id => params[:event_id], :candidate_id => @candidate.id )
-    
-    if (events_candidate.empty? or !events_candidate.first.confirmed )
-      if (@event.batches.sum(:capacity) == @event.candidates.count )
-        @events_candidate = EventsCandidate.new(:event_id => @event.id, :candidate_id => @candidate.id, :roll_num => UUID.new.generate.hex, :confirmed => true, :attended => false, :waitlist => true, :cancellation => false )
-        @events_candidate.save
-      else
-        # Move batch allocation in model
-        flag = true
-        @event.batches.each do |batch|
-          while(batch.capacity != batch.candidates.count && flag )
-            @events_candidate = EventsCandidate.new(:event_id => @event.id, :candidate_id => @candidate.id, :batch_id => batch.id, :roll_num => UUID.new.generate.hex, :confirmed => true, :attended => false, :waitlist => false, :cancellation => false )
-            @events_candidate.save
-            flag = false
-          end
-        end
-      end
-    else
-      redirect_to(root_path , :notice => 'Thank You, You Have already confirmed your registration.')
-    end
+    @candidate.assign_to_batch(@event,@candidate)
   end
   
 
@@ -128,6 +108,9 @@ class CandidatesController < ApplicationController
   ## if candidate - redirect somewhere
   def find_candidate
     @candidate = Candidate.where(:id => params[:id].to_i).first
+    unless @candidate
+      error_walkins_path
+    end
   end
     
 end

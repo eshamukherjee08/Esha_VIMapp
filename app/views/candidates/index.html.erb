@@ -62,7 +62,7 @@ function delete_candidate(candidate_id) {
 				<td><%= candidate.exp %></td>
 				<td><%= candidate.current_state %></td>
 				<td style="width:5px"><%= link_to "Download", download_resume_candidate_path(candidate.id) %></td>
-				<td style="width:5px"><span id= "delete_<%= candidate.id %>" onclick = 'delete_candidate(<%= candidate.id %>)'><%= image_tag("delete.png") %></span></td>
+				<td style="width:5px"><span id= "delete_<%= candidate.id %>" onclick = 'delete_candidate(<%= candidate.id %>)' confirm ='Are you sure?'><%= image_tag("delete.png") %></span></td>
 			</tr>
 		</div>
 		<% end %>

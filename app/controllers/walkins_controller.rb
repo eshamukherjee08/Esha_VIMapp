@@ -3,4 +3,9 @@ class WalkinsController < ApplicationController
     # make scope - upcoming events
     @events = Event.upcoming_events
   end
+  
+  
+  def error
+  end
+  
 end

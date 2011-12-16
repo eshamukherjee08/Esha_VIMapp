@@ -23,7 +23,12 @@ EshaVIMapp::Application.routes.draw do
 
   resources :passwords
   resources :batches
-  resources :walkins, :only => [:index]
+  resources :walkins, :only => [:index] do
+    collection do
+      get :error
+    end
+  end
+  
   
   get "change_map_location", :to => "events#change_map", :as => "change_map_location"
   get "google_map/index"

@@ -70,6 +70,9 @@ class EventsController < ApplicationController
   
   def find_event
      @event = Event.where(:id => params[:id].to_i).first
+     unless @event
+       error_walkins_path
+     end
   end
     
 end

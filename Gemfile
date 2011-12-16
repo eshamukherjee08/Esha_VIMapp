@@ -7,7 +7,7 @@ gem 'rails', '3.0.7'
 
 gem 'sqlite3', '1.3.4'
 
-gem 'mysql2', '0.2.7'
+#gem 'mysql2', '0.2.7'
 gem 'devise', :git => 'git://github.com/plataformatec/devise.git' 
 #### COMMENT - Put versions for everything
 gem 'devise_invitable', '0.6.0'

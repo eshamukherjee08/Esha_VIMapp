@@ -5,4 +5,10 @@ class EventsCandidate < ActiveRecord::Base
   
   scope :not_cancelled, where(:cancellation => false)
   
+  def marking_attendance(events_candidates)
+    unless events_candidates.empty?
+      events_candidates.update_all :attended => true
+    end
+  end
+  
 end
