@@ -68,6 +68,7 @@ class CandidatesController < ApplicationController
   def cancel
     @events_candidate = EventsCandidate.where(:event_id => params[:event_id]).where(:candidate_id => params[:id]).first
     @events_candidate.update_attributes( :cancellation => true )
+    AdminMailer.cancel_notification(@events_candidate).deliver
     redirect_to(root_path , :notice => 'Your Registration has been Cancelled successfully!')
   end
   
