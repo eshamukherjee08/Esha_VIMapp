@@ -98,12 +98,15 @@ class CandidatesController < ApplicationController
   def mark_candidate_star
     @candidate = Candidate.where(:id => params[:candidate_id]).first
     @candidate.update_attributes(:starred => true)
-    @candidate.save
   end
   
   
   def find_category
     @events = Event.where(:category => params[:category].to_s)
+    # p "*********************"
+    #    @candidates = @events.collect{|x| x.events_candidates.collect{|y| y.candidate}}[1]
+    #    p @candidates
+    #    p "**********************"
   end
   
   
@@ -124,7 +127,7 @@ class CandidatesController < ApplicationController
   protected
 
   def find_candidate
-    @candidate = Candidate.where(:id => params[:id].to_i)
+    @candidate = Candidate.where(:id => params[:id].to_i).first
   end
     
 end

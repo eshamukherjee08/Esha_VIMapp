@@ -4,7 +4,7 @@ class Admin < ActiveRecord::Base
   devise :invitable, :database_authenticatable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  attr_accessible :email, :password, :password_confirmation, :remember_me
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :forgot_your_password
   
   after_destroy :ensure_an_admin_remains
 
