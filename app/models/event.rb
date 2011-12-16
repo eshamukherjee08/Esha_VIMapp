@@ -13,8 +13,8 @@ class Event < ActiveRecord::Base
   attr_accessible :cb_attend
   
   
-  scope :upcoming_events, Event.where("event_date >= ?", Time.now).order('event_date')
+  scope :upcoming_events, where("event_date >= ?", Time.now).order('event_date')
   
-  scope :past_events, Event.where("event_date <= ?", Time.now).order('event_date')
+  scope :past_events, where("event_date <= ?", Time.now).order('event_date')
     
 end

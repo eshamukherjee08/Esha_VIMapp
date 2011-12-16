@@ -7,7 +7,7 @@ h1 {
   display:inline;
   text-align: center;
   padding: 20px;
-  margin-left: 550px;
+  margin-left: 500px;
   color : maroon;
   font-style: "Comic Sans";
   text-decoration:underline;
@@ -18,7 +18,6 @@ h1 {
   height: 150px;
   text-align: center;
   color: maroon;
-/*  text-shadow: 0 0 0.2em white, 0 0 0.2em white,0 0 0.2em white;*/
   text-shadow: 0.2em 0.2em 0.2em white;
   font: small-caps 80px/90px "Times New Roman", serif;
 }
@@ -239,4 +238,10 @@ color:#ffffff;
   margin:auto;
   margin-top:30px;
   padding:30px;  
+}
+
+#search_star_category {
+  border : 5px outset maroon;
+  width:75%;
+  margin:auto;
 }

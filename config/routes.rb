@@ -4,7 +4,9 @@ EshaVIMapp::Application.routes.draw do
     collection do
       get "mark_candidate_star"
       get "find_category"
+      get "find_star_category"
       get "delete_candidate", :to => "candidates#destroy"
+      get "starred_list"
     end
     
     member do
@@ -30,6 +32,10 @@ EshaVIMapp::Application.routes.draw do
   resources :events do
     collection do 
       get "past"
+    end
+    
+    member do
+      get "wait_list"
     end
     
     resources :candidates do

@@ -18,6 +18,7 @@
       <u>NUMBER OF BATCHES</u>:<%= event.batches.count %><br />
       <p id="link_list">
         <%= link_to 'View Registrations', event %> | 
+         <%= link_to 'View Wait List', wait_list_event_path(event) %>
         <%= link_to 'Edit Event', edit_event_path(event) %> |
         <%= link_to 'Delete Event', event, :confirm => 'Are you sure?', :method => :delete %>
       </p>
@@ -37,5 +38,6 @@
 <% end %>
 <p id="line"></p><br/><br />
 <h2 id="heads">REGISTERED CANDIDATES :</h2><br />
-<p id="links"><%= link_to 'View All Registered Candidates', candidates_path %></p><br /><br /><br />
+<p id="links"><%= link_to 'View All Registered Candidates', candidates_path %>|
+<%= link_to 'Star Candidates', starred_list_candidates_path %></p><br /><br /><br />
 

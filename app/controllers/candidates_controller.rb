@@ -3,7 +3,7 @@ class CandidatesController < ApplicationController
   before_filter :find_candidate, :only => [:show, :edit, :update, :destroy]
   
   def index
-    @candidates = Candidate.paginate :page=>params[:page], :per_page => 30
+    @candidates = Candidate.paginate :page=>params[:page], :per_page => 15
   end
 
   def show
@@ -67,23 +67,14 @@ class CandidatesController < ApplicationController
         @events_candidate.save
       else
         # Move batch allocation in model
-        i=0, flag = true
+        flag = true
         @event.batches.each do |batch|
-          if !(batch.capacity == batch.candidates.count)
+          while(batch.capacity != batch.candidates.count && flag )
             @events_candidate = EventsCandidate.new(:event_id => @event.id, :candidate_id => @candidate.id, :batch_id => batch.id, :roll_num => UUID.new.generate.hex, :confirmed => true, :attended => false, :waitlist => false, :cancellation => false )
             @events_candidate.save
-            break
+            flag = false
           end
         end
-        # while( i< @event.batches.length && flag)
-        #          @event.batches.each do |batch|
-        #            if !(batch.capacity == batch.candidates.count)
-        #              @events_candidate = EventsCandidate.new(:event_id => @event.id, :candidate_id => @candidate.id, :batch_id => batch.id, :roll_num => UUID.new.generate.hex, :confirmed => true, :attended => false, :waitlist => false, :cancellation => false )
-        #              @events_candidate.save
-        #              flag = 1
-        #            end
-        #          end 
-        #        end
       end
     else
       redirect_to(root_path , :notice => 'Thank You, You Have already confirmed your registration.')
@@ -93,7 +84,7 @@ class CandidatesController < ApplicationController
 
   def admitcard
     @candidate = Candidate.where(:id => params[:id]).first
-    @event = @candidate.event if @candidate
+    @event = Event.where(:id => params[:event_id]).first
   end
   
 
@@ -121,11 +112,19 @@ class CandidatesController < ApplicationController
     send_file(@candidate.resume.path , :content_type => @candidate.resume_content_type)
   end
   
+  def starred_list
+   @candidates = Candidate.where(:starred => true)
+  end
+  
+  def find_star_category
+    @events = Event.where(:category => params[:category].to_s)
+  end
+  
 
   protected
 
   def find_candidate
-    @candidate = Candidate.where(:id => params[:id].to_i).first
+    @candidate = Candidate.where(:id => params[:id].to_i)
   end
     
 end

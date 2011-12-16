@@ -1,7 +1,7 @@
 class EventsController < ApplicationController
   
   before_filter :controlaccess
-  before_filter :find_event, :only => [:show, :edit, :update, :destroy]
+  before_filter :find_event, :only => [:show, :edit, :update, :destroy, :wait_list]
   
 
   def index
@@ -64,6 +64,10 @@ class EventsController < ApplicationController
   
   def past
     @events = Event.past_events
+  end
+  
+  def wait_list
+    @events_candidates = @event.events_candidates.where(:waitlist => true)
   end
   
   
