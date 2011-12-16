@@ -9,11 +9,7 @@ class EventsController < ApplicationController
   end
 
   def show
-    # we need to fetch only registered candidates for a particular event
-    @candidates = @event.candidates
-    # use relations to fetch
-    # make a scope only attended 
-    @events_candidates = EventsCandidate.where(:event_id => params[:id].to_i).not_cancelled_list     
+    @events_candidates = @event.events_candidates.not_cancelled     
   end
 
 
@@ -45,7 +41,6 @@ class EventsController < ApplicationController
 
 
   def update
-    # use blank?
     @event.event_date = DateTime.strptime(params[:event][:event_date], "%m/%d/20%y") unless(params[:event][:event_date].blank?)
 
     if @event.update_attributes(params[:event])
@@ -73,8 +68,8 @@ class EventsController < ApplicationController
   
   protected
   
-    def find_event
-       @event = Event.where(:id => params[:id].to_i).first
-    end
+  def find_event
+     @event = Event.where(:id => params[:id].to_i).first
+  end
     
 end

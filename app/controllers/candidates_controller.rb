@@ -1,6 +1,6 @@
 class CandidatesController < ApplicationController
 
-  before_filter :find_candidate, :only => [:show, :edit, :update, :destroy]
+  before_filter :find_candidate, :only => [:show, :edit, :update, :destroy, :admitcard]
   
   def index
     @candidates = Candidate.paginate :page => params[:page], :per_page => 15
@@ -81,7 +81,6 @@ class CandidatesController < ApplicationController
   
 
   def admitcard
-    @candidate = Candidate.where(:id => params[:id]).first
     @event = Event.where(:id => params[:event_id]).first
   end
   
@@ -113,9 +112,11 @@ class CandidatesController < ApplicationController
     send_file(@candidate.resume.path , :content_type => @candidate.resume_content_type)
   end
   
+  
   def starred_list
    @candidates = Candidate.where(:starred => true)
   end
+  
   
   def find_star_category
     @events = Event.where(:category => params[:category].to_s)
