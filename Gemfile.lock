@@ -64,6 +64,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.17.2)
+    mysql2 (0.2.7)
     nested_form (0.1.1)
     orm_adapter (0.0.5)
     paperclip (2.4.5)
@@ -124,6 +125,7 @@ DEPENDENCIES
   geokit (= 1.6.0)
   jquery-rails (= 1.0.18)
   jquery_datepicker (= 0.3.2)
+  mysql2 (= 0.2.7)
   nested_form
   paperclip (~> 2.3)
   pdfkit

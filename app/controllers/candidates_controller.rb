@@ -3,7 +3,7 @@ class CandidatesController < ApplicationController
   before_filter :find_candidate, :only => [:show, :edit, :update, :destroy]
   
   def index
-    @candidates = Candidate.paginate :page=>params[:page], :per_page => 15
+    @candidates = Candidate.paginate :page => params[:page], :per_page => 15
   end
 
   def show
@@ -22,14 +22,11 @@ class CandidatesController < ApplicationController
     @candidate = Candidate.new(params[:candidate])
     @event = Event.where(:id => params[:event_id]).first
     
-    # Create a method in model to generate token
-    
     @candidate.perishable_token = Candidate.generate_token
     
     if @event.experience == @candidate.exp
       if @candidate.save
         Candidate.send_mail_after_save(@candidate, params[:event_id])
-        # Move in model
         redirect_to(event_candidate_path(:event_id => params[:event_id], :id => @candidate.id ) , :notice => 'Registered Successfully.')
       else
         render :action => "new"
@@ -50,7 +47,6 @@ class CandidatesController < ApplicationController
 
 
   def destroy
-    @candidate = Candidate.where(:id => params[:candidate_id]).first
     @candidate.destroy
   end
   
@@ -58,6 +54,8 @@ class CandidatesController < ApplicationController
   def confirmation
     @event = Event.where(:id => params[:event_id]).first
     @candidate = Candidate.where(:perishable_token => params[:perishable_token]).first
+    
+    # @candidate.assign_to_batch(@event)
     
     events_candidate = EventsCandidate.where(:event_id => params[:event_id], :candidate_id => @candidate.id )
     
@@ -125,7 +123,8 @@ class CandidatesController < ApplicationController
   
 
   protected
-
+  
+  ## if candidate - redirect somewhere
   def find_candidate
     @candidate = Candidate.where(:id => params[:id].to_i).first
   end
