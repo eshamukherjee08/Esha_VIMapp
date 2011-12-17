@@ -24,6 +24,10 @@
     </p>
   </div>  
   <div>
+    <% unless admin_signed_in? %>
+      <p><%= notice %></p>
+      <p id='signin_notice'><%= alert %></p>
+    <% end %>
     <%= yield %>
   </div>
 </body>

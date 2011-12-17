@@ -15,6 +15,16 @@ function mark_rejected(candidate_id) {
 		type : 'get',
 		data : "candidate_id="+ candidate_id
 	});
+	
+}
+
+function editor(candidate_id) {
+  $.ajax({
+		url : "<%= edit_status_candidates_path %>",
+		dataType : 'script',
+		type : 'get',
+		data : "candidate_id="+ candidate_id
+	});
 }
 </script>
 
@@ -75,9 +85,15 @@ function mark_rejected(candidate_id) {
                </span>
              </td>
            <% elsif !e.status %>
-            <td style="width:1px"><%= image_tag("red.jpg") %></td>
+            <td style="width:1px">
+              <%= image_tag("red.jpg") %>
+              <%= link_to 'EDIT', edit_status_candidates_path(:candidate_id => e.candidate.id) %>
+            </td>
            <% else %>
-            <td style="width:1px"><%= image_tag("green.jpg") %></td>
+            <td style="width:1px">
+              <%= image_tag("green.jpg") %>
+              <%= link_to 'EDIT', edit_status_candidates_path(:candidate_id => e.candidate.id) %>
+            </td>
            <% end %>
          </tr>
        <% end %>
@@ -85,8 +101,12 @@ function mark_rejected(candidate_id) {
      </table>
  		</div>
  		<br />
-		<div class="actions" style="float:right;margin-right:170px">
- 		<%= submit_tag 'Mark Attended' %>
- 		</div>
+ 		<% if @event.event_date.today? %>
+  		<div class="actions" style="float:right;margin-right:170px">
+   		<%= submit_tag 'Mark Attended' %>
+   		</div>
+   	<% else %>
+   	  <div style="float:right;margin-right:170px;color:red;font-size:1.5em">Attendance Marking Will Be Available On/After Event Date</div>
+   	<% end %>
  <% end %>
 <% end %>

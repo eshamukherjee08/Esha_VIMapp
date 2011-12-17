@@ -9,6 +9,7 @@ EshaVIMapp::Application.routes.draw do
       get "starred_list"
       get "mark_selected"
       get "mark_rejected"
+      get "edit_status"
     end
     
     member do

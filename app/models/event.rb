@@ -10,7 +10,7 @@ class Event < ActiveRecord::Base
   attr_accessible :batches_attributes, :event_date, :category, :name, :description, :tech_spec, :experience, :location, :admin_id
   
   validates :experience, :name, :location, :description, :category, :tech_spec, :presence => true
-  validates :event_date, :presence => true, :date => {:after => Proc.new {Time.zone.now}}
+  validates :event_date, :date => {:after => Proc.new {Time.zone.now}, :message => "Please Enter valid date"}
   
   validate :confirm_count
     

@@ -5,6 +5,16 @@
 <script>
 
   function search_num() {
+    if(!($("#search").val() == "")) {
+      if(!($("#search").val().match(/^\d+$/))) {
+        document.getElementById("error").innerHTML = "Please Enter A Number!"
+        return false
+      }
+    } else {
+      document.getElementById("error").innerHTML = "Search field cannot be empty!"
+      return false
+    }
+    
      $.ajax({
        url : "<%= find_search_data_path %>",
        dataType : 'script',
@@ -14,9 +24,10 @@
    }
 </script>
 
-<h1>CANDIDATE INFORMATION : Please Enter Roll Number Below</h1><br />
+<h2 style="margin-left:100px">CANDIDATE INFORMATION : Please Enter Roll Number Below</h2><br />
 <%= text_field_tag('search')%>
-<input type="button", value="SEARCH", onclick="search_num();" >
+<input type="button", value="SEARCH", onclick="search_num();" ><br />
+<span class = "error" id = "error"></span>
 
 <div id="result"> WELCOME </div>
 

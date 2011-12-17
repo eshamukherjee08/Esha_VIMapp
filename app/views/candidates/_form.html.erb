@@ -27,8 +27,7 @@
    <div id="odd_f">
      <div class="field">
        <%= f.label :dob, "Date Of Birth" %><br />
-       <!-- <%= f.date_select :dob, :start_year => 1980, :end_year => 1990, :prompt => {:day => 'Select day', :month => 'Select month', :year => 'Select year'} %> -->
-        <div id="selector"><%= f.datepicker :dob, :minDate => '-32y' ,:maxDate => '-21y' %></div>
+       <%= f.date_select :dob, :start_year => 1980, :end_year => 1990, :prompt => {:day => 'Select day', :month => 'Select month', :year => 'Select year'} %>
      </div>
    </div>
 

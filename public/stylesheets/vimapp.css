@@ -266,3 +266,16 @@ color:#ffffff;
   width:75%;
   margin:auto;
 }
+
+#error
+{
+  margin-left:550px;
+  color:red;
+}
+
+
+#signin_notice {
+  color:red;
+  margin-left:620px;
+  font-size:1.5em;
+}

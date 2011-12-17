@@ -9,6 +9,8 @@ class CandidatesController < ApplicationController
   end
 
   def show
+    p "%%%%%%%"
+    p params[:event_id]
     @event = Event.where(:id => params[:event_id]).first
   end
 
@@ -119,7 +121,15 @@ class CandidatesController < ApplicationController
    @candidate.events_candidates.first.update_attributes(:status => false)  
   end
   
-
+  def edit_status
+    p "@@@@@@@@@@@@@"
+    @candidate = Candidate.where(:id => params[:candidate_id]).first
+    # @candidate.events_candidates.first.update_attributes(:status => nil)
+    event = Event.where(:id => @candidate.events_candidates.first.event_id).first
+    redirect_to event
+  end
+  
+  
   protected
   
   ## if candidate - redirect somewhere

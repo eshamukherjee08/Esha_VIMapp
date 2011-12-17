@@ -1,11 +1,11 @@
 class EventsController < ApplicationController
   
-  #before_filter :controlaccess
+  before_filter :controlaccess
   before_filter :find_event, :only => [:show, :edit, :update, :destroy, :wait_list]
   
 
   def index
-    @events = Event.upcoming_events #.order(:event_date)
+    @events = Event.upcoming_events.order(:event_date)
   end
 
   def show
@@ -56,7 +56,7 @@ class EventsController < ApplicationController
   
   
   def past
-    @events = Event.past_events #.order(:event_date)
+    @events = Event.past_events.order(:event_date)
   end
   
   def wait_list
