@@ -5,7 +5,7 @@ class EventsController < ApplicationController
   
 
   def index
-    @events = Event.all :order => 'event_date'
+    @events = Event.upcoming_events
   end
 
   def show
@@ -29,9 +29,9 @@ class EventsController < ApplicationController
 
 
   def create
+    params[:event][:event_date] = DateTime.strptime(params[:event][:event_date],"%m/%d/20%y") unless (params[:event][:event_date].blank?)
     @event = Event.new(params[:event].merge!( { :admin_id => current_admin.id }))
-    @event.event_date = DateTime.strptime(params[:event][:event_date], "%m/%d/20%y") unless(params[:event][:event_date] == "")
-
+    # @event.event_date = DateTime.strptime(params[:event][:event_date],"%m/%d/20%y") unless (params[:event][:event_date].blank?)
     if @event.save
       redirect_to( events_url, :notice => 'Event was successfully created.') 
     else
@@ -41,10 +41,12 @@ class EventsController < ApplicationController
 
 
   def update
-    @event.event_date = DateTime.strptime(params[:event][:event_date], "%m/%d/20%y") unless(params[:event][:event_date].blank?)
+    p "$$$$$$$$$$$$$"
+    params[:event][:event_date] = DateTime.strptime(params[:event][:event_date],"%m/%d/20%y") unless (params[:event][:event_date].blank?)
+    # @event.event_date = DateTime.strptime(params[:event][:event_date], "%m/%d/20%y") unless(params[:event][:event_date] == "")
 
     if @event.update_attributes(params[:event])
-      redirect_to(@event, :notice => 'Event was successfully updated.')
+      redirect_to( events_path , :notice => 'Event was successfully updated.' )
     else
       render :action => "edit" 
     end
@@ -53,12 +55,13 @@ class EventsController < ApplicationController
   
   def destroy
     @event.destroy
-    redirect_to event_path
+    redirect_to events_path
   end
   
   
   def past
     @events = Event.past_events
+    p @events
   end
   
   def wait_list

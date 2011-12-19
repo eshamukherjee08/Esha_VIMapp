@@ -1,19 +1,21 @@
 <h1>Past Walk-Ins</h1><br />
 <br /><%= link_to 'Back', events_path %><br />
+<br /><table id="candidate_table">
+  <tr>
+    <th>Event date</th>
+    <th>Name</th>
+    <th>Experience</th>
+    <th>Location</th>
+    <th>Description</th>
+    <th>Category</th>
+    <th>Tech spec</th>
+    <th>No. Of Batches</th>
+  </tr>
+
+
+
 <% @events.each do |event| %>
   <!-- Out this in controller -->
-  <% if event.event_date.past? %>
-    <br /><table id="candidate_table">
-      <tr>
-        <th>Event date</th>
-        <th>Name</th>
-        <th>Experience</th>
-        <th>Location</th>
-        <th>Description</th>
-        <th>Category</th>
-        <th>Tech spec</th>
-        <th>No. Of Batches</th>
-      </tr>
       <tr>
         <td><%= event.event_date.strftime("%d/%b/%Y") %></td>
         <td><%= event.name %></td>
@@ -24,6 +26,5 @@
         <td><%= event.tech_spec %></td>
         <td><%= event.batches.count %></td>
       </tr>
-    </table>
-  <% end %>
 <% end %>
+</table>

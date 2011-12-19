@@ -11,4 +11,8 @@ class EventsCandidate < ActiveRecord::Base
     end
   end
   
+  def self.send_mail_after_cancel(events_candidate)
+    AdminMailer.cancel_notification(events_candidate).deliver
+  end
+  
 end

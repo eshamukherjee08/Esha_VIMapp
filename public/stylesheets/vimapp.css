@@ -27,6 +27,27 @@ h1 {
   height: 150px;
 }
 
+
+#admitcard {
+  background-color: black;
+  height: 80px;
+  text-align: center;
+  color: maroon;
+  font: small-caps 80px/90px "Times New Roman", serif;
+}
+
+#admitcard img {
+  float: left;
+  height: 80px;
+  display:inline;
+}
+
+#admitcard_body {
+  font: small-caps 20px/30px "Times New Roman", serif;
+  color:maroon;
+  padding: auto;
+}
+
 #ad_signin {
   border: 2px outset black;
   margin-left: 40%;

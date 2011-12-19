@@ -1,4 +1,6 @@
-<h1>VinSol Admit Card</h1><br />
+<div id="admitcard"><%= image_tag("Vinsol_thumb.png") %>Admit Card<br />
+</div><br /><br />
+<div id="admitcard_body">
  Dear <%= @candidate.name %>,<br />
  Following are your VinSol Walk-in Details:<br/><br/>
  Event Name: <%= @event.name %><br/>
@@ -10,4 +12,5 @@
  
  For any further queries please contact : 011-45675342
  <br/><br/>
-<%= link_to "Download Admit Card (PDF)", admitcard_event_candidate_path( :format => "pdf" ) %>
+</div>
+<%= link_to "Download Admit Card (PDF)", admitcard_event_candidate_path( :format => "pdf", :layout => "admitcard" ) %>

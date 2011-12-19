@@ -1,6 +1,8 @@
 class CandidatesController < ApplicationController
 
   before_filter :find_candidate, :only => [:show, :edit, :update, :destroy, :admitcard]
+  layout :compute_layout
+  
   
   def index
     @candidates = Candidate.paginate :page => params[:page], :per_page => 15
@@ -20,13 +22,10 @@ class CandidatesController < ApplicationController
 
 
   def create
-    p "***************"
-    p params[:accept]
     @candidate = Candidate.new(params[:candidate])
     @event = Event.where(:id => params[:event_id]).first
-    
+
     @candidate.perishable_token = Candidate.generate_token
-    
     if @event.experience == @candidate.exp
       if @candidate.save
         Candidate.send_mail_after_save(@candidate, params[:event_id])
@@ -66,11 +65,15 @@ class CandidatesController < ApplicationController
     @event = Event.where(:id => params[:event_id]).first
   end
   
+  def compute_layout
+    action_name == "admitcard" ? "admitcard" : "application"
+  end
+  
 
   def cancel
     @events_candidate = EventsCandidate.where(:event_id => params[:event_id]).where(:candidate_id => params[:id]).first
     @events_candidate.update_attributes( :cancellation => true )
-    AdminMailer.cancel_notification(@events_candidate).deliver
+    EventsCandidate.send_mail_after_cancel(@events_candidate)
     redirect_to(root_path , :notice => 'Your Registration has been Cancelled successfully!')
   end
   
@@ -83,10 +86,7 @@ class CandidatesController < ApplicationController
   
   def find_category
     @events = Event.where(:category => params[:category].to_s)
-    # p "*********************"
     #    @candidates = @events.collect{|x| x.events_candidates.collect{|y| y.candidate}}[1]
-    #    p @candidates
-    #    p "**********************"
   end
   
   
@@ -103,6 +103,16 @@ class CandidatesController < ApplicationController
   
   def find_star_category
     @events = Event.where(:category => params[:category].to_s)
+  end
+  
+  def mark_selected
+   @candidate = Candidate.where(:id => params[:candidate_id]).first
+   @candidate.events_candidates.first.update_attributes(:status => true)
+  end
+  
+  def mark_rejected
+   @candidate = Candidate.where(:id => params[:candidate_id]).first
+   @candidate.events_candidates.first.update_attributes(:status => false)  
   end
   
 

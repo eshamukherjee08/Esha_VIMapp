@@ -4,7 +4,6 @@
 <br /><br /><h1>ADMIN CONTROL PANEL</h1><br /><br />
 <h2 id="heads">UP COMING EVENTS:</h2><br />
 <% unless (@events.empty?) %>
-  	<!--  Should be displayed only if any records exist -->
   <% @events.each do |event| %>
     <% if !(event.event_date.past?) %>
     <div id="event_list">

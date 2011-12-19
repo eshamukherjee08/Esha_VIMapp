@@ -1,3 +1,23 @@
+<script>
+
+function mark_selected(candidate_id) {
+	$.ajax({
+		url : "<%= mark_selected_candidates_path %>",
+		dataType : 'script',
+		type : 'get',
+		data : "candidate_id="+ candidate_id
+	});
+}
+function mark_rejected(candidate_id) {
+	$.ajax({
+		url : "<%= mark_rejected_candidates_path %>",
+		dataType : 'script',
+		type : 'get',
+		data : "candidate_id="+ candidate_id
+	});
+}
+</script>
+
 <p id="notice"><%= notice %></p>
 <h1>Registered Candidates</h1><br />
 <%= link_to 'Back', events_path %>
@@ -26,6 +46,7 @@
        <th>Salary Expected</th>
        <th>Batch ID</th>
        <th>Attended</th>
+       <th>Status</th>
      </tr>
    <%= form_tag mark_attended_event_events_candidates_path(@event) do %>
      <% @events_candidates.each do |e| %>
@@ -35,7 +56,8 @@
            <td style="width:1px"><%= e.candidate.id %></td>
            <td style="width:1px"><%= e.candidate.salary_exp %></td>
            <td style="width:1px"><%= e.candidate.batches.first.id %></td>
-           <td style="width:1px"><%= check_box_tag("attended[ #{e.id} ]")%></td>
+           <td style="width:1px"><%= check_box_tag("attended[#{e.id}]")%></td>
+           <td>NO STATUS YET</td>
          </tr>
        <% else %>
          <tr>
@@ -44,6 +66,18 @@
            <td style="width:1px"><%= e.candidate.salary_exp %></td>
            <td style="width:1px"><%= e.candidate.batches.first.id %></td>
            <td style="width:1px"><%= image_tag("check.jpg") %></td>
+           <% if e.status.nil? %>
+            <td style="width:5px">
+               <span id = "status_<%= e.candidate.id %>">
+                 <span id= "select_<%= e.candidate.id %>" onclick = 'mark_selected(<%= e.candidate.id %>)'><u>SELECTED</u></span> |
+                 <span id= "reject_<%= e.candidate.id %>" onclick = 'mark_rejected(<%= e.candidate.id %>)'><u>REJECTED</u></span>
+               </span>
+             </td>
+           <% elsif !e.status %>
+            <td style="width:1px"><%= image_tag("rejected1.png") %></td>
+           <% else %>
+            <td style="width:1px"><%= image_tag("vin.png") %></td>
+           <% end %>
          </tr>
        <% end %>
      <% end %>
