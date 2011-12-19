@@ -32,6 +32,7 @@ class EventsController < ApplicationController
     params[:event][:event_date] = DateTime.strptime(params[:event][:event_date],"%m/%d/20%y") unless (params[:event][:event_date].blank?)
     @event = Event.new(params[:event].merge!( { :admin_id => current_admin.id }))
     # @event.event_date = DateTime.strptime(params[:event][:event_date],"%m/%d/20%y") unless (params[:event][:event_date].blank?)
+    # above is making event_date as string.DB addition is failing and storing date as null.
     if @event.save
       redirect_to( events_url, :notice => 'Event was successfully created.') 
     else
@@ -41,10 +42,9 @@ class EventsController < ApplicationController
 
 
   def update
-    p "$$$$$$$$$$$$$"
     params[:event][:event_date] = DateTime.strptime(params[:event][:event_date],"%m/%d/20%y") unless (params[:event][:event_date].blank?)
     # @event.event_date = DateTime.strptime(params[:event][:event_date], "%m/%d/20%y") unless(params[:event][:event_date] == "")
-
+    # above is making event_date as string.DB addition is failing and storing date as null.
     if @event.update_attributes(params[:event])
       redirect_to( events_path , :notice => 'Event was successfully updated.' )
     else
@@ -61,7 +61,6 @@ class EventsController < ApplicationController
   
   def past
     @events = Event.past_events
-    p @events
   end
   
   def wait_list

@@ -21,20 +21,15 @@ class Event < ActiveRecord::Base
   private
    
    def confirm_count
-     if self.new_record?
-       if self.batches.empty?
-         errors.add_to_base "Please ADD atleast ONE BATCH"
-       end
+     if self.new_record? and self.batches.empty?
+      errors.add_to_base "Please ADD atleast ONE BATCH"
      else
-       i = 1
        self.batches.each do |batch|
-         if batch.marked_for_destruction?
-           if !batch.candidates.count.zero?
-             errors.add_to_base"CANNOT DELETE BATCH *#{i} "
-             i = i+1
-           end
+         if batch.marked_for_destruction? and !batch.candidates.count.zero?
+          errors.add_to_base"CANNOT DELETE BATCH STARTING FROM : #{batch.start_time.strftime('%H:%m')} "
          end
        end  
      end
-   end 
+   end
+    
 end
