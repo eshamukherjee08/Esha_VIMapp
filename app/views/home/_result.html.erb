@@ -12,9 +12,13 @@
        Following are your VinSol Walk-in Details:<br/><br/>
        Event Name: <%= @event.name %><br/>
        Date : <%= @event.event_date %><br/>
+       <% if @events_candidate.waitlist %>
+        Sorry!You are on Waitlist, please keep on checking.<br />
+       <% else %>
+        Time : <%= @candidate.batches.first.start_time.strftime('%H:%M') %> Hrs<br />
+       <% end %>
        Roll Number : <%= @events_candidate.roll_num %><br />
        Venue : <%= @event.location %><br/> 
-       Time : <%= @candidate.batches.first.start_time.strftime('%H:%M') %> Hrs<br />
        For any further queries please contact : 011-45675342<br /><br />
        <%= link_to "Generate Admit Card", admitcard_event_candidate_path(:event_id => @event.id, :id => @candidate.id ) %> |
        <% if !(@events_candidate.attended?) %>

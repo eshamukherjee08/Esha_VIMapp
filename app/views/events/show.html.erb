@@ -29,7 +29,7 @@ function editor(candidate_id) {
 </script>
 
 <p id="notice"><%= notice %></p>
-<h1>Registered Candidates</h1><br />
+<div id="heading">Registered Candidates</div><br />
 <%= link_to 'Back', events_path %>
 <div id="search">
 	<p>
@@ -61,9 +61,10 @@ function editor(candidate_id) {
      <% @events_candidates.each do |e| %>
        <% if !e.attended %>
          <tr>
-           <td style="width:1px"><%= e.candidate.name %></td>
-           <td style="width:1px"><%= e.candidate.id %></td>
-           <td style="width:1px"><%= e.candidate.salary_exp %></td>
+           <% candidate = e.candidate %>
+           <td style="width:1px"><%= candidate.name %></td>
+           <td style="width:1px"><%= candidate.id %></td>
+           <td style="width:1px"><%= candidate.salary_exp %></td>
            <% if e.waitlist %>
             <td style="width:1px">WAIT LISTED</td>
            <% else %>
@@ -87,12 +88,12 @@ function editor(candidate_id) {
            <% elsif !e.status %>
             <td style="width:1px">
               <%= image_tag("red.jpg") %>
-              <%= link_to 'EDIT', edit_status_candidates_path(:candidate_id => e.candidate.id) %>
+              <%= link_to 'EDIT', edit_status_candidates_path(e.candidate.id) %>
             </td>
            <% else %>
             <td style="width:1px">
               <%= image_tag("green.jpg") %>
-              <%= link_to 'EDIT', edit_status_candidates_path(:candidate_id => e.candidate.id) %>
+              <%= link_to 'EDIT', edit_status_candidates_path(e.candidate.id) %>
             </td>
            <% end %>
          </tr>

@@ -1,7 +1,7 @@
 <% if notice %>
   <p id='notice'><%= notice%></p>
 <% end %>
-<br /><br /><h1>ADMIN CONTROL PANEL</h1><br /><br />
+<br /><br /><div id="heading_a">ADMIN CONTROL PANEL</div><br /><br />
 <% unless (@events.empty?) %>
   <h2 id="heads">CREATE NEW EVENT :</h2><br />
   <p id="links"><%= link_to 'Add New Event', new_event_path %></p><br /><br /><br />
@@ -17,7 +17,9 @@
       <u>DESCRIPTION</u>:<%= event.description %><br />
       <u>CATEGORY</u>:<%= event.category %><br />
       <u>TECHNICAL SPECIFICATIONS</u>:<%= event.tech_spec %><br />
+
       <u>NUMBER OF BATCHES</u>:<%= event.batches.count %><br />
+
       <p id="link_list">
         <%= link_to 'View Confirmed List', event %> | 
          <%= link_to 'View Wait List', wait_list_event_path(event) %> |

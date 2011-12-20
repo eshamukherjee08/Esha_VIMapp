@@ -25,6 +25,7 @@ class EventsController < ApplicationController
 
 
   def edit
+    @event.event_date = @event.event_date.strftime("%m/%d/20%y")
   end
 
 
@@ -70,6 +71,7 @@ class EventsController < ApplicationController
   protected
   
   def find_event
+    
      @event = Event.where(:id => params[:id].to_i).first
      redirect_to( error_walkins_path , :notice => 'NOT FOUND' )  unless @event
   end

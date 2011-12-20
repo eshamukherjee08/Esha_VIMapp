@@ -74,6 +74,7 @@ describe Candidate do
       :email => "esha@example",
       :resume => File.new(Rails.root + "public/system/resumes/default.txt"),
       :perishable_token => Digest::MD5.hexdigest("#{Time.now}") }
+      
       candidate = Candidate.new(invalid_attr)
       candidate.should_not be_valid
       candidate.should have(1).error_on(:email)
@@ -182,6 +183,7 @@ describe Candidate do
        :email => "esha@example.in",
        :resume => File.new(Rails.root + "public/system/resumes/default.rb"),
        :perishable_token => Digest::MD5.hexdigest("#{Time.now}") }
+       
        candidate = Candidate.new(invalid_attr)
        candidate.should_not be_valid
        candidate.should have(2).error_on(:resume)

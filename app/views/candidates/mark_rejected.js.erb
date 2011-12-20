@@ -1,1 +1,1 @@
-$('#status_<%= params[:candidate_id]%>').html("<%= escape_javascript (%{#{image_tag('red.jpg')} <span onclick='edit_status_candidates_path(#{params[:candidate_id]})'>EDIT</span>}).html_safe%>");
+$('#status_<%= params[:candidate_id]%>').html("<%= escape_javascript (%{#{image_tag('red.jpg')} #{link_to 'EDIT', edit_status_candidates_path(params[:candidate_id])}}).html_safe%>");

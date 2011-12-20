@@ -1,5 +1,6 @@
 <script>
 
+
   function show_map() {
      $.ajax({
        url : "<%= change_map_location_path %>",
@@ -8,6 +9,7 @@
        data : "location="+$("#event_location").attr("value")
      });
    }
+   
 </script>
 
 <div id="main_event">
@@ -21,8 +23,8 @@
         <%= f.datepicker :event_date, :minDate => 0 %>
       <% else %>
         <%= f.label :event_date %> :
-        <%= f.datepicker :event_date, :minDate => 0, :format => '%m/%d/20%y' %>
-      <%end%>
+        <%= f.datepicker :event_date, :minDate => 0 %>
+      <% end %>
     </div>
 
     <div class="field" style="display:inline; float:right; margin-right:350px; font-size:20px;">

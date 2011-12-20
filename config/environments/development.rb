@@ -27,6 +27,7 @@ EshaVIMapp::Application.configure do
   config.action_dispatch.best_standards_support = :builtin
   
   config.action_mailer.delivery_method = :test
+  Paperclip.options[:command_path] = "/opt/local/bin"
   
   # Paperclip.options[:command_path] = "/opt/local/bin/identify"
 end

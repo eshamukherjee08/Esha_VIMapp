@@ -15,7 +15,7 @@
   <%= link_to 'ADMIN Sign In', new_admin_session_path %><br />
 <% end %>
 
-<h1>Up Coming Walkins</h1>
+<div id="heading">Up Coming Walkins</div>
 <br /><br /><br />
 
 <% @events.each do |event| %>
@@ -53,3 +53,4 @@
     <br /><br /><br />
   </div>
 <% end %>
+<p><%= will_paginate @events %></p>
