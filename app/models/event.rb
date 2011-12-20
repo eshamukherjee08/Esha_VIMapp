@@ -6,17 +6,20 @@ class Event < ActiveRecord::Base
   has_many :events_candidates , :dependent => :destroy
   has_many :candidates, :through => :events_candidates
   
-  validates_associated :batches
+  validates_associated :batches #######
   attr_accessible :batches_attributes, :event_date, :category, :name, :description, :tech_spec, :experience, :location, :admin_id
   
   validates :event_date, :presence => true
   validates :experience, :name, :location, :description, :category, :tech_spec, :presence => true
+  validates :event_date, :date => {:after => Proc.new {Time.zone.now}}
   
-  validate :confirm_count
+  validate :confirm_count ######
     
-  scope :upcoming_events, where("event_date >= ?", Time.now).order(:event_date)
+  scope :upcoming_events, lambda { where("event_date >= ?", Time.zone.now).order(:event_date) } ######
   
-  scope :past_events, where("event_date <= ?", Time.now).order(:event_date)
+  scope :past_events, lambda { where("event_date <= ?", Time.zone.now).order(:event_date) }
+  
+  after_update :waitlist_allocation ######
   
   private
    
@@ -29,6 +32,14 @@ class Event < ActiveRecord::Base
           errors.add_to_base"CANNOT DELETE BATCH STARTING FROM : #{batch.start_time.strftime('%H:%m')} "
          end
        end  
+     end
+   end
+   
+   def waitlist_allocation
+     self.batches.each do |batch|
+       if batch.candidates.count.zero?
+        self.events_candidates.where(:waitlist => true).limit(batch.capacity).update_all(:waitlist => false, :batch_id => batch.id)  
+       end
      end
    end
     

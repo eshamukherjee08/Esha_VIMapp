@@ -3,7 +3,7 @@ class CandidateMailer < ActionMailer::Base
   
   def confirm_email(candidate, event_id)
     @candidate = candidate
-    @url = "http://localhost:3000/events/#{event_id}/candidates/#{candidate.id}/confirmation/#{candidate.perishable_token}"
+    @url = "http://localhost:3000/confirmation/#{event_id}/#{candidate.perishable_token}"
     mail( :to => candidate.email, :subject => "Event Participation Confirmation")
   end
 end

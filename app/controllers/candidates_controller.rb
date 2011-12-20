@@ -28,7 +28,7 @@ class CandidatesController < ApplicationController
     @candidate.perishable_token = Candidate.generate_token
     if @event.experience == @candidate.exp
       if @candidate.save
-        Candidate.send_mail_after_save(@candidate, params[:event_id])
+        Candidate.send_confirmation_mail(@candidate, params[:event_id])
         redirect_to(event_candidate_path(:event_id => params[:event_id], :id => @candidate.id ) , :notice => 'Registered Successfully.')
       else
         render :action => "new"

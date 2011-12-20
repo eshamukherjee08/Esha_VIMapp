@@ -10,7 +10,7 @@ class Candidate < ActiveRecord::Base
   has_attached_file :resume, :styles => { :medium => "150x150>", :thumb => "100x100#" }
   validates_attachment_content_type :resume, :content_type => 'text/plain'
    
-    def self.send_mail_after_save(candidate, event_id)
+    def self.send_confirmation_mail(candidate, event_id)
       CandidateMailer.confirm_email(candidate, event_id).deliver
     end
     

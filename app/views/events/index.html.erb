@@ -17,7 +17,7 @@
       <u>NUMBER OF BATCHES</u>:<%= event.batches.count %><br />
       <p id="link_list">
         <%= link_to 'View Registrations', event %> | 
-         <%= link_to 'View Wait List', wait_list_event_path(event) %>
+         <%= link_to 'View Wait List', wait_list_event_path(event) %> |
         <%= link_to 'Edit Event', edit_event_path(event) %> |
         <%= link_to 'Delete Event', event, :confirm => 'Are you sure?', :method => :delete %>
       </p>

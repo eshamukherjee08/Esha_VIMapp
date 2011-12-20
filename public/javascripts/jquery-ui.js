@@ -7,6 +7,13 @@
  *
  * http://docs.jquery.com/UI
  */
+ 
+ // $(function()
+ // {
+ //   $('.selector').datePicker({minDate: Date.now });
+ // });
+ // 
+  
 (function( $, undefined ) {
 
 // prevent duplicate loading

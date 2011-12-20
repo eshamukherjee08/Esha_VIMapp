@@ -14,8 +14,12 @@ gem 'devise_invitable', '0.6.0'
 gem 'jquery-rails', '1.0.18'
 gem 'nested_form'
 gem 'pdfkit'
+gem "rspec-rails", "~> 2.6"
+gem 'shoulda', '2.11.3'
+gem 'shoulda-matchers', '1.0.0'
 
 gem 'jquery_datepicker', '0.3.2'
+gem 'date_validator', '0.6.2'
 gem 'geokit', '1.6.0'
 gem 'paperclip', '~> 2.3'
 gem 'uuid', "~> 2.3.4"

@@ -26,7 +26,7 @@
    <div id="odd_f">
      <div class="field">
        <%= f.label :dob, "Date Of Birth" %><br />
-       <%= f.date_select :dob %>
+       <%= f.date_select :dob, :start_year => 1980, :end_year => 1990 %>
      </div>
    </div>
 

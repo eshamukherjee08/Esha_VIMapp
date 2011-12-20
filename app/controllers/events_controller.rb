@@ -65,6 +65,9 @@ class EventsController < ApplicationController
   
   def wait_list
     @events_candidates = @event.events_candidates.where(:waitlist => true)
+    unless @events_candidates.nil?
+      redirect_to( events_path , :notice => 'NO WAITLISTED CANDIDATES YET!' )
+    end
   end
   
   

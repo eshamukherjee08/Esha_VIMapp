@@ -16,7 +16,7 @@ EshaVIMapp::Application.routes.draw do
     end
   end
      
-
+  get "confirmation/:event_id/:perishable_token", :to => "candidates#confirmation", :as => "confirmation"
   get "home/index"
   get "home/search", :to => "home#search", :as => "search"
   get "find_search_data", :to => "home#find_data", :as => "find_search_data"
@@ -46,7 +46,6 @@ EshaVIMapp::Application.routes.draw do
     end
     
     resources :candidates do
-      get "confirmation/:perishable_token", :to => "candidates#confirmation", :as => "confirmation"
       member do
         get "admitcard"
         get "cancel"

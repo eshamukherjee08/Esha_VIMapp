@@ -1,1 +1,22 @@
 <h1>WaitListed candidates</h1>
+
+<div>
+	<table id="candidate_table">
+		<tr>
+			<th>ID</th>
+			<th>Name</th>
+			<th>Experience</th>
+			<th>Current State</th>
+		</tr>
+    <% @events_candidates.each do |candidate| %>
+		<div id="mark">
+			<tr>
+				<td><%= candidate.id %></td>
+				<td><%= candidate.name %></td>
+				<td><%= candidate.exp %></td>
+				<td><%= candidate.current_state %></td>
+			</tr>
+		</div>
+		<% end %>
+	</table>
+</div>
