@@ -51,8 +51,8 @@ class Event < ActiveRecord::Base
    
    def batch_end_time
      self.batches.each do |batch|
-       if ((batch.end_time) < (batch.start_time+1.hour))
-        errors.add_to_base "Keep a gap of 1 hour after start time: #{batch.start_time.strftime('%H:%M')}"
+       if (batch.end_time < batch.start_time)
+        errors.add_to_base "Keep a gap after start time: #{batch.start_time.strftime('%H:%M')}"
        end
      end
    end
@@ -60,7 +60,7 @@ class Event < ActiveRecord::Base
    def batch_start_time
      i = self.batches.length
      while i >= 2
-       if self.batches[i-1].start_time < self.batches[i-2].end_time+1.hour
+       if (self.batches[i-1].start_time < self.batches[i-2].end_time)
          errors.add_to_base "Please start batch after 1 hour of end time of batch #{i-2}"
        end
        i = i-1
