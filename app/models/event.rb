@@ -6,7 +6,7 @@ class Event < ActiveRecord::Base
   has_many :events_candidates , :dependent => :destroy
   has_many :candidates, :through => :events_candidates
   
-  validates_associated :batches #######
+  validates_associated :batches
   attr_accessible :batches_attributes, :event_date, :category, :name, :description, :tech_spec, :experience, :location, :admin_id
   
   validates :event_date, :presence => true
@@ -14,14 +14,20 @@ class Event < ActiveRecord::Base
   validates :event_date, :date => {:after => Proc.new {Time.zone.now}}
   
   validate :confirm_count ######
+  
+  # after_update :batch_end_time
+  
+  # after_update :batch_start_time
     
   scope :upcoming_events, lambda { where("event_date >= ?", Time.zone.now).order(:event_date) } ######
   
   scope :past_events, lambda { where("event_date <= ?", Time.zone.now).order(:event_date) }
   
-  after_update :waitlist_allocation ######
+  before_update :waitlist_allocation
   
-  private
+  validate :batch_end_time
+  
+  validate :batch_start_time
    
    def confirm_count
      if self.new_record? and self.batches.empty?
@@ -29,7 +35,7 @@ class Event < ActiveRecord::Base
      else
        self.batches.each do |batch|
          if batch.marked_for_destruction? and !batch.candidates.count.zero?
-          errors.add_to_base"CANNOT DELETE BATCH STARTING FROM : #{batch.start_time.strftime('%H:%m')} "
+          errors.add_to_base"CANNOT DELETE BATCH STARTING FROM : #{batch.start_time.strftime('%H:%M')} "
          end
        end  
      end
@@ -42,5 +48,23 @@ class Event < ActiveRecord::Base
        end
      end
    end
+   
+   def batch_end_time
+     self.batches.each do |batch|
+       if ((batch.end_time) < (batch.start_time+1.hour))
+        errors.add_to_base "Keep a gap of 1 hour after start time: #{batch.start_time.strftime('%H:%M')}"
+       end
+     end
+   end
     
+   def batch_start_time
+     i = self.batches.length
+     while i >= 2
+       if self.batches[i-1].start_time < self.batches[i-2].end_time+1.hour
+         errors.add_to_base "Please start batch after 1 hour of end time of batch #{i-2}"
+       end
+       i = i-1
+     end
+   end
+
 end
