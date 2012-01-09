@@ -25,6 +25,7 @@ ssh_options[:forward_agent] = true
 
 # after "deploy", "deploy:bundle_gems"
 # after "deploy:bundle_gems", "deploy:restart"
+after "deploy:update_code", "deploy:bundle_new_release"
 
 # If you are using Passenger mod_rails uncomment this:
 namespace :deploy do
@@ -32,6 +33,9 @@ namespace :deploy do
   # task :bundle_gems do
   #   run "cd #{deploy_to}/current && /usr/local/bin/bundle install vendor/gems"
   # end
+  
+  
+  
   task :start do ; end
   task :stop do ; end
   task :restart, :roles => :app, :except => { :no_release => true } do
@@ -40,6 +44,10 @@ namespace :deploy do
 
   task :after_symlink, :roles => :app do
     run "cp #{shared_path}/database.yml #{current_path}/config/database.yml"
+  end
+  
+  task :bundle_new_release do
+    run "cd #{release_path} && LANG='en_US.UTF-8' && LC_ALL='en_US.UTF-8' #{ruby_bins}/bundle install --path vendor/bundle --without test"
   end
 
   desc "Deploy with migrations"
