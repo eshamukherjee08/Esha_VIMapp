@@ -11,7 +11,8 @@ gem 'sqlite3', '1.3.4'
 gem 'devise', :git => 'git://github.com/plataformatec/devise.git' 
 #### COMMENT - Put versions for everything
 gem 'devise_invitable', '0.6.0'
-gem 'jquery-rails', '1.0.18'
+
+gem "jquery-rails", '1.0.18'
 gem 'nested_form'
 gem 'pdfkit'
 gem "rspec-rails", "~> 2.6"
