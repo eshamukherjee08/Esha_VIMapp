@@ -1,0 +1,46 @@
+:css
+  body { background-color:#000}
+- if notice
+  %p#notice
+    = notice
+#plain.bokeh
+#plain1.bokeh
+#plain2.bokeh
+#plain3.bokeh
+#plain4.bokeh
+#plain5.bokeh
+#plain6.bokeh2
+#plain7.bokeh
+#plain8.bokeh
+#plain9.bokeh
+#plain10.bokeh
+#plain11.bokeh
+#plain12.bokeh
+#plain13.bokeh2
+#plain14.bokeh2
+#plain15.bokeh
+#plain16.bokeh2
+#plain17.bokeh
+#ad_signin
+  %div#signin_head
+    Sign in
+  %div#line
+  %br/
+  %span#signin_img
+  = form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
+    %div#signin_div
+      = f.label :email
+      %br/
+      = f.email_field :email
+    %br/
+    %div#signin_div
+      = f.label :password
+      %br/
+      = f.password_field :password
+    - if devise_mapping.rememberable?
+      %div
+        = f.check_box :remember_me
+        = f.label :remember_me
+    %div
+      = f.submit ""
+  = render :partial => "devise/shared/links"

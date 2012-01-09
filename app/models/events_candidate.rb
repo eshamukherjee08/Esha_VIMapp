@@ -3,6 +3,8 @@ class EventsCandidate < ActiveRecord::Base
   belongs_to :candidate
   belongs_to :batch
   
+  attr_accessible :event_id, :candidate_id, :roll_num, :confirmed, :attended, :waitlist, :cancellation, :batch_id, :status
+  
   scope :not_cancelled, where(:cancellation => false, :waitlist => false )
   
   def marking_attendance(events_candidates)

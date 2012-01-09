@@ -19,7 +19,7 @@ class Event < ActiveRecord::Base
   
   scope :past_events, lambda { where("event_date < ?", Time.zone.now - 1.day) }
   
-  before_update :waitlist_allocation
+  after_save :waitlist_allocation
   
   validate :batch_end_time
   
@@ -39,8 +39,12 @@ class Event < ActiveRecord::Base
    
    def waitlist_allocation
      self.batches.each do |batch|
-       if batch.candidates.count.zero?
-        self.events_candidates.where(:waitlist => true).limit(batch.capacity).update_all(:waitlist => false, :batch_id => batch.id)  
+       if batch.candidates.count.zero? or batch.candidates.count < batch.capacity
+         c = self.events_candidates.where(:waitlist => true).limit(batch.capacity)
+         c.each do |ele|
+           # batch.candidates << ele.candidate
+           ele.update_attributes(:waitlist => false, :batch_id => batch.id)
+         end
        end
      end
    end

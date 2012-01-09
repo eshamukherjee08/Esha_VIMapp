@@ -1,0 +1,81 @@
+:javascript
+  function mark_candidate(candidate_id) {
+  	$.ajax({
+  		url : "#{mark_candidate_star_candidates_path}",
+  		dataType : 'script',
+  		type : 'get',
+  		data : "candidate_id="+ candidate_id
+  	});
+  }
+  
+  function s_category() {
+  	$.ajax({
+  		url : "#{find_category_candidates_path}",
+  		dataType : 'script',
+  		type : 'get',
+  		data : "category="+$("#category").attr("value")
+  	});
+  }
+  
+  function delete_candidate(candidate_id) {
+  	$.ajax({
+  		url : "#{delete_candidate_candidates_path()}",
+  		dataType : 'script',
+  		type : 'get',
+  		data : "candidate_id="+ candidate_id
+  	});
+  }
+#heading
+  Listing candidates
+%br/
+%br/
+= link_to 'Back', events_path
+#search
+  SEARCH PANEL:
+  \#{select_tag('category', options_for_select([['SELECT CATEGORY', 'SELECT CATEGORY'], ['Ruby On Rails Developer', 'Ruby On Rails Developer'], ['Android Developer', 'Android Developer'], ['PHP Developer', 'PHP Developer'], ['Project Manager', 'Project Manager']]))}
+  <input type="button", value="SEARCH", onclick="s_category();" >
+#search_category
+  %table#candidate_table
+    %tr
+      %th
+        Important
+      %th
+        ID
+      %th
+        Name
+      %th
+        Experience
+      %th
+        Current State
+      %th
+        Resume
+      %th
+        Delete Candidate
+    - @candidates.each do |candidate|
+      #mark
+      %tr
+        - if !candidate.starred
+          %td{:style => "width:5px"}
+            %span{:id => "span_#{candidate.id}", :onclick => "mark_candidate(#{candidate.id})"}
+              %u
+                Mark
+        - else
+          %td{:style => "width:5px"}
+            %span{:id => "span_#{candidate.id}"}
+              = image_tag("star.png")
+        %td
+          = candidate.id
+        %td
+          = candidate.name
+        %td
+          = candidate.exp
+        %td
+          = candidate.current_state
+        %td
+          = link_to "Download", download_resume_candidate_path(candidate.id)
+        %td{:style => "width:5px"}
+          %span{:confirm => "Are you sure?", :id => "delete_#{candidate.id}", :onclick => "delete_candidate(#{candidate.id})"}
+            = image_tag("delete.png")
+%p
+  = will_paginate @candidates
+%br/

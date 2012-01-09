@@ -1,0 +1,20 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+  %body
+    %h1
+      The Following Candidate has Cancelled Registration
+    %p
+      NAME : #{@events_candidate.candidate.name}
+    %br/
+    %p
+      CONTACT : #{@events_candidate.candidate.mobile_number}
+    %br/
+    %p
+      EXPERIENCE : #{@events_candidate.candidate.exp}
+    %br/
+    %p
+      FOR EVENT : #{@events_candidate.event.name}
+    %p
+      Thanks YOU

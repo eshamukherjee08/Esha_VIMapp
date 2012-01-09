@@ -1,0 +1,24 @@
+#heading
+  WaitListed candidates
+%div
+  %table#candidate_table
+    %tr
+      %th
+        ID
+      %th
+        Name
+      %th
+        Experience
+      %th
+        Current State
+    - @events_candidates.each do |e|
+      #mark
+      %tr
+        %td
+          = e.candidate.id
+        %td
+          = e.candidate.name
+        %td
+          = e.candidate.exp
+        %td
+          = e.candidate.current_state

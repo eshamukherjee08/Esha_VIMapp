@@ -1,4 +1,7 @@
 class AdminMailer < ActionMailer::Base
+  
+  include SendGrid
+  
   default :from => "super@vinsol.com"
   
   def cancel_notification(events_candidate)

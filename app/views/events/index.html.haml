@@ -1,0 +1,96 @@
+- if notice
+  %p#notice
+    = notice
+%br/
+%br/
+#heading_a
+  ADMIN CONTROL PANEL
+%br/
+%br/
+- unless (@events.empty?)
+  %h2#heads
+    CREATE NEW EVENT :
+  %br/
+  %p#links
+    = link_to 'Add New Event', new_event_path
+  %br/
+  %br/
+  %br/
+  %p#line
+  %br/
+  %br/
+  %h2#heads
+    UP COMING EVENTS:
+  %br/
+  - @events.each do |event|
+    - if event.event_date.today? or event.event_date.future?
+      #event_list
+        %br/
+        %h3
+          %b
+            Event Name:#{event.name}
+        %br/
+        %u
+          DATE
+        \:#{event.event_date}
+        %br/
+        %u
+          EXPERIENCE
+        \:#{event.experience}
+        %br/
+        %u
+          VENUE
+        \:#{event.location}
+        %br/
+        %u
+          DESCRIPTION
+        \:#{event.description}
+        %br/
+        %u
+          CATEGORY
+        \:#{event.category}
+        %br/
+        %u
+          TECHNICAL SPECIFICATIONS
+        \:#{event.tech_spec}
+        %br/
+        %u
+          NUMBER OF BATCHES
+        \:#{event.batches.count}
+        %br/
+        %p#link_list
+          = link_to 'View Confirmed List', event
+          |
+          \#{link_to 'View Wait List', wait_list_event_path(event)}
+          |
+          \#{link_to 'Edit Event', edit_event_path(event)}
+          |
+          \#{link_to 'Delete Event', event, :confirm => 'Are you sure?', :method => :delete}
+        %br/
+  %br/
+  %br/
+- else
+  %h2#heads
+    Sorry no events created
+  %br/
+  %p#links
+    = link_to 'Add New Event', new_event_path
+  %br/
+  %br/
+  %br/
+  %p#line
+  %br/
+  %br/
+%p#line
+%br/
+%br/
+%h2#heads
+  REGISTERED CANDIDATES :
+%br/
+%p#links
+  = link_to 'View All Registered Candidates', candidates_path
+  |
+  \#{link_to 'Star Candidates', starred_list_candidates_path}
+%br/
+%br/
+%br/

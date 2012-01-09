@@ -26,6 +26,7 @@ class CandidatesController < ApplicationController
     @event = Event.where(:id => params[:event_id]).first
 
     @candidate.perishable_token = Candidate.generate_token
+    
     if @event.experience == @candidate.exp
       if @candidate.save
         Candidate.send_confirmation_mail(@candidate, params[:event_id])
@@ -57,7 +58,12 @@ class CandidatesController < ApplicationController
   def confirmation
     @event = Event.where(:id => params[:event_id]).first
     @candidate = Candidate.where(:perishable_token => params[:perishable_token]).first
-    @candidate.assign_to_batch(@event,@candidate)
+    events_candidate = EventsCandidate.where(:event_id => params[:event_id] , :candidate_id => @candidate.id)
+    if (events_candidate.empty? or !events_candidate.first.confirmed )
+      @candidate.assign_to_batch(@event,@candidate)
+    else
+      redirect_to(root_path , :notice => 'Thank You, You Have already confirmed your registration.')
+    end
   end
   
 
@@ -77,7 +83,7 @@ class CandidatesController < ApplicationController
     redirect_to(root_path , :notice => 'Your Registration has been Cancelled successfully!')
   end
   
-  
+  # mark_starred
   def mark_candidate_star
     @candidate = Candidate.where(:id => params[:candidate_id]).first
     @candidate.update_attributes(:starred => true)
@@ -99,7 +105,7 @@ class CandidatesController < ApplicationController
     send_file(@candidate.resume.path , :content_type => @candidate.resume_content_type)
   end
   
-  
+  ##Scope
   def starred_list
    @candidates = Candidate.where(:starred => true)
   end
@@ -109,21 +115,25 @@ class CandidatesController < ApplicationController
     @events = Event.where(:category => params[:category].to_s)
   end
   
+  
   def mark_selected
    @candidate = Candidate.where(:id => params[:candidate_id]).first
    @candidate.events_candidates.first.update_attributes(:status => true)
   end
+  
   
   def mark_rejected
    @candidate = Candidate.where(:id => params[:candidate_id]).first
    @candidate.events_candidates.first.update_attributes(:status => false)  
   end
   
+  
   def edit_status
     @candidate = Candidate.where(:id => params[:format]).first
     @candidate.events_candidates.first.update_attributes(:status => nil)
-    event = Event.where(:id => @candidate.events_candidates.first.event_id).first
-    redirect_to event
+    # @candidate.events_candidates.event
+    #event = Event.where(:id => @candidate.events_candidates.first.event_id).first
+    redirect_to @candidate.events_candidates.first.event
   end
   
   
@@ -132,9 +142,7 @@ class CandidatesController < ApplicationController
   ## if candidate - redirect somewhere
   def find_candidate
     @candidate = Candidate.where(:id => params[:id].to_i).first
-    unless @candidate
-      error_walkins_path
-    end
+    redirect_to error_walkins_path unless @candidate
   end
     
 end

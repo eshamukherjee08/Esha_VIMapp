@@ -33,7 +33,7 @@ class EventsController < ApplicationController
     params[:event][:event_date] = DateTime.strptime(params[:event][:event_date],"%m/%d/20%y") unless (params[:event][:event_date].blank?)
     @event = Event.new(params[:event].merge!( { :admin_id => current_admin.id }))
     if @event.save
-      redirect_to( events_path, :notice => 'Event was successfully created.') 
+      redirect_to(events_path, :notice => 'Event was successfully created.') 
     else
       render :action => "new" 
     end

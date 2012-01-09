@@ -18,7 +18,6 @@ h1 {
   height: 150px;
   text-align: center;
   color: maroon;
-  text-shadow: 0.2em 0.2em 0.2em white;
   font: small-caps 80px/90px "Times New Roman", serif;
 }
 
@@ -27,6 +26,25 @@ h1 {
   height: 150px;
 }
 
+.but_div {
+  display:inline;
+  width:100px;
+  height:60px;
+  margin-left:1100px;
+}
+
+#event_submit {
+  color:maroon;
+  background-color : white;
+  width : 155px;
+  height : 55px;
+  font-size : 20px;
+  border : 2px solid black;
+  -moz-border-radius:30px; 
+  -webkit-border-radius:30px;
+}
+
+/*admitcard styling*/
 
 #admitcard {
   background-color: black;
@@ -48,21 +66,50 @@ h1 {
   padding: auto;
 }
 
+/*sign_in page*/
+
 #ad_signin {
   border: 3px solid maroon;
-  background-image:url('green_background.jpg');
-  margin-left: 37%;
-  width :350px;
+  margin-left: 33%;
+  width :450px;
   height:250px;
-  margin-top: 10%;
   padding: 10px;
-  padding-left:30px;
+  padding-left:15px;
   z-index: 5;
   background-color: white;
   -moz-border-radius:30px; 
   -webkit-border-radius:30px;
 }
 
+#signin_head {
+  color:maroon;
+  font-size:50px;
+}
+
+#signin_div label {
+  color:maroon;
+  font-size:20px;
+}
+
+#admin_submit {
+  margin-top:10px;
+  font-size:2.3em;
+  width:80px;
+  height:35px;
+  border: 0px solid white;
+  background:url(sign_in.jpg)
+}
+
+#signin_img {
+  background:url(key.jpg);
+  width:150px;
+  height:150px;
+  float:right;
+  margin-right:20px;
+  margin-top:0px;
+}
+
+/*invitation*/
 #invite {
   float: left;
   margin-left:10px;
@@ -258,13 +305,6 @@ color:#ffffff;
   margin:auto;
 }
 
-#register {
-  border : 6px outset maroon;
-  width:600px;
-  margin:auto;
-  margin-top:30px;
-  padding:30px;  
-}
 
 #search_star_category {
   border : 5px outset maroon;
@@ -280,8 +320,9 @@ color:#ffffff;
 
 
 #signin_notice {
+  display:inline;
   color:red;
-  margin-left:620px;
+  margin-left:600px;
   font-size:1.5em;
 }
 
@@ -289,9 +330,11 @@ color:#ffffff;
 #heading {
   color : maroon;
   text-decoration:underline;
-  text-align:center;
-  font-size:2.3em;
-  margin-left:500px;
+  width:100%;
+  font-size:1.6em;
+  display:inline;
+  margin-left:40%;
+/*  margin:auto;*/
 }
 
 #heading_a {
@@ -304,7 +347,7 @@ color:#ffffff;
 
 /*bokeh*/
 
-.bokeh { 
+/*.bokeh { 
   width:100px; 
   height:100px; 
   position:absolute;
@@ -358,10 +401,10 @@ color:#ffffff;
    border: 1px solid rgba(156, 217, 107, 0.7); 
    background-color: rgba(156, 217, 107, 0.3);
    top:80px; left:240px;
-}
+}*/
 
 /*right side bokeh*/
-#plain7 {
+/*#plain7 {
   border: 1px solid rgba(240, 60, 60, 0.7); 
   background-color: rgba(240, 60, 60, 0.3);
   top:400px; right:240px;
@@ -421,4 +464,18 @@ color:#ffffff;
    border: 1px solid rgba(0,255,0, 0.7); 
    background-color: rgba(0,255,0, 0.3);
    top:50px; right:200px;
+}
+*/
+#register {
+  display:inline;
+  float:right;
+  margin-top:25px;
+}
+
+#register1 {
+  border : 6px outset maroon;
+  width:600px;
+  margin:auto;
+  margin-top:30px;
+  padding:30px;  
 }

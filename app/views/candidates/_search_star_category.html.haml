@@ -1,0 +1,27 @@
+%table#candidate_table
+  %tr
+    %th
+      ID
+    %th
+      Name
+    %th
+      Experience
+    %th
+      Current State
+    %th
+      Resume
+  - @events.each do |event|
+    - event.candidates.each do |candidate|
+      #mark
+      %tr
+        %td{:style => "width:5px"}
+          = image_tag("star.png")
+          = candidate.id
+        %td
+          = candidate.name
+        %td
+          = candidate.exp
+        %td
+          = candidate.current_state
+        %td{:style => "width:5px"}
+          = link_to "Download", download_resume_candidate_path(candidate.id)

@@ -1,4 +1,9 @@
 class CandidateMailer < ActionMailer::Base
+  
+  include SendGrid
+  
+  
+  
   default :from => "hr@vinsol.com"
   
   def confirm_email(candidate, event_id)

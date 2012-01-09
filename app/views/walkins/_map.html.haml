@@ -1,0 +1,3 @@
+- a = Geokit::Geocoders::GoogleGeocoder.geocode(@loc).lat
+- b = Geokit::Geocoders::GoogleGeocoder.geocode(@loc).lng
+%iframe{:height => "300", :src => "/google_map/index/?lat=#{a}&lon=#{b}&zoom=15", :width => "300"}

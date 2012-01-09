@@ -1,0 +1,44 @@
+#heading
+  Past Walk-Ins
+%br/
+%br/
+= link_to 'Back', events_path
+%br/
+%br/
+%table#candidate_table
+  %tr
+    %th
+      Event date
+    %th
+      Name
+    %th
+      Experience
+    %th
+      Location
+    %th
+      Description
+    %th
+      Category
+    %th
+      Tech spec
+    %th
+      No. Of Batches
+  - @events.each do |event|
+    / Out this in controller
+    %tr
+      %td
+        = event.event_date.strftime("%d/%b/%Y")
+      %td
+        = event.name
+      %td
+        = event.experience
+      %td
+        = event.location
+      %td
+        = event.description
+      %td
+        = event.category
+      %td
+        = event.tech_spec
+      %td
+        = event.batches.count

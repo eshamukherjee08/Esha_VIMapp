@@ -1,0 +1,21 @@
+= link_to 'HOME', root_path
+>>
+\#{link_to 'WALK-INS', walkins_path}
+>>
+%span{:style => "color:maroon"}
+  %u
+    REGISTRATION
+%p{:style => "color:maroon;text-align:center;margin-top:20px;font-size:40px"}
+  Registration Successful
+  #register1{:style => "text-align:center"}
+    %h3
+      Thank You #{@candidate.name},
+    %br/
+    %h4
+      We are happy to inform you the you have been successfully registered.
+    %br/
+    %h4
+      Please check your mail id
+      %u
+        = @candidate.email
+      to confirm your candidature.

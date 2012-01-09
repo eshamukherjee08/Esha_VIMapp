@@ -1,0 +1,46 @@
+:javascript
+  function s_category() {
+  	$.ajax({
+  		url : "#{find_star_category_candidates_path}",
+  		dataType : 'script',
+  		type : 'get',
+  		data : "category="+$("#category").attr("value")
+  	});
+  }
+#heading
+  Starred Candidates
+%br/
+%br/
+= link_to 'Back', events_path
+#search
+  SEARCH PANEL:
+  \#{select_tag('category', options_for_select([['SELECT CATEGORY', 'SELECT CATEGORY'], ['Ruby On Rails Developer', 'Ruby On Rails Developer'], ['Android Developer', 'Android Developer'], ['PHP Developer', 'PHP Developer'], ['Project Manager', 'Project Manager']]))}
+  <input type="button", value="SEARCH", onclick="s_category();" >
+#search_star_category
+  %table#candidate_table
+    %tr
+      %th
+        ID
+      %th
+        Name
+      %th
+        Experience
+      %th
+        Current State
+      %th
+        Resume
+    - @candidates.each do |candidate|
+      #mark
+      %tr
+        %td
+          = image_tag("star.png")
+          = candidate.id
+        %td
+          = candidate.name
+        %td
+          = candidate.exp
+        %td
+          = candidate.current_state
+        %td
+          = link_to "Download", download_resume_candidate_path(candidate.id)
+%br/

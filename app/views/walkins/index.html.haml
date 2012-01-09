@@ -1,0 +1,65 @@
+:javascript
+  function show_map() {
+     $.ajax({
+       url : "#{map_location_path}",
+       dataType : 'script',
+       type : 'get',
+       data : "location="+$("#event_location").attr("value")
+     });
+   }
+   
+- if notice
+  %p#notice
+    = notice
+%br/
+= link_to 'ALREADY REGISTERED?', search_path
+%br/
+- if !admin_signed_in?
+  = link_to 'ADMIN Sign In', new_admin_session_path
+  %br/
+#heading
+  Up Coming Walkins
+%br/
+%br/
+%br/
+- @events.each do |event|
+  / Move in controller
+  #walkin
+    %table#walkin_table
+      %tr
+        %th
+          %br/
+          %b EVENT DATE
+          \:#{event.event_date.strftime("%b %d, %Y")}
+        %th
+      %tr
+        %td
+          %u EXPERIENCE REQUIRED
+        %td
+          \:#{event.experience}
+      %tr
+        %td
+          %u VENUE
+        %td
+          \:#{event.location}
+      %tr
+        %td
+          %u DESCRIPTION
+        %td
+          \:#{event.description}
+      %tr
+        %td
+          %u CATEGORY
+        %td
+          \:#{event.category}
+      %tr
+        %td
+          %u TECHNICAL SPECIFICATIONS
+        %td
+          \:#{event.tech_spec}
+    #register
+      = link_to 'REGISTER', new_event_candidate_path(event)
+    %br/
+    %br/
+    %br/
+%p= will_paginate @events

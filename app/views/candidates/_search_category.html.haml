@@ -1,0 +1,42 @@
+%table#candidate_table
+  %tr
+    %th
+      Important
+    %th
+      ID
+    %th
+      Name
+    %th
+      Experience
+    %th
+      Current State
+    %th
+      Resume
+    %th
+      Delete Candidate
+  - @events.each do |event|
+    - event.candidates.each do |candidate|
+      #mark
+      %tr
+        - if !candidate.starred
+          %td{:style => "width:5px"}
+            %span{:id => "span_#{candidate.id}", :onclick => "mark_candidate(#{candidate.id})"}
+              %u
+                Mark
+        - else
+          %td{:style => "width:5px"}
+            %span{:id => "span_#{candidate.id}"}
+              = image_tag("star.png")
+        %td
+          = candidate.id
+        %td
+          = candidate.name
+        %td
+          = candidate.exp
+        %td
+          = candidate.current_state
+        %td{:style => "width:5px"}
+          = link_to "Download", download_resume_candidate_path(candidate.id)
+        %td{:style => "width:5px"}
+          %span{:id => "delete_#{candidate.id}", :onclick => "delete_candidate(#{candidate.id})"}
+            = image_tag("delete.png")

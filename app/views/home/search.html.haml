@@ -1,0 +1,32 @@
+- if notice
+  %p#notice
+    = notice
+:javascript
+  function search_num() {
+    if(!($("#search").val() == "")) {
+      if(!($("#search").val().match(/^\d+$/))) {
+        document.getElementById("error").innerHTML = "Please Enter A Number!"
+        return false
+      }
+    } else {
+      document.getElementById("error").innerHTML = "Search field cannot be empty!"
+      return false
+    }
+    
+     $.ajax({
+       url : "#{find_search_data_path}",
+       dataType : 'script',
+       type : 'get',
+       data : "roll_num="+$("#search").attr("value")
+     });
+  }
+%h2{:style => "margin-left:100px"}
+  CANDIDATE INFORMATION : Please Enter Roll Number Below
+%br/
+= text_field_tag('search')
+<input type="button", value="SEARCH", onclick="search_num();" >
+%br/
+%span#error.error
+#result
+  WELCOME
+= link_to 'Back To Main', root_path

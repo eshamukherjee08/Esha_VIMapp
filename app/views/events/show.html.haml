@@ -1,0 +1,123 @@
+:javascript
+  function mark_selected(candidate_id) {
+  	$.ajax({
+  		url : "#{mark_selected_candidates_path}",
+  		dataType : 'script',
+  		type : 'get',
+  		data : "candidate_id="+ candidate_id
+  	});
+  }
+  function mark_rejected(candidate_id) {
+  	$.ajax({
+  		url : "#{mark_rejected_candidates_path}",
+  		dataType : 'script',
+  		type : 'get',
+  		data : "candidate_id="+ candidate_id
+  	});
+  	
+  }
+  
+  function editor(candidate_id) {
+    $.ajax({
+  		url : "#{edit_status_candidates_path}",
+  		dataType : 'script',
+  		type : 'get',
+  		data : "candidate_id="+ candidate_id
+  	});
+  }
+%p#notice
+  = notice
+#heading
+  Registered Candidates
+%br/
+= link_to 'Back', events_path
+#search
+  %p
+  %h3{:style => "display:inline"}
+    %b
+      Event date:
+  = @event.event_date.strftime("%b %d, %Y")
+  %p
+  %h3{:style => "display:inline"}
+    %b
+      Name:
+  = @event.name
+%br/
+- if @events_candidates.empty?
+  %h3{:style => "text-align:center;color:red;margin-top:40px"}
+    NO REGISTRATIONS FOR THIS EVENT
+- else
+  #search_category
+    %table#candidate_table
+      %tr
+        %th
+          Name
+        %th
+          ID
+        %th
+          Salary Expected
+        %th
+          Batch Starting
+        %th
+          Resume
+        %th
+          Attended
+        %th
+          Status
+      = form_tag mark_attended_event_events_candidates_path(@event) do
+        - @events_candidates.each do |e|
+          - if !e.attended
+            %tr
+              - candidate = e.candidate
+              %td{:style => "width:1px"}
+                = candidate.name
+              %td{:style => "width:1px"}
+                = candidate.id
+              %td{:style => "width:1px"}
+                = candidate.salary_exp
+              %td
+                = candidate.batches.first.start_time.strftime("%H:%M")
+              %td
+                = link_to "Download", download_resume_candidate_path(e.candidate.id)
+              - if e.waitlist
+                %td{:style => "width:1px"}
+                  WAIT LISTED
+              - else
+                %td{:style => "width:1px"}
+                  = check_box_tag("attended[#{e.id}]")
+              %td
+                NO STATUS YET
+          - else
+            %tr
+              %td{:style => "width:1px"}
+                = e.candidate.name
+              %td{:style => "width:1px"}
+                = e.candidate.id
+              %td{:style => "width:1px"}
+                = e.candidate.salary_exp
+              %td{:style => "width:1px"}
+                = image_tag("check.jpg")
+              - if e.status.nil?
+                %td{:style => "width:5px"}
+                  %span{:id => "status_#{e.candidate.id}"}
+                    %span{:id => "select_#{e.candidate.id}", :onclick => "mark_selected(#{e.candidate.id})"}
+                      %u
+                        SELECTED
+                    |
+                    %span{:id => "reject_#{e.candidate.id}", :onclick => "mark_rejected(#{e.candidate.id})"}
+                      %u
+                        REJECTED
+              - elsif !e.status
+                %td{:style => "width:1px"}
+                  = image_tag("red.jpg")
+                  = link_to 'EDIT', edit_status_candidates_path(e.candidate.id)
+              - else
+                %td{:style => "width:1px"}
+                  = image_tag("green.jpg")
+                  = link_to 'EDIT', edit_status_candidates_path(e.candidate.id)
+
+        - if @event.event_date.today?
+          .actions{:style => "float:right;margin-right:170px"}
+            = submit_tag 'Mark Attended'
+        - else
+          %div{:style => "float:right;margin-right:170px;color:red;font-size:1.5em"} Attendance Marking Will Be Available On/After Event Date
