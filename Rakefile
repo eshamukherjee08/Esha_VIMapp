@@ -5,3 +5,7 @@ require File.expand_path('../config/application', __FILE__)
 require 'rake'
 
 EshaVIMapp::Application.load_tasks
+
+if !defined?(YAML::ENGINE).nil? && YAML::ENGINE.respond_to?(:yamler)
+  YAML::ENGINE.yamler = 'syck'
+end

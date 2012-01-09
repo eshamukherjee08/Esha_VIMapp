@@ -16,6 +16,10 @@ set :user, 'deployer'
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 
+# set :default_environment, {
+#   'LANG' => 'en_US.UTF-8'
+#  }
+
 # if you're still using the script/reaper helper you will need
 # these http://github.com/rails/irs_process_scripts
 
@@ -41,6 +45,7 @@ namespace :deploy do
   desc "Deploy with migrations"
   task :long do
     transaction do
+      # run "export LANG=en_US.UTF-8"
       update_code
       web.disable
       symlink
