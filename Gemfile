@@ -39,7 +39,7 @@ gem "sass", "~> 3.1.12"
 # gem 'unicorn'
 
 # Deploy with Capistrano
-# gem 'capistrano'
+gem 'capistrano'
 
 
 gem 'ruby-debug19', :require => 'ruby-debug'
