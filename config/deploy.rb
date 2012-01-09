@@ -25,7 +25,7 @@ ssh_options[:forward_agent] = true
 
 # after "deploy", "deploy:bundle_gems"
 # after "deploy:bundle_gems", "deploy:restart"
-after "deploy:update_code", "deploy:bundle_new_release"
+# after "deploy:update_code", "deploy:bundle_new_release"
 
 # If you are using Passenger mod_rails uncomment this:
 namespace :deploy do
