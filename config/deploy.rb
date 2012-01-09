@@ -13,7 +13,7 @@ role :app, "173.45.225.100"                          # This may be the same as y
 role :db,  "173.45.225.100", :primary => true
 
 set :user, 'deployer'
-set :use_sudo, true
+# set :use_sudo, true
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 # 
