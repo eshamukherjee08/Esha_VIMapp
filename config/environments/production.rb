@@ -9,7 +9,7 @@ EshaVIMapp::Application.configure do
     :port => 25,
     :domain => "vinsol.com",
     :authentication => :plain,
-    :user_name => "esha.mukherjee@vinsol.com",
+    :user_name => "esha.mukherjee",
     :password => "poohandpiglet"
   }
   
