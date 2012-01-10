@@ -1,5 +1,23 @@
 EshaVIMapp::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
+  
+  
+  config.action_mailer.delivery_method = :smtp
+ 
+  ActionMailer::Base.smtp_settings = {
+    :address => "smtp.sendgrid.net",
+    :port => 25,
+    :domain => "vinsol.com",
+    :authentication => :plain,
+    :user_name => "esha.mukherjee@vinsol.com",
+    :password => "poohandpiglet"
+  }
+  
+  SITENAME = 'www.walkin.vinsol.com'
+  
+  config.action_mailer.default_url_options = { :host => SITENAME}
+  config.action_mailer.asset_host = "http://#{SITENAME}"
+  
 
   # The production environment is meant for finished, "live" apps.
   # Code is not reloaded between requests
@@ -32,8 +50,6 @@ EshaVIMapp::Application.configure do
   config.serve_static_assets = false
   
   #set up for default url options
-  config.action_mailer.default_url_options = { :host => 'localhost:3000'}
-  config.action_mailer.delivery_method = :test
 
   # Enable serving of images, stylesheets, and javascripts from an asset server
   # config.action_controller.asset_host = "http://assets.example.com"
