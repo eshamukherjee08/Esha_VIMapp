@@ -10,7 +10,6 @@ h1 {
   margin: 200px;
   color : maroon;
   font-style: "Comic Sans";
-  text-decoration:underline;
 }
 
 #banner {
@@ -344,13 +343,11 @@ color:#ffffff;
 #heading {
   margin-top:10px;
   color : maroon;
-  text-decoration:underline;
   font-size:1.6em;
 }
 
 #heading_a {
   color : maroon;
-  text-decoration:underline;
   text-align:center;
   font-size:2.3em;
 }
