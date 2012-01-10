@@ -28,19 +28,20 @@
 %p#notice
   = notice
 #heading
-  Registered Candidates
+  RegisteredCandidates>>
 %br/
-= link_to 'Back', events_path
-#search
-  %p
-  %h3{:style => "display:inline"}
-    %b
-      Event date:
+%br/
+
+%h3{:style => "display:inline;margin-left:41%"}
+  %b
+    Event date:
+%u
   = @event.event_date.strftime("%b %d, %Y")
-  %p
-  %h3{:style => "display:inline"}
-    %b
-      Name:
+%br/
+%h3{:style => "display:inline;margin-left:41%"}
+  %b
+    Name:
+%u
   = @event.name
 %br/
 - if @events_candidates.empty?

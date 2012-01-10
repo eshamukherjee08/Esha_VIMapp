@@ -32,7 +32,7 @@
         %br/
         %u
           DATE
-        \:#{event.event_date}
+        \:#{event.event_date.strftime("%b/%d/%y")}
         %br/
         %u
           EXPERIENCE
@@ -71,7 +71,7 @@
   %br/
 - else
   %h2#heads
-    Sorry no events created
+    SORRY NO EVENTS CREATED YET!
   %br/
   %p#links
     = link_to 'Add New Event', new_event_path

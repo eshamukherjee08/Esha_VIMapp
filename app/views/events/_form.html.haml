@@ -46,17 +46,18 @@
       = f.label :description
       \:
     %br/
+    %br/
     #odd_field
       = f.text_field :name, :size => 100
     #fills
-      = f.text_area :description, :rows => 5, :cols => 73
+      = f.text_area :description, :rows => 3, :cols => 73
     %br/
     %br/
     %br/
     %br/
     %br/
     #odd_field.field
-      = f.label :tech_spec
+      = f.label :tech_spec, "Technical Specifications"
       \:
     .field{:style => "display:inline;float:right;margin-right:350px;font-size:20px;"}
       - if @event.new_record?
@@ -67,6 +68,7 @@
         = f.label :experience
         \:
         = f.label @event.experience
+    %br/
     %br/
     #odd_field
       = f.text_area :tech_spec, :rows => 3, :cols => 70

@@ -34,14 +34,10 @@ h1 {
 }
 
 #event_submit {
-  color:maroon;
-  background-color : white;
-  width : 155px;
-  height : 55px;
-  font-size : 20px;
-  border : 2px solid black;
-  -moz-border-radius:30px; 
-  -webkit-border-radius:30px;
+  width : 130px;
+  height : 66px;
+  border: 0px solid white;
+  background:url(create1.jpg)
 }
 
 /*admitcard styling*/
@@ -71,6 +67,7 @@ h1 {
 #ad_signin {
   border: 3px solid maroon;
   margin-left: 33%;
+  margin-top:3%;
   width :450px;
   height:250px;
   padding: 10px;
@@ -91,13 +88,30 @@ h1 {
   font-size:20px;
 }
 
+#inv {
+  margin-left:20px;
+  font-size:30px;
+}
+
 #admin_submit {
   margin-top:10px;
-  font-size:2.3em;
-  width:80px;
-  height:35px;
+  color:black;
+  font-size:1em;
+  width:100px;
+  height:54px;
   border: 0px solid white;
-  background:url(sign_in.jpg)
+  background:url(loginbutton.png)
+}
+
+#candidate_submit {
+  margin-top:10px;
+  float:right;
+  color:black;
+  font-size:1em;
+  width:100px;
+  height:50px;
+  border: 0px solid white;
+  background:url(create_can.jpg)
 }
 
 #signin_img {
@@ -130,7 +144,7 @@ h1 {
 
 #details {
   float: right;
-  font-size: 20px;
+  font-size: 25px;
 }
 #batch_element {
   float :left;
@@ -195,8 +209,8 @@ h1 {
 }
 
 #links {
-  margin-left:25px;
-  font-size: 15px;
+  margin-left:20px;
+  font-size: 20px;
 }
 
 #event_list {
@@ -328,13 +342,10 @@ color:#ffffff;
 
 
 #heading {
+  margin-top:10px;
   color : maroon;
   text-decoration:underline;
-  width:100%;
   font-size:1.6em;
-  display:inline;
-  margin-left:40%;
-/*  margin:auto;*/
 }
 
 #heading_a {

@@ -5,9 +5,14 @@ pre {
   font-size: 11px;
 }
 
-a { color: red; }
+a { 
+  color: red;
+}
 a:visited { color: maroon; }
-a:hover { color: #fff; background-color:#000; }
+a:hover { 
+  color: #fff; 
+  background-color:#000;
+}
 
 div.field, div.actions {
   margin-bottom: 10px;
@@ -19,9 +24,14 @@ div.field, div.actions {
   display:inline;
 }
 
+.field_with_errors label{
+  padding: 2px;
+  display:inline;
+  box-shadow: 8px 8px 5px #888888;
+  background-color: rgba(139, 0, 0, 0.5)
+}
 .field_with_errors {
   padding: 2px;
-  background-color: red;
   display:inline;
 }
 
