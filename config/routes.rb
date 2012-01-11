@@ -22,9 +22,14 @@ EshaVIMapp::Application.routes.draw do
   get "home/search", :to => "home#search", :as => "search"
   get "find_search_data", :to => "home#find_data", :as => "find_search_data"
   
-  devise_for :admins, :controllers => { :invitations => 'admins/invitations', :sessions => 'admins/sessions', :passwords => 'passwords' }
+  devise_for :admins, :controllers => { :invitations => 'admins/invitations', :sessions => 'admins/sessions'}
+  
+  resources :admins do
+		get 'password/reset', :action => 'reset', :on => :collection
+		put 'update_password', :on => :collection
+  end
 
-  resources :passwords
+  # resources :passwords
   resources :batches
   resources :walkins, :only => [:index] do
     collection do

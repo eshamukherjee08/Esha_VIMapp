@@ -1,0 +1,15 @@
+<div style='height:100px;'></div>
+<p><%= notice %></p>
+<p><%= alert %></p>
+<%= form_for(@admin, :url => update_password_admins_path , :method => :put ) do |f|%>
+  <p>
+	  <%= f.label :password %>
+	  <%= f.password_field :password %>
+	</p><br />
+	<p>
+	  <%= f.label :password_confirmation %>
+    <%= f.password_field :password_confirmation %>
+  </p><br/>
+  <%= f.submit "Update" %>
+  
+<% end %>

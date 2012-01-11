@@ -1,0 +1,18 @@
+<div style='height:100px;'></div>
+<%= form_for(@admin, :url => update_password_admins_path , :method => :put ) do |f|%>
+	<%= render :partial => "shared/errors", :locals => { :obj => @admin } %>
+  <table width="800" class="ShowTable" align='center'>
+		<tr>
+			<td><%= f.label :password %></td>
+			<td><%= f.password_field :password %></td>
+		</tr>	
+		<tr>
+			<td><%= f.label :password_confirmation %></td>
+			<td><%= f.password_field :password_confirmation %></td>
+		</tr>	
+		<tr>
+			<td></td>
+			<td><%= f.submit "Update Password" %></td>
+		</tr>	
+  </table>
+<% end %>

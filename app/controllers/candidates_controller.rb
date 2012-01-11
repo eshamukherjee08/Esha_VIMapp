@@ -93,7 +93,6 @@ class CandidatesController < ApplicationController
   def find_category
     if params[:category] == "SELECT CATEGORY"
       redirect_to candidates_path
-      # @events = Event.all
     else
       @events = Event.where(:category => params[:category].to_s)
     end
@@ -131,8 +130,6 @@ class CandidatesController < ApplicationController
   def edit_status
     @candidate = Candidate.where(:id => params[:format]).first
     @candidate.events_candidates.first.update_attributes(:status => nil)
-    # @candidate.events_candidates.event
-    #event = Event.where(:id => @candidate.events_candidates.first.event_id).first
     redirect_to @candidate.events_candidates.first.event
   end
   

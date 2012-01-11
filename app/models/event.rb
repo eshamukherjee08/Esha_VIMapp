@@ -42,7 +42,6 @@ class Event < ActiveRecord::Base
        if batch.candidates.count.zero? or batch.candidates.count < batch.capacity
          c = self.events_candidates.where(:waitlist => true).limit(batch.capacity)
          c.each do |ele|
-           # batch.candidates << ele.candidate
            ele.update_attributes(:waitlist => false, :batch_id => batch.id)
          end
        end
