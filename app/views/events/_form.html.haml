@@ -12,14 +12,13 @@
   = nested_form_for @event do |f|
     = render 'event_error'
     #odd_field.field
-      - if @event.new_record?
-        = f.label :event_date
-        \:
-        \#{f.datepicker :event_date, :minDate => 0}
-      - else
-        = f.label :event_date
-        \:
-        \#{f.datepicker :event_date, :minDate => 0}
+      = f.label :event_date
+      \:
+      \#{f.text_field :event_date, :value => @event.event_date.try(:strftime, "%d/%m/%Y")}
+      :javascript
+        $(function() {
+        $( "#event_event_date" ).datepicker({ dateFormat: "dd/mm/yy" });
+        });
     .field{:style => "display:inline; float:right; margin-right:350px; font-size:20px;"}
       - if @event.new_record?
         = f.label :category

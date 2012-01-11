@@ -25,12 +25,10 @@ class EventsController < ApplicationController
 
 
   def edit
-    @event.event_date = @event.event_date.strftime("%m/%d/20%y")
   end
 
 
   def create
-    params[:event][:event_date] = DateTime.strptime(params[:event][:event_date],"%m/%d/20%y") unless (params[:event][:event_date].blank?)
     @event = Event.new(params[:event].merge!( { :admin_id => current_admin.id }))
     if @event.save
       redirect_to(events_path, :notice => 'Event was successfully created.') 
@@ -41,7 +39,6 @@ class EventsController < ApplicationController
 
 
   def update
-    params[:event][:event_date] = DateTime.strptime(params[:event][:event_date],"%m/%d/20%y") unless (params[:event][:event_date].blank?)
     if @event.update_attributes(params[:event])
       redirect_to( events_path , :notice => 'Event was successfully updated.' )
     else

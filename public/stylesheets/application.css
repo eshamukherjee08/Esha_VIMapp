@@ -1,9 +1,9 @@
-@media print {  
-    body { background-color: #FFF; }  
-    #container {  
-        width: auto;  
-        margin: 0;  
-        padding: 0;  
-        border: none;  
-    }  
-}
+@media print {
+  body {
+    background-color: white; }
+
+  #container {
+    width: auto;
+    margin: 0;
+    padding: 0;
+    border: none; } }
