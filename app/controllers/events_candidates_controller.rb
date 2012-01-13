@@ -1,7 +1,8 @@
 class EventsCandidatesController < ApplicationController
   
+  
+  #for marking attendance of candidates attending event.
   def mark_attended
-    # Move in model
     if params[:attended].nil?
       redirect_to( :back , :notice => 'Please select candidates for marking attendance!')
     else

@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   
-  before_filter :controlaccess
+  before_filter :controlaccess #filter to disallow without admin rights.
   before_filter :find_event, :only => [:show, :edit, :update, :destroy, :wait_list]
   
 
@@ -52,11 +52,12 @@ class EventsController < ApplicationController
     redirect_to events_path
   end
   
-  
+  #fetching past events.
   def past
     @events = Event.past_events.order(:event_date)
   end
   
+  #generating candidates in waitlist.
   def wait_list
     @events_candidates = @event.events_candidates.where(:waitlist => true)
     if @events_candidates.nil?

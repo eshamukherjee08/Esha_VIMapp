@@ -1,8 +1,9 @@
 class Event < ActiveRecord::Base
+  
+  #event model associations.
   belongs_to :admin
   has_many :batches, :dependent => :destroy
   accepts_nested_attributes_for :batches, :allow_destroy => true, :reject_if => lambda { |attributes| attributes['capacity'].blank? }
-  
   has_many :events_candidates , :dependent => :destroy
   has_many :candidates, :through => :events_candidates
   
@@ -14,9 +15,10 @@ class Event < ActiveRecord::Base
   
   validate :confirm_count
     
-    
+  #scope to find upcoming events.  
   scope :upcoming_events, lambda { where("event_date >= ?", Time.zone.now - 1.day) }
   
+  #scope to find past events.
   scope :past_events, lambda { where("event_date < ?", Time.zone.now - 1.day) }
   
   after_save :waitlist_allocation
@@ -25,6 +27,8 @@ class Event < ActiveRecord::Base
   
   validate :batch_start_time
    
+   
+   #not to delete a batch if allocation started.
    def confirm_count
      if self.new_record? and self.batches.empty?
       errors.add_to_base "Please ADD atleast ONE BATCH"
@@ -37,6 +41,7 @@ class Event < ActiveRecord::Base
      end
    end
    
+   #move waitlisted candidates to any new or old batch with available space.
    def waitlist_allocation
      self.batches.each do |batch|
        if batch.candidates.count.zero? or batch.candidates.count < batch.capacity
@@ -48,6 +53,7 @@ class Event < ActiveRecord::Base
      end
    end
    
+   #to ensure gap between a batch's start and end time.
    def batch_end_time
      self.batches.each do |batch|
        if (batch.end_time <= batch.start_time)
@@ -56,6 +62,7 @@ class Event < ActiveRecord::Base
      end
    end
     
+  #to ensure gap between two consecutive batches.  
    def batch_start_time
      i = self.batches.length
      while i >= 2

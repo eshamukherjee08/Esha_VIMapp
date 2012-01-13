@@ -5,7 +5,7 @@ class HomeController < ApplicationController
   def search
   end
   
-  # Optimize 
+  # finds registered candidate's admit card details on the basis of roll number.
   def find_data
     @events_candidate = EventsCandidate.where(:roll_num => params[:roll_num].to_i).first  
     @flag = 1

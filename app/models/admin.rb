@@ -10,7 +10,8 @@ class Admin < ActiveRecord::Base
     
   
   after_destroy :ensure_an_admin_remains
-
+    
+    #to ensure atleast one admin remains
     def ensure_an_admin_remains 
       if Admin.count.zero? 
         raise "Can't delete last user" 

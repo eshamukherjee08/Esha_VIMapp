@@ -1,12 +1,18 @@
 class Candidate < ActiveRecord::Base
+  
+  #associations of candidate model.
   has_many :events_candidates , :dependent => :destroy
   has_many :events, :through => :events_candidates
   has_many :batches, :through => :events_candidates
  
+  #for term acceptance in registration form.
   attr_reader :accept
  
+  #making all attributes mass assignable.
   attr_accessible :name, :address, :current_state, :home_town, :mobile_number, :exp, :salary_exp, :resume, :email, :dob, :starred, :accept 
  
+ 
+  #validations for candidate model.
   validates :accept, :acceptance => true
  
   validates :address, :dob, :current_state, :exp, :salary_exp, :presence => true
@@ -21,6 +27,7 @@ class Candidate < ActiveRecord::Base
  
   validate :resume_format
     
+    #validating resume presence and format.
     def resume_format
       if !self.resume_file_name.nil?
         if !['text/plain', 'application/rtf', 'application/x-pdf', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'].include?(self.resume_content_type)
@@ -31,14 +38,18 @@ class Candidate < ActiveRecord::Base
       end  
     end
     
+    #send confirmation mail to candidate on registration.
     def self.send_confirmation_mail(candidate, event_id)
       CandidateMailer.confirm_email(candidate, event_id).deliver
     end
     
+    #generating unique perishable token for candidate.
     def self.generate_token
       Digest::MD5.hexdigest("#{Time.now}")
     end
     
+    
+    #assigning candidate to a batch.
     def assign_to_batch(event,candidate)
       events_candidate = EventsCandidate.where(:event_id => event.id , :candidate_id => candidate.id )
       if (event.batches.sum(:capacity) <= event.candidates.count )

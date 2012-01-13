@@ -1,5 +1,6 @@
 class Admins::InvitationsController < Devise::InvitationsController
   
+ 
   def create
       self.resource = resource_class.invite!(params[resource_name], current_inviter)
 
@@ -23,6 +24,7 @@ class Admins::InvitationsController < Devise::InvitationsController
   
   protected
   
+  #overriding devise_invitable default root redirection after sending invitation.
   def after_invite_path_for(resource)
     events_path
   end

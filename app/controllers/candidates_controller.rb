@@ -1,7 +1,7 @@
 class CandidatesController < ApplicationController
 
   before_filter :find_candidate, :only => [:show, :edit, :update, :destroy, :admitcard]
-  layout :compute_layout
+  layout :compute_layout #calculating layout for admit card.
   
   
   def index
@@ -54,7 +54,7 @@ class CandidatesController < ApplicationController
     @candidate.destroy
   end
   
-  ### Optimize
+  #On confirming mailed link, allots candidate roll number and marks candidate as confirmed.
   def confirmation
     @event = Event.where(:id => params[:event_id]).first
     @candidate = Candidate.where(:perishable_token => params[:perishable_token]).first
@@ -66,16 +66,17 @@ class CandidatesController < ApplicationController
     end
   end
   
-
+  #creating admit card for confirmend candidates.
   def admitcard
     @event = Event.where(:id => params[:event_id]).first
   end
   
+  #computes layout for admitcard.
   def compute_layout
     action_name == "admitcard" ? "admitcard" : "application"
   end
   
-
+  #allows candidate to cancel registration and triggers mail to admin.
   def cancel
     @events_candidate = EventsCandidate.where(:event_id => params[:event_id]).where(:candidate_id => params[:id]).first
     @events_candidate.update_attributes( :cancellation => true )
@@ -83,13 +84,13 @@ class CandidatesController < ApplicationController
     redirect_to(root_path , :notice => 'Your Registration has been Cancelled successfully!')
   end
   
-  # mark_starred
+  # marks candidate star on admin's discrimination.
   def mark_candidate_star
     @candidate = Candidate.where(:id => params[:candidate_id]).first
     @candidate.update_attributes(:starred => true)
   end
   
-  
+  #conducts search on the basis of event category.
   def find_category
     if params[:category] == "SELECT CATEGORY"
       redirect_to candidates_path
@@ -98,35 +99,35 @@ class CandidatesController < ApplicationController
     end
   end
   
-  
+  #allows candidate to download admit card by clicking download link.
   def download_resume
     @candidate = Candidate.where(:id => params[:id]).first
     send_file(@candidate.resume.path , :content_type => @candidate.resume_content_type)
   end
   
-  ##Scope
+  #generates list of star marked candidates.
   def starred_list
    @candidates = Candidate.where(:starred => true)
   end
   
-  
+  #performs category based search on star marked candidates.
   def find_star_category
     @events = Event.where(:category => params[:category].to_s)
   end
   
-  
+  #allows admin to mark candidate as selected.
   def mark_selected
    @candidate = Candidate.where(:id => params[:candidate_id]).first
    @candidate.events_candidates.first.update_attributes(:status => true)
   end
   
-  
+  #allows admin to mark candidate as rejected.
   def mark_rejected
    @candidate = Candidate.where(:id => params[:candidate_id]).first
    @candidate.events_candidates.first.update_attributes(:status => false)  
   end
   
-  
+  #allows admin to edit status of candidate.
   def edit_status
     @candidate = Candidate.where(:id => params[:format]).first
     @candidate.events_candidates.first.update_attributes(:status => nil)
