@@ -27,23 +27,21 @@
   }
 %p#notice
   = notice
-#heading
-  RegisteredCandidates>>
-%br/
-%br/
+#double_break
+  #heading
+    RegisteredCandidates>>
 
 %h3{:style => "display:inline;margin-left:41%"}
   %b
     Event date:
 %u
   = @event.event_date.strftime("%b %d, %Y")
-%br/
-%h3{:style => "display:inline;margin-left:41%"}
-  %b
-    Name:
-%u
-  = @event.name
-%br/
+#single_break
+  %h3{:style => "display:inline;margin-left:41%"}
+    %b
+      Name:
+  %u
+    = @event.name
 - if @events_candidates.empty?
   %h3{:style => "text-align:center;color:red;margin-top:40px"}
     NO REGISTRATIONS FOR THIS EVENT
@@ -58,8 +56,6 @@
         %th
           Salary Expected
         %th
-          Batch Starting
-        %th
           Resume
         %th
           Attended
@@ -70,36 +66,36 @@
           - if !e.attended
             %tr
               - candidate = e.candidate
-              %td{:style => "width:1px"}
-                = candidate.name
-              %td{:style => "width:1px"}
-                = candidate.id
-              %td{:style => "width:1px"}
-                = candidate.salary_exp
               %td
-                = candidate.batches.first.start_time.strftime("%H:%M")
+                = candidate.name
+              %td
+                = candidate.id
+              %td
+                = candidate.salary_exp
               %td
                 = link_to "Download", download_resume_candidate_path(e.candidate.id)
               - if e.waitlist
-                %td{:style => "width:1px"}
+                %td
                   WAIT LISTED
               - else
-                %td{:style => "width:1px"}
+                %td
                   = check_box_tag("attended[#{e.id}]")
               %td
                 NO STATUS YET
           - else
             %tr
-              %td{:style => "width:1px"}
+              %td
                 = e.candidate.name
-              %td{:style => "width:1px"}
+              %td
                 = e.candidate.id
-              %td{:style => "width:1px"}
+              %td
                 = e.candidate.salary_exp
-              %td{:style => "width:1px"}
+              %td
+                = link_to "Download", download_resume_candidate_path(e.candidate.id)
+              %td
                 = image_tag("check.jpg")
               - if e.status.nil?
-                %td{:style => "width:5px"}
+                %td
                   %span{:id => "status_#{e.candidate.id}"}
                     %span{:id => "select_#{e.candidate.id}", :onclick => "mark_selected(#{e.candidate.id})"}
                       %u
@@ -109,11 +105,11 @@
                       %u
                         REJECTED
               - elsif !e.status
-                %td{:style => "width:1px"}
+                %td
                   = image_tag("red.jpg")
                   = link_to 'EDIT', edit_status_candidates_path(e.candidate.id)
               - else
-                %td{:style => "width:1px"}
+                %td
                   = image_tag("green.jpg")
                   = link_to 'EDIT', edit_status_candidates_path(e.candidate.id)
 

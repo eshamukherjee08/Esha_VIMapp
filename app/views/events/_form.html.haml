@@ -14,12 +14,12 @@
     #odd_field.field
       = f.label :event_date
       \:
-      \#{f.text_field :event_date, :value => @event.event_date.try(:strftime, "%d/%m/%Y")}
+      \#{f.text_field :event_date, :value => @event.event_date.try(:strftime, "%d/%m/%Y"), :style => "margin-bottom:150px;"}
       :javascript
         $(function() {
         $( "#event_event_date" ).datepicker({ dateFormat: "dd/mm/yy" });
         });
-    .field{:style => "display:inline; float:right; margin-right:350px; font-size:20px;"}
+    .field{:style => "display:inline; margin-right:300px; font-size:20px; margin-left:400px;"}
       - if @event.new_record?
         = f.label :category
         \:
@@ -28,68 +28,46 @@
         = f.label :category
         \:
         = f.label @event.category
-    %br/
-    %br/
-    %br/
-    %br/
-    %br/
-    %br/
-    %br/
-    %br/
-    %br/
-    %br/
-    #odd_field.field
-      = f.label :name
-      \:
-    #even_field.field
-      = f.label :description
-      \:
-    %br/
-    %br/
-    #odd_field
-      = f.text_field :name, :size => 100
-    #fills
-      = f.text_area :description, :rows => 3, :cols => 73
-    %br/
-    %br/
-    %br/
-    %br/
-    %br/
-    #odd_field.field
-      = f.label :tech_spec, "Technical Specifications"
-      \:
-    .field{:style => "display:inline;float:right;margin-right:350px;font-size:20px;"}
-      - if @event.new_record?
-        = f.label :experience
+    #special{:style => "margin-bottom:35px;"}
+      #odd_field.field{:style => "margin-right:90px;"}
+        = f.label :name
         \:
-        \#{f.select("experience", EXPERIENCE, {:prompt => '--Select Experience--'})}
-      - else
-        = f.label :experience
+      #even_field.field
+        = f.label :description
         \:
-        = f.label @event.experience
-    %br/
-    %br/
-    #odd_field
-      = f.text_area :tech_spec, :rows => 3, :cols => 70
-    %br/
-    %br/
+      #odd_field
+        = f.text_field :name, :size => 100
+      #fills
+        = f.text_area :description, :rows => 3, :cols => 73
+    #special{:style => "margin-bottom:35px;"}
+      #odd_field.field
+        = f.label :tech_spec, "Technical Specifications"
+        \:
+      .field{:style => "display:inline;float:right;margin-right:350px;font-size:20px;"}
+        - if @event.new_record?
+          = f.label :experience
+          \:
+          \#{f.select("experience", EXPERIENCE, {:prompt => '--Select Experience--'})}
+        - else
+          = f.label :experience
+          \:
+          = f.label @event.experience
+      #odd_field
+        = f.text_area :tech_spec, :rows => 3, :cols => 70
+      
     #odd_field.field
       = f.label :location
       \:
       %div{:style => "display:inline;margin-left:15px; margin-right:45px;"}
         = f.text_field :location, :size => 80, :onblur => "show_map();"
     %div{:style => "display:inline;float:right;margin-right:540px;font-size:20px;"}
-      Batches:
-    %br/
-    #main_batch{:style => "margin-bottom:50px;"}
+      #single_break
+        Batches:
+    #main_batch{:style => "margin-bottom:50px;margin-left:63px;"}
       = f.fields_for :batches
       %p
         = f.link_to_add "Add a Batch", :batches
-    %br/
-    %br/
     #map
       %iframe{:height => "300", :src => "/google_map/index/?lat=28.635308&lon=77.22496&zoom=15", :width => "520"}
     .but_div
       = f.submit
-    %br/
-    %br/

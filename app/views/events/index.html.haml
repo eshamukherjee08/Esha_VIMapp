@@ -1,96 +1,80 @@
 - if notice
-  %p#notice
-    = notice
-%br/
-%br/
-#heading_a
-  ADMIN CONTROL PANEL
-%br/
-%br/
+  #double_break
+    %p#notice
+      = notice
+#double_break
+  #heading_a
+    ADMIN CONTROL PANEL
 - unless (@events.empty?)
-  %h2#heads
-    CREATE NEW EVENT :
-  %br/
-  %p#links
-    = link_to 'Add New Event', new_event_path
-  %br/
-  %br/
-  %br/
+  #single_break
+    %h2#heads
+      CREATE NEW EVENT :
+  #triple_break
+    %p#links
+      = link_to 'Add New Event', new_event_path
   %p#line
-  %br/
-  %br/
-  %h2#heads
-    UP COMING EVENTS:
-  %br/
-  - @events.each do |event|
-    - if event.event_date.today? or event.event_date.future?
-      #event_list
-        %br/
-        %h3
-          %b
-            Event Name:#{event.name}
-        %br/
-        %u
-          DATE
-        \:#{event.event_date.strftime("%b/%d/%y")}
-        %br/
-        %u
-          EXPERIENCE
-        \:#{event.experience}
-        %br/
-        %u
-          VENUE
-        \:#{event.location}
-        %br/
-        %u
-          DESCRIPTION
-        \:#{event.description}
-        %br/
-        %u
-          CATEGORY
-        \:#{event.category}
-        %br/
-        %u
-          TECHNICAL SPECIFICATIONS
-        \:#{event.tech_spec}
-        %br/
-        %u
-          NUMBER OF BATCHES
-        \:#{event.batches.count}
-        %br/
-        %p#link_list
-          = link_to 'View Confirmed List', event
-          |
-          \#{link_to 'View Wait List', wait_list_event_path(event)}
-          |
-          \#{link_to 'Edit Event', edit_event_path(event)}
-          |
-          \#{link_to 'Delete Event', event, :confirm => 'Are you sure?', :method => :delete}
-        %br/
-  %br/
-  %br/
+  #double_break
+    %h2#heads
+      UP COMING EVENTS:
+    %br/
+    - @events.each do |event|
+      - if event.event_date.today? or event.event_date.future?
+        #event_list
+          %br/
+          #single_break
+            %h3
+              %b
+                Event Name:#{event.name}
+          #single_break
+            %u
+              DATE
+            \:#{event.event_date.strftime("%b/%d/%y")}
+          #single_break
+            %u
+              EXPERIENCE
+            \:#{event.experience}
+          #single_break
+            %u
+              VENUE
+            \:#{event.location}
+          #single_break
+            %u
+              DESCRIPTION
+            \:#{event.description}
+          #single_break
+            %u
+              CATEGORY
+            \:#{event.category}
+          #single_break
+            %u
+              TECHNICAL SPECIFICATIONS
+            \:#{event.tech_spec}
+          #single_break
+            %u
+              NUMBER OF BATCHES
+            \:#{event.batches.count}
+          #double_break
+            %p#link_list
+              = link_to 'View Confirmed List', event
+              |
+              \#{link_to 'View Wait List', wait_list_event_path(event)}
+              |
+              \#{link_to 'Edit Event', edit_event_path(event)}
+              |
+              \#{link_to 'Delete Event', event, :confirm => 'Are you sure?', :method => :delete}
 - else
   %h2#heads
     SORRY NO EVENTS CREATED YET!
   %br/
   %p#links
     = link_to 'Add New Event', new_event_path
-  %br/
-  %br/
-  %br/
   %p#line
-  %br/
-  %br/
 %p#line
-%br/
-%br/
-%h2#heads
-  REGISTERED CANDIDATES :
-%br/
-%p#links
-  = link_to 'View All Registered Candidates', candidates_path
-  |
-  \#{link_to 'Star Candidates', starred_list_candidates_path}
-%br/
-%br/
-%br/
+#single_break
+  %h2#heads
+    REGISTERED CANDIDATES :
+#triple_break
+  %p#links
+    = link_to 'View All Registered Candidates', candidates_path
+    |
+    \#{link_to 'Star Candidates', starred_list_candidates_path}

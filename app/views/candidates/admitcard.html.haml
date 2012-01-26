@@ -1,29 +1,23 @@
 #admitcard
   = image_tag("Vinsol_thumb.png")
   Admit Card
-  %br/
-%br/
-%br/
 #admitcard_body
-  Dear #{@candidate.name},
-  %br/
-  Following are your VinSol Walk-in Details:
-  %br/
-  %br/
+  #single_break
+    Dear #{@candidate.name},
+  #double_break
+    Following are your VinSol Walk-in Details:
   Event Name: #{@event.name}
-  %br/
-  Date : #{@event.event_date}
-  %br/
-  Roll Number : #{@candidate.events_candidates.first.roll_num}
-  %br/
-  Venue : #{@event.location}
-  %br/
-  - if @candidate.events_candidates.first.waitlist?
-    You are in our waitlist, on confirmation you'll be informed personally!
-  - else
-    Time : #{@candidate.batches.first.start_time.strftime('%H:%M')} Hrs
-  %br/
-  For any further queries please contact : 011-45675342
-  %br/
-  %br/
+  #single_break
+    Date : #{@event.event_date}
+  #single_break
+    Roll Number : #{@candidate.events_candidates.first.roll_num}
+  #single_break
+    Venue : #{@event.location}
+  #single_break
+    - if @candidate.events_candidates.first.waitlist?
+      You are in our waitlist, on confirmation you'll be informed personally!
+    - else
+      Time : #{@candidate.batches.first.start_time.strftime('%H:%M')} Hrs
+  #double_break
+    For any further queries please contact : 011-45675342
 = link_to "Download Admit Card (PDF)", admitcard_event_candidate_path( :format => "pdf", :layout => "admitcard" )

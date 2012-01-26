@@ -17,35 +17,32 @@
         %br/
         = f.text_area :address, :rows => 4, :columns => 10
     #odd_f
-      .field
+      .field{:style => "margin-bottom:40px"}
         = f.label :dob, "Date Of Birth"
         %br/
         = f.date_select :dob, :start_year => 1980, :end_year => 1990, :prompt => {:day => 'Select day', :month => 'Select month', :year => 'Select year'}
-    %br/
-    %br/
-    %br/
-    %br/
-    #even_f
+
+    #even_f{:style => "margin-left:300px"}
       .field
         = f.label :home_town
         %br/
         = f.text_field :home_town, :size => 55
     #odd_f
-      .field
+      .field{:style => "margin-top:20px; display:inline"}
         = f.label :current_state
         %br/
         = f.select(:current_state, STATE, {:prompt => '--Select Current State--'})
-    #even_f
+    #even_f{:style => "margin-right:5px"}
       .field
         = f.label :mobile_number
         %br/
         (+91)#{f.text_field :mobile_number, :size => 45}
     #odd_f
-      .field
+      .field{:style => "margin-top:20px"}
         = f.label :experience
         %br/
         = f.select("exp", EXPERIENCE, {:prompt => '--Select Experience--'})
-    #even_f{:style => "margin-right:60px"}
+    #even_f{:style => "margin-right:20px"}
       .field
         = f.label :resume
         %br/
@@ -59,7 +56,7 @@
         = f.label :salary_exp
         %br/
         = f.select(:salary_exp, SALARY, {:prompt => '--Select Expected Salary--'})
-    %div
+    %div{:style => "margin-top:50px"}
       = f.check_box 'accept'
       I Agree to terms and conditions laid by VinSol.
     .actions

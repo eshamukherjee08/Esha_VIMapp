@@ -14,7 +14,7 @@
     - event.candidates.each do |candidate|
       #mark
       %tr
-        %td{:style => "width:5px"}
+        %td
           = image_tag("star.png")
           = candidate.id
         %td
@@ -23,5 +23,5 @@
           = candidate.exp
         %td
           = candidate.current_state
-        %td{:style => "width:5px"}
+        %td
           = link_to "Download", download_resume_candidate_path(candidate.id)

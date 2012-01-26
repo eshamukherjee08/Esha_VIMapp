@@ -10,22 +10,18 @@
    
 %br/
 = link_to 'ALREADY REGISTERED?', search_path
-%br/
-- if !admin_signed_in?
-  = link_to 'ADMIN Sign In', new_admin_session_path
-  %br/
+#single_break
+  - if !admin_signed_in?
+    = link_to 'ADMIN Sign In', new_admin_session_path
 #heading_a
-  Up Coming Walkins
-%br/
-%br/
-%br/
+  #triple_break
+    Up Coming Walkins
 - @events.each do |event|
   / Move in controller
   #walkin
     %table#walkin_table
       %tr
         %th
-          %br/
           %b EVENT DATE
           \:#{event.event_date.strftime("%b %d, %Y")}
         %th
@@ -54,9 +50,7 @@
           %u TECHNICAL SPECIFICATIONS
         %td
           \:#{event.tech_spec}
-    #register
-      = link_to 'REGISTER', new_event_candidate_path(event)
-    %br/
-    %br/
-    %br/
+    #triple_break
+      #register
+        = link_to 'REGISTER', new_event_candidate_path(event)
 %p= will_paginate @events

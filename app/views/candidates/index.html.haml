@@ -54,12 +54,12 @@
       #mark
       %tr
         - if !candidate.starred
-          %td{:style => "width:5px"}
+          %td
             %span{:id => "span_#{candidate.id}", :onclick => "mark_candidate(#{candidate.id})"}
               %u
                 Mark
         - else
-          %td{:style => "width:5px"}
+          %td
             %span{:id => "span_#{candidate.id}"}
               = image_tag("star.png")
         %td
@@ -72,7 +72,7 @@
           = candidate.current_state
         %td
           = link_to "Download", download_resume_candidate_path(candidate.id)
-        %td{:style => "width:5px"}
+        %td
           %span{:confirm => "Are you sure?", :id => "delete_#{candidate.id}", :onclick => "delete_candidate(#{candidate.id})"}
             = image_tag("delete.png")
 %p

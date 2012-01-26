@@ -50,8 +50,21 @@ h1 {
 
 #admitcard_body {
   font: small-caps 20px/30px "Times New Roman", serif;
+  margin-top:30px;
   color: maroon;
   padding: auto; }
+  
+#triple_break {
+  margin-bottom:50px;
+}
+
+#double_break {
+  margin-bottom:30px;
+}
+
+#single_break {
+  margin-bottom:5px;
+}
 
 /*sign_in page */
 #ad_signin {
@@ -189,7 +202,9 @@ h1 {
   float: right; }
 
 #line {
-  border-bottom: 2px black inset; }
+  border-bottom: 2px black inset;
+  margin-top:20px;
+  margin-bottom:20px; }
 
 /*candidate form styling */
 #main_candidate {
@@ -212,7 +227,6 @@ h1 {
   font-size: 20px; }
 
 #odd_f {
-  display: inline;
   font-size: 20px; }
 
 /*display table styles */
