@@ -5,6 +5,7 @@ class EventsCandidate < ActiveRecord::Base
   belongs_to :candidate
   belongs_to :batch
   
+  ## We dont need attr_accessible
   attr_accessible :event_id, :candidate_id, :roll_num, :confirmed, :attended, :waitlist, :cancellation, :batch_id, :status
   
   #scope to find candidates who has not cancelled candidature.

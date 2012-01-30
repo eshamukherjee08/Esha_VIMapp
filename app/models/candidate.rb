@@ -5,6 +5,7 @@ class Candidate < ActiveRecord::Base
   has_many :events, :through => :events_candidates
   has_many :batches, :through => :events_candidates
  
+  ## Use validates_acceptance_of
   #for term acceptance in registration form.
   attr_reader :accept
  
@@ -30,6 +31,7 @@ class Candidate < ActiveRecord::Base
     #validating resume presence and format.
     def resume_format
       if !self.resume_file_name.nil?
+        # check in has_attached_file
         if !['text/plain', 'application/rtf', 'application/x-pdf', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'].include?(self.resume_content_type)
           errors.add_to_base("Resume is not a valid file type")
         end
@@ -39,6 +41,7 @@ class Candidate < ActiveRecord::Base
     end
     
     #send confirmation mail to candidate on registration.
+    # Can we move this to callbacks
     def self.send_confirmation_mail(candidate, event_id)
       CandidateMailer.confirm_email(candidate, event_id).deliver
     end
