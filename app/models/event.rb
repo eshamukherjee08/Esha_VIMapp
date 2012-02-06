@@ -13,28 +13,27 @@ class Event < ActiveRecord::Base
   validates :event_date, :date => {:after => Proc.new {Time.zone.now}, :message => "Please Enter valid date"}
   
   validate :confirm_count
+  validate :batch_end_time
+  validate :batch_start_time
+  
     
   #scope to find upcoming events.  
   # Make 1 a conntant
-  scope :upcoming_events, lambda { where("event_date >= ?", Time.zone.now - 1.day) }
+  scope :upcoming_events, lambda { where("event_date >= ?", Time.zone.now - DATEVALUE.day) }
   
   #scope to find past events.
   scope :past_events, lambda { where("event_date < ?", Time.zone.now - 1.day) }
   
   after_save :waitlist_allocation
-  
-  validate :batch_end_time
-  validate :batch_start_time
-   
-   
+     
    #not to delete a batch if allocation started.
    def confirm_count
      if new_record? and batches.empty?
-      errors.add_to_base "Please ADD atleast ONE BATCH"
+      errors.add(:base, "Please ADD atleast ONE BATCH")
      else
        self.batches.each do |batch|
          if batch.marked_for_destruction? and !batch.candidates.count.zero?
-          errors.add_to_base"CANNOT DELETE BATCH STARTING FROM : #{batch.start_time.strftime('%H:%M')} "
+          errors.add(:base, "CANNOT DELETE BATCH STARTING FROM : #{batch.start_time.strftime('%H:%M')} ")
          end
        end  
      end
@@ -56,20 +55,17 @@ class Event < ActiveRecord::Base
    def batch_end_time
      batches.each do |batch|
        if (batch.end_time <= batch.start_time)
-        errors.add_to_base "Keep a gap after start time: #{batch.start_time.strftime('%H:%M')}"
+        errors.add(:base, "Keep a gap after start time: #{batch.start_time.strftime('%H:%M')}")
        end
      end
    end
     
-  #to ensure gap between two consecutive batches.  
+   #to ensure gap between two consecutive batches.  
    def batch_start_time
-     i = batches.length
-     while i >= 2
-       if !(self.batches[i-1].start_time > self.batches[i-2].end_time)
-         errors.add_to_base "Please start batch #{i} after the end time of batch #{i-1}"
-       end
-       i = i-1
+     batches.length.downto(2).each do |index|
+      if !(batches[index-1].start_time > batches[index-2].end_time)
+        errors.add(:base, "Please start batch #{index} after the end time of batch #{index-1}")
+      end
      end
    end
-
 end
