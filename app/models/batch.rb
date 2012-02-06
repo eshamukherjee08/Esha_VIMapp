@@ -9,4 +9,3 @@ class Batch < ActiveRecord::Base
   validates :capacity, :allow_nil => false, :numericality => true
   
 end
-## Add validations

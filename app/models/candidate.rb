@@ -38,12 +38,16 @@ class Candidate < ActiveRecord::Base
     
     
     #assigning candidate to a batch.
+    # Select batch function
+    # Create funtion in event to check all batches full
+    
     def assign_to_batch(event,candidate)
       events_candidate = EventsCandidate.where(:event_id => event.id , :candidate_id => candidate.id )
       if (event.batches.sum(:capacity) <= event.candidates.count )
         @events_candidate = EventsCandidate.new(:event_id => event.id, :candidate_id => candidate.id, :roll_num => UUID.new.generate.hex, :confirmed => true, :attended => false, :waitlist => true, :cancellation => false )
         @events_candidate.save
       else
+        # Remove flag
         flag = true
         event.batches.each do |batch|
           while(batch.capacity != batch.candidates.count && flag )

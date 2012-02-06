@@ -18,15 +18,15 @@ class Event < ActiveRecord::Base
   
     
   #scope to find upcoming events.  
-  # Make 1 a conntant
   scope :upcoming_events, lambda { where("event_date >= ?", Time.zone.now - DATEVALUE.day) }
   
   #scope to find past events.
-  scope :past_events, lambda { where("event_date < ?", Time.zone.now - 1.day) }
+  scope :past_events, lambda { where("event_date < ?", Time.zone.now - DATEVALUE.day) }
   
   after_save :waitlist_allocation
      
    #not to delete a batch if allocation started.
+   # Divide into 2 separate methods, 2nd should be called before_destroy -> batch
    def confirm_count
      if new_record? and batches.empty?
       errors.add(:base, "Please ADD atleast ONE BATCH")
@@ -44,6 +44,8 @@ class Event < ActiveRecord::Base
      batches.each do |batch|
        if batch.candidates.count.zero? or batch.candidates.count < batch.capacity
          c = self.events_candidates.where(:waitlist => true).limit(batch.capacity)
+         # use update_all
+         # create method
          c.each do |ele|
            ele.update_attributes(:waitlist => false, :batch_id => batch.id)
          end
@@ -63,7 +65,7 @@ class Event < ActiveRecord::Base
    #to ensure gap between two consecutive batches.  
    def batch_start_time
      batches.length.downto(2).each do |index|
-      if !(batches[index-1].start_time > batches[index-2].end_time)
+      unless (batches[index-1].start_time > batches[index-2].end_time)
         errors.add(:base, "Please start batch #{index} after the end time of batch #{index-1}")
       end
      end
