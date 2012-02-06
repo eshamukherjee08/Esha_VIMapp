@@ -6,7 +6,6 @@ class Candidate < ActiveRecord::Base
   has_many :batches, :through => :events_candidates
  
   has_attached_file :resume
-  ## Use validates_acceptance_of
   
   #validations for candidate model.
   

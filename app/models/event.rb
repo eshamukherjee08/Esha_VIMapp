@@ -15,6 +15,7 @@ class Event < ActiveRecord::Base
   validate :confirm_count
     
   #scope to find upcoming events.  
+  # Make 1 a conntant
   scope :upcoming_events, lambda { where("event_date >= ?", Time.zone.now - 1.day) }
   
   #scope to find past events.
@@ -23,13 +24,12 @@ class Event < ActiveRecord::Base
   after_save :waitlist_allocation
   
   validate :batch_end_time
-  
   validate :batch_start_time
    
    
    #not to delete a batch if allocation started.
    def confirm_count
-     if self.new_record? and self.batches.empty?
+     if new_record? and batches.empty?
       errors.add_to_base "Please ADD atleast ONE BATCH"
      else
        self.batches.each do |batch|
@@ -42,7 +42,7 @@ class Event < ActiveRecord::Base
    
    #move waitlisted candidates to any new or old batch with available space.
    def waitlist_allocation
-     self.batches.each do |batch|
+     batches.each do |batch|
        if batch.candidates.count.zero? or batch.candidates.count < batch.capacity
          c = self.events_candidates.where(:waitlist => true).limit(batch.capacity)
          c.each do |ele|
@@ -54,7 +54,7 @@ class Event < ActiveRecord::Base
    
    #to ensure gap between a batch's start and end time.
    def batch_end_time
-     self.batches.each do |batch|
+     batches.each do |batch|
        if (batch.end_time <= batch.start_time)
         errors.add_to_base "Keep a gap after start time: #{batch.start_time.strftime('%H:%M')}"
        end
@@ -63,7 +63,7 @@ class Event < ActiveRecord::Base
     
   #to ensure gap between two consecutive batches.  
    def batch_start_time
-     i = self.batches.length
+     i = batches.length
      while i >= 2
        if !(self.batches[i-1].start_time > self.batches[i-2].end_time)
          errors.add_to_base "Please start batch #{i} after the end time of batch #{i-1}"
