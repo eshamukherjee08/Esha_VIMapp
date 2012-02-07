@@ -47,6 +47,7 @@ class Candidate < ActiveRecord::Base
         @events_candidate = EventsCandidate.new(:event_id => event.id, :candidate_id => candidate.id, :roll_num => UUID.new.generate.hex, :confirmed => true, :attended => false, :waitlist => true, :cancellation => false )
         @events_candidate.save
       else
+        batch = event.find_batch(event)
         @events_candidate = EventsCandidate.new(:event_id => event.id, :candidate_id => candidate.id, :batch_id => batch.id, :roll_num => UUID.new.generate.hex, :confirmed => true, :attended => false, :waitlist => false, :cancellation => false )
         @events_candidate.save
       end
