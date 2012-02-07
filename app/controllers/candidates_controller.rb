@@ -78,7 +78,7 @@ class CandidatesController < ApplicationController
   
   #allows candidate to cancel registration and triggers mail to admin.
   def cancel
-    @events_candidate = EventsCandidate.where(:event_id => params[:event_id]).where(:candidate_id => params[:id]).first
+    @events_candidate = EventsCandidate.where(:event_id => params[:event_id], :candidate_id => params[:id]).first
     @events_candidate.update_attributes( :cancellation => true )
     EventsCandidate.send_mail_after_cancel(@events_candidate)
     redirect_to(root_path , :notice => 'Your Registration has been Cancelled successfully!')
