@@ -2,10 +2,9 @@ EshaVIMapp::Application.routes.draw do
 
   resources :candidates do
     collection do
-      get "mark_candidate_star"
-      get "find_category"
+      get :mark_candidate_star
+      get :find_category
       get "find_star_category"
-      # Please remove
       get "starred_list"
       get "mark_selected"
       get "mark_rejected"
@@ -29,7 +28,6 @@ EshaVIMapp::Application.routes.draw do
 		put 'update_password', :on => :collection
   end
 
-  # resources :passwords
   resources :batches
   resources :walkins, :only => [:index] do
     collection do
