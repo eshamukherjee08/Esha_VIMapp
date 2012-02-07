@@ -71,10 +71,6 @@ class CandidatesController < ApplicationController
     @event = Event.where(:id => params[:event_id]).first
   end
   
-  #computes layout for admitcard.
-  def compute_layout
-    action_name == "admitcard" ? "admitcard" : "application"
-  end
   
   #allows candidate to cancel registration and triggers mail to admin.
   def cancel
@@ -141,6 +137,11 @@ class CandidatesController < ApplicationController
   def find_candidate
     @candidate = Candidate.where(:id => params[:id].to_i).first
     redirect_to error_walkins_path unless @candidate
+  end
+  
+  #computes layout for admitcard.
+  def compute_layout
+    action_name == "admitcard" ? "admitcard" : "application"
   end
     
 end
