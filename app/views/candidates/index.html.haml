@@ -16,15 +16,7 @@
   		data : "category="+$("#category").attr("value")
   	});
   }
-  
-  function delete_candidate(candidate_id) {
-  	$.ajax({
-  		url : "#{delete_candidate_candidates_path()}",
-  		dataType : 'script',
-  		type : 'get',
-  		data : "candidate_id="+ candidate_id
-  	});
-  }
+
 #heading
   Listing Candidates >>
 %br/
@@ -73,8 +65,7 @@
         %td
           = link_to "Download", download_resume_candidate_path(candidate.id)
         %td
-          %span{:confirm => "Are you sure?", :id => "delete_#{candidate.id}", :onclick => "delete_candidate(#{candidate.id})"}
-            = image_tag("delete.png")
+          = link_to(image_tag("delete.png"), candidate, :confirm => 'Are you sure?', :method => :delete)
 %p
   = will_paginate @candidates
 %br/

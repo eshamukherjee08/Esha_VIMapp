@@ -50,8 +50,8 @@ class CandidatesController < ApplicationController
 
 
   def destroy
-    @candidate = Candidate.where(:id => params[:candidate_id]).first
     @candidate.destroy
+    redirect_to candidates_path
   end
   
   #On confirming mailed link, allots candidate roll number and marks candidate as confirmed.
