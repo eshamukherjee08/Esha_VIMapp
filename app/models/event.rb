@@ -54,7 +54,7 @@ class Event < ActiveRecord::Base
    def batch_end_time
      batches.each do |batch|
        if (batch.end_time <= batch.start_time)
-        errors.add(:base, "Keep a gap after start time: #{batch.start_time.strftime('%H:%M')}")
+         errors.add(:base, "Keep a gap after start time: #{batch.start_time.strftime('%H:%M')}")
        end
      end
    end
@@ -62,9 +62,19 @@ class Event < ActiveRecord::Base
    #to ensure gap between two consecutive batches.  
    def batch_start_time
      batches.length.downto(2).each do |index|
-      unless (batches[index-1].start_time > batches[index-2].end_time)
-        errors.add(:base, "Please start batch #{index} after the end time of batch #{index-1}")
-      end
+       unless (batches[index-1].start_time > batches[index-2].end_time)
+         errors.add(:base, "Please start batch #{index} after the end time of batch #{index-1}")
+       end
      end
    end
+   
+   #check if all batches of an event is full.
+   def check_capacity(event)
+     (event.batches.sum(:capacity) <= event.candidates.count)
+   end
+   
+   def find_batch(event)
+     event.batches.select{|batch| batch if (batch.capacity != batch.candidates.count)}.first
+   end
+   
 end
