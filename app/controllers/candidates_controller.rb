@@ -88,11 +88,7 @@ class CandidatesController < ApplicationController
   
   #conducts search on the basis of event category.
   def find_category
-    if params[:category] == "SELECT CATEGORY"
-      redirect_to candidates_path
-    else
-      @events = Event.where(:category => params[:category].to_s)
-    end
+    @events = Event.where(:category => params[:category].to_s)
   end
   
   #allows candidate to download admit card by clicking download link.
