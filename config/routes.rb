@@ -1,5 +1,7 @@
 EshaVIMapp::Application.routes.draw do
 
+  resources :categories
+
   resources :candidates do
     collection do
       get :mark_candidate_star

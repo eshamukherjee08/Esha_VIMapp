@@ -23,7 +23,7 @@
 %br/
 #search
   SEARCH PANEL:
-  \#{select_tag('category', options_for_select([['Ruby On Rails Developer', 'Ruby On Rails Developer'], ['Android Developer', 'Android Developer'], ['PHP Developer', 'PHP Developer'], ['Project Manager', 'Project Manager']], :include_blank => "- Select -"))}
+  \#{select_tag('category', options_for_select([['Ruby On Rails Developer', 'Ruby On Rails Developer'], ['Android Developer', 'Android Developer'], ['PHP Developer', 'PHP Developer'], ['Project Manager', 'Project Manager']]), :include_blank => "- Select -")}
   <input type="button", value="SEARCH", onclick="s_category();" >
 #search_category
   %table#candidate_table
