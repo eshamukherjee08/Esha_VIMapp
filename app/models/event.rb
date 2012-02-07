@@ -25,17 +25,11 @@ class Event < ActiveRecord::Base
   
   after_save :waitlist_allocation
      
-   #not to delete a batch if allocation started.
+   #not to create event with zero number of batches.
    # Divide into 2 separate methods, 2nd should be called before_destroy -> batch
    def confirm_count
      if new_record? and batches.empty?
-      errors.add(:base, "Please ADD atleast ONE BATCH")
-     else
-       self.batches.each do |batch|
-         if batch.marked_for_destruction? and !batch.candidates.count.zero?
-          errors.add(:base, "CANNOT DELETE BATCH STARTING FROM : #{batch.start_time.strftime('%H:%M')} ")
-         end
-       end  
+      errors.add(:base, "Please ADD atleast ONE BATCH") 
      end
    end
    
@@ -43,14 +37,17 @@ class Event < ActiveRecord::Base
    def waitlist_allocation
      batches.each do |batch|
        if batch.candidates.count.zero? or batch.candidates.count < batch.capacity
-         c = self.events_candidates.where(:waitlist => true).limit(batch.capacity)
+         c = self.events_candidates.where(:waitlist => true).limit(batch.capacity - batch.candidates.count)
          # use update_all
          # create method
-         c.each do |ele|
-           ele.update_attributes(:waitlist => false, :batch_id => batch.id)
-         end
+         waitlist_update(c, batch.id)
        end
      end
+   end
+   
+   #updating events_candidates on batch allocation.
+   def waitlist_update(candidate_data, b_id)
+    candidate_data.update_all(:waitlist => false, :batch_id => b_id) 
    end
    
    #to ensure gap between a batch's start and end time.

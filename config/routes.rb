@@ -6,7 +6,6 @@ EshaVIMapp::Application.routes.draw do
       get "find_category"
       get "find_star_category"
       # Please remove
-      # get "delete_candidate", :to => "candidates#destroy"
       get "starred_list"
       get "mark_selected"
       get "mark_rejected"
