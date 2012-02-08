@@ -10,7 +10,7 @@ class Candidate < ActiveRecord::Base
   #validations for candidate model.
   
   #for term acceptance in registration form.
-  validates_acceptance_of :terms
+  validates :terms, :acceptance => true
  
   validates :address, :dob, :current_state, :exp, :salary_exp, :presence => true
  

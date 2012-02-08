@@ -1,7 +1,7 @@
 class CandidatesController < ApplicationController
 
   before_filter :find_candidate, :only => [:show, :edit, :update, :destroy, :admitcard]
-  before_filter :controlaccess, :except => [:new, :create, :confirmation, :admitcard, :cancel]
+  before_filter :controlaccess, :except => [:new, :create, :confirmation, :admitcard, :cancel, :show]
   layout :compute_layout #calculating layout for admit card.
   
   
@@ -25,7 +25,8 @@ class CandidatesController < ApplicationController
   def create
     @candidate = Candidate.new(params[:candidate])
     @event = Event.where(:id => params[:event_id]).first
-
+    
+    #perishable token generated for unique url to each registered candidate
     @candidate.perishable_token = Candidate.generate_token
     
     if @event.experience == @candidate.exp
@@ -76,7 +77,9 @@ class CandidatesController < ApplicationController
   #allows candidate to cancel registration and triggers mail to admin.
   def cancel
     @events_candidate = EventsCandidate.where(:event_id => params[:event_id], :candidate_id => params[:id]).first
-    @events_candidate.update_attributes( :cancellation => true )
+    @event = Event.where(:id => params[:event_id]).first
+    @events_candidate.update_attributes( :cancellation => true, :batch_id => nil)
+    @event.waitlist_allocation
     EventsCandidate.send_mail_after_cancel(@events_candidate)
     redirect_to(root_path , :notice => 'Your Registration has been Cancelled successfully!')
   end

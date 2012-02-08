@@ -1,0 +1,22 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+  %body
+    %h1
+      Congratulations, #{@candidate.name}
+    %p
+      You have been alloted batch with following details for Vinsol Walk-In,
+      %br/
+    %p
+      Event Name: #{@event.name}
+      #single_break
+        Date : #{@event.event_date}
+      #single_break
+        Roll Number : #{@candidate.events_candidates.first.roll_num}
+      #single_break
+        Venue : #{@event.location}
+      #single_break
+        Time : #{@candidate.batches.first.start_time.strftime('%H:%M')} Hrs
+      #double_break
+        For any further queries please contact : 011-45675342

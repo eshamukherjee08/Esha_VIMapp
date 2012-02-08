@@ -46,9 +46,11 @@ class Event < ActiveRecord::Base
      end
    end
    
+   
+   
    #updating events_candidates on batch allocation.
    def waitlist_update(candidate_data, b_id)
-    candidate_data.update_all(:waitlist => false, :batch_id => b_id) 
+    candidate_data.update_all(:waitlist => false, :batch_id => b_id)
    end
    
    #to ensure gap between a batch's start and end time.
@@ -69,11 +71,13 @@ class Event < ActiveRecord::Base
      end
    end
    
-   #check if all batches of an event is full.
+   #check if all batches of an event is full.called at candidate.rb.
    def check_capacity(event)
-     (event.batches.sum(:capacity) <= event.candidates.count)
+     (event.batches.sum(:capacity) <= event.events_candidates.where('batch_id is not null').count)
    end
    
+   
+   #find the first batch that has an empty space, called at candidate.rb
    def find_batch(event)
      event.batches.select{|batch| batch if (batch.capacity != batch.candidates.count)}.first
    end
