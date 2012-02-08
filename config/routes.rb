@@ -6,22 +6,22 @@ EshaVIMapp::Application.routes.draw do
     collection do
       get :mark_candidate_star
       get :find_category
-      get "find_star_category"
-      get "starred_list"
-      get "mark_selected"
-      get "mark_rejected"
-      get "edit_status"
+      get :find_star_category
+      get :starred_list
+      get :mark_selected
+      get :mark_rejected
+      get :edit_status
     end
     
     member do
-      get "download_resume"
+      get :download_resume
     end
   end
      
   get "confirmation/:event_id/:perishable_token", :to => "candidates#confirmation", :as => "confirmation"
   get "home/index"
   get "home/search", :to => "home#search", :as => "search"
-  get "find_search_data", :to => "home#find_data", :as => "find_search_data"
+  get :find_search_data, :to => "home#find_data", :as => "find_search_data"
   
   devise_for :admins, :controllers => { :invitations => 'admins/invitations', :sessions => 'admins/sessions'}
   
@@ -38,29 +38,29 @@ EshaVIMapp::Application.routes.draw do
   end
   
   
-  get "change_map_location", :to => "events#change_map", :as => "change_map_location"
+  get :change_map_location, :to => "events#change_map", :as => "change_map_location"
   get "google_map/index"
-  get "map_location", :to => "walkins#change_map", :as => "map_location"
+  get :map_location, :to => "walkins#change_map", :as => "map_location"
             
   resources :events do
     collection do 
-      get "past"
+      get :past
     end
     
     member do
-      get "wait_list"
+      get :wait_list
     end
     
     resources :candidates do
       member do
-        get "admitcard"
-        get "cancel"
+        get :admitcard
+        get :cancel
       end
     end
     
     resources :events_candidates do
       collection do
-        post "mark_attended"
+        post :mark_attended
       end
     end
   end

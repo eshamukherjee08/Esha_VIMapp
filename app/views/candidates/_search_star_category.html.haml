@@ -13,15 +13,16 @@
   - @events.each do |event|
     - event.candidates.each do |candidate|
       #mark
-      %tr
-        %td
-          = image_tag("star.png")
-          = candidate.id
-        %td
-          = candidate.name
-        %td
-          = candidate.exp
-        %td
-          = candidate.current_state
-        %td
-          = link_to "Download", download_resume_candidate_path(candidate.id)
+      - if candidate.starred
+        %tr
+          %td
+            = image_tag("star.png")
+            = candidate.id
+          %td
+            = candidate.name
+          %td
+            = candidate.exp
+          %td
+            = candidate.current_state
+          %td
+            = link_to "Download", download_resume_candidate_path(candidate.id)

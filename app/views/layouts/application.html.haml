@@ -22,6 +22,8 @@
           |
           = link_to 'Past Events', past_events_path, :class => "#{'current_menu' if params[:controller] == 'events' && params[:action] == 'past' }"
           |
+          = link_to 'Category', categories_path, :class => "#{'current_menu' if params[:controller] == 'categories' && params[:action] == 'index' }"
+          |
           = link_to 'Edit Password', password_reset_admins_path, :class => "#{'current_menu' if params[:controller] == 'admins' && params[:action] == 'reset' }"
           |
           = link_to 'Sign Out', destroy_admin_session_path, :method => :delete

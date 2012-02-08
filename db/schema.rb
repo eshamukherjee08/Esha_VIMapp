@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120207080541) do
+ActiveRecord::Schema.define(:version => 20120207091621) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                                 :default => "", :null => false
@@ -80,7 +80,7 @@ ActiveRecord::Schema.define(:version => 20120207080541) do
     t.string   "experience"
     t.string   "location"
     t.string   "description"
-    t.string   "category"
+    t.integer  "category_id", :limit => 255
     t.string   "tech_spec"
     t.integer  "admin_id"
     t.datetime "created_at"

@@ -1,6 +1,7 @@
 class CandidatesController < ApplicationController
 
   before_filter :find_candidate, :only => [:show, :edit, :update, :destroy, :admitcard]
+  before_filter :controlaccess, :except => [:new, :create, :confirmation, :admitcard, :cancel]
   layout :compute_layout #calculating layout for admit card.
   
   
@@ -88,7 +89,7 @@ class CandidatesController < ApplicationController
   
   #conducts search on the basis of event category.
   def find_category
-    @events = Event.where(:category => params[:category].to_s)
+    @events = Event.where(:category_id => params[:category])
   end
   
   #allows candidate to download admit card by clicking download link.
@@ -104,7 +105,7 @@ class CandidatesController < ApplicationController
   
   #performs category based search on star marked candidates.
   def find_star_category
-    @events = Event.where(:category => params[:category].to_s)
+    @events = Event.where(:category_id => params[:category])
   end
   
   #allows admin to mark candidate as selected.

@@ -23,11 +23,11 @@
       - if @event.new_record?
         = f.label :category
         \:
-        \#{f.select(:category, CATEGORY, {:prompt => '--Select Category--'})}
+        \#{f.select(:category_id, fetch_category, {:prompt => '--Select Category--'})}
       - else
         = f.label :category
         \:
-        = f.label @event.category
+        = f.label @event.category.name
     #special{:style => "margin-bottom:35px;"}
       #odd_field.field{:style => "margin-right:90px;"}
         = f.label :name
