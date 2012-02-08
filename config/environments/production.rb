@@ -13,7 +13,7 @@ EshaVIMapp::Application.configure do
     :password => "poohandpiglet"
   }
   
-  SITENAME = 'www.walkin.vinsol.com'
+  SITENAME = 'walkin.vinsol.com'
   
   config.action_mailer.default_url_options = { :host => SITENAME}
   config.action_mailer.asset_host = "http://#{SITENAME}"
@@ -47,7 +47,7 @@ EshaVIMapp::Application.configure do
 
   # Disable Rails's static asset server
   # In production, Apache or nginx will already do this
-  config.serve_static_assets = false
+  config.serve_static_assets = true
   
   #set up for default url options
 
