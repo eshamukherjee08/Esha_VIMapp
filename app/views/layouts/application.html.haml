@@ -8,7 +8,7 @@
     = stylesheet_link_tag "application", :media => "all"
     = javascript_include_tag :defaults, "nested_form"
     = csrf_meta_tag
-  %body{:onLoad => "getLeaf(<haml:silent> request.url </haml:silent>)"}
+  %body
     #banner
       = image_tag("Vinsol_thumb.png")
       = "'V'alk-In"

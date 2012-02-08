@@ -13,6 +13,21 @@ EshaVIMapp::Application.configure do
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
+  
+  config.action_mailer.delivery_method = :smtp
+ 
+  ActionMailer::Base.smtp_settings = {
+    :address => "smtp.sendgrid.net",
+    :port => 25,
+    :domain => "vinsol.com",
+    :authentication => :plain,
+    :user_name => "esha.mukherjee@vinsol.com",
+    :password => "poohandpiglet"
+  }
+  SITENAME = 'localhost:3000'
+  
+  config.action_mailer.default_url_options = { :host => SITENAME}
+  config.action_mailer.asset_host = "http://#{SITENAME}"
 
   # Raise exceptions instead of rendering exception templates
   config.action_dispatch.show_exceptions = false
@@ -23,7 +38,6 @@ EshaVIMapp::Application.configure do
   # Tell Action Mailer not to deliver emails to the real world.
   # The :test delivery method accumulates sent emails in the
   # ActionMailer::Base.deliveries array.
-  config.action_mailer.delivery_method = :test
 
   # Use SQL instead of Active Record's schema dumper when creating the test database.
   # This is necessary if your schema can't be completely dumped by the schema dumper,

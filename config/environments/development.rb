@@ -15,7 +15,10 @@ EshaVIMapp::Application.configure do
     :user_name => "esha.mukherjee@vinsol.com",
     :password => "poohandpiglet"
   }
+  SITENAME = 'localhost:3000'
   
+  config.action_mailer.default_url_options = { :host => SITENAME}
+  config.action_mailer.asset_host = "http://#{SITENAME}"
   
   config.cache_classes = false
 
@@ -28,7 +31,6 @@ EshaVIMapp::Application.configure do
   config.action_controller.perform_caching = false
   
   #set up for default url options
-  config.action_mailer.default_url_options = { :host => 'localhost:3000'}
 
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = false

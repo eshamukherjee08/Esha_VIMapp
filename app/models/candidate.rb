@@ -17,7 +17,7 @@ class Candidate < ActiveRecord::Base
  
   validates :mobile_number, :format => { :with => /\A[0-9]{10}\Z/}, :uniqueness => true
  
-  validates :name, :home_town, :format => {:with => /\A[a-zA-Z]+\z/}
+  validates :name, :home_town, :format => {:with => /\w+(\s\w+)*/}
  
   validate :resume_format
     
