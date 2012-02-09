@@ -1,3 +1,4 @@
+## use AASM callbacks
 class EventsCandidate < ActiveRecord::Base
   
   include AASM

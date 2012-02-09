@@ -79,6 +79,7 @@ class CandidatesController < ApplicationController
     @events_candidate = EventsCandidate.where(:event_id => params[:event_id], :candidate_id => params[:id]).first
     @event = Event.where(:id => params[:event_id]).first
     @events_candidate.cancel!
+    # Put in callback
     @events_candidate.update_attributes(:batch_id => nil)
     @event.waitlist_allocation
     EventsCandidate.send_mail_after_cancel(@events_candidate)
@@ -134,7 +135,6 @@ class CandidatesController < ApplicationController
   
   protected
   
-  ## if candidate - redirect somewhere
   def find_candidate
     @candidate = Candidate.where(:id => params[:id].to_i).first
     redirect_to error_walkins_path unless @candidate

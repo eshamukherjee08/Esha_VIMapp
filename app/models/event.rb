@@ -39,11 +39,7 @@ class Event < ActiveRecord::Base
      batches.each do |batch|
        if batch.candidates.count.zero? or batch.candidates.count < batch.capacity
          c = self.events_candidates.where(:current_state => :waitlisted).limit(batch.capacity - batch.candidates.count)
-         # use update_all
-         # create method
-         unless c.empty?
-           waitlist_update(c, batch.id)
-         end
+         waitlist_update(c, batch.id) unless c.empty?
        end
      end
    end
