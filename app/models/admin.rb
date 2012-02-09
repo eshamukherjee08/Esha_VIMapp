@@ -9,7 +9,7 @@ class Admin < ActiveRecord::Base
   validates :email, :password, :password_confirmation, :presence => true
     
   ## should be before_destroy
-  after_destroy :ensure_an_admin_remains
+  before_destroy :ensure_an_admin_remains
     
     #to ensure atleast one admin remains
     def ensure_an_admin_remains 

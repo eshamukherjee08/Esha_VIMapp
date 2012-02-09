@@ -1,41 +1,33 @@
-- if @flag == 0
-  %h3
-    Sorry Event has already taken place, Register for new!.
+- if @msg
+  %p
+    = @msg
 - else
-  - if @f == 1
-    %h3
-      Sorry wrong roll number! Enter correct roll number or register for event.
-  - else
-    - if @f == 0
-      %h3
-        You have already cancelled your candidature.
+  %h3#double_break
+    YOUR EVENT DETAILS
+  #single_break
+    Welcome #{@candidate.name},
+  #double_break
+    Following are your VinSol Walk-in Details:
+  #single_break
+    Event Name: #{@event.name}
+  #single_break
+    Date : #{@event.event_date}
+  #single_break
+    - if @events_candidate.waitlist
+      Sorry!You are on Waitlist, please keep on checking.
     - else
-      %h3#double_break
-        YOUR EVENT DETAILS
-      #single_break
-        Welcome #{@candidate.name},
-      #double_break
-        Following are your VinSol Walk-in Details:
-      #single_break
-        Event Name: #{@event.name}
-      #single_break
-        Date : #{@event.event_date}
-      #single_break
-        - if @events_candidate.waitlist
-          Sorry!You are on Waitlist, please keep on checking.
-        - else
-          Time : #{@candidate.batches.first.start_time.strftime('%H:%M')} Hrs
-      #single_break
-        Roll Number : #{@events_candidate.roll_num}
-      #single_break
-        Venue : #{@event.location}
-      #double_break
-        For any further queries please contact : 011-45675342
-      #double_break
-        = link_to "Generate Admit Card", admitcard_event_candidate_path(:event_id => @event.id, :id => @candidate.id )
-        |
-        - if !(@events_candidate.attended?)
-          = link_to "CANCEL CANDIDATURE", cancel_event_candidate_path(:event_id => @event.id, :id => @candidate.id ), :confirm => 'Are you sure?'
-        - else
-          %span
-            Thank You for attending the Event!
+      Time : #{@candidate.batches.first.start_time.strftime('%H:%M')} Hrs
+  #single_break
+    Roll Number : #{@events_candidate.roll_num}
+  #single_break
+    Venue : #{@event.location}
+  #double_break
+    For any further queries please contact : 011-45675342
+  #double_break
+    = link_to "Generate Admit Card", admitcard_event_candidate_path(:event_id => @event.id, :id => @candidate.id )
+    |
+    - if !(@events_candidate.attended?)
+      = link_to "CANCEL CANDIDATURE", cancel_event_candidate_path(:event_id => @event.id, :id => @candidate.id ), :confirm => 'Are you sure?'
+    - else
+      %span
+        Thank You for attending the Event!

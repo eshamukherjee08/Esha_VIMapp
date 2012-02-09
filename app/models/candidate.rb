@@ -5,20 +5,19 @@ class Candidate < ActiveRecord::Base
   has_many :events, :through => :events_candidates
   has_many :batches, :through => :events_candidates
  
+  has_attached_file :resume
   ## Use validates_acceptance_of
-  #for term acceptance in registration form.
-  attr_reader :accept
- 
-  #making all attributes mass assignable.
-  attr_accessible :name, :address, :current_state, :home_town, :mobile_number, :exp, :salary_exp, :resume, :email, :dob, :starred, :accept 
- 
- 
+  
   #validations for candidate model.
-  validates :accept, :acceptance => true
+  
+  #for term acceptance in registration form.
+  validates_acceptance_of :terms
  
   validates :address, :dob, :current_state, :exp, :salary_exp, :presence => true
  
-  has_attached_file :resume#, :styles => { :medium => "150x150>", :thumb => "100x100#" }
+  validates_attachment_presence :resume
+  
+  validates_attachment_content_type :resume, :content_type =>['text/plain', 'application/rtf', 'application/x-pdf', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']
  
   validates :email, :format => { :with =>  /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/ }, :uniqueness => true
  
@@ -26,19 +25,6 @@ class Candidate < ActiveRecord::Base
  
   validates :name, :home_town, :format => {:with => /\w+(\s\w+)*/}
  
-  validate :resume_format
-    
-    #validating resume presence and format.
-    def resume_format
-      if !self.resume_file_name.nil?
-        # check in has_attached_file
-        if !['text/plain', 'application/rtf', 'application/x-pdf', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'].include?(self.resume_content_type)
-          errors.add_to_base("Resume is not a valid file type")
-        end
-      else
-       errors.add_to_base("Please Upload your resume")
-      end  
-    end
     
     #send confirmation mail to candidate on registration.
     # Can we move this to callbacks
@@ -56,14 +42,12 @@ class Candidate < ActiveRecord::Base
     def assign_to_batch(event,candidate)
       events_candidate = EventsCandidate.where(:event_id => event.id , :candidate_id => candidate.id )
       if (event.batches.sum(:capacity) <= event.candidates.count )
-        # self.events_candidate << EventsCandidate.create(:event_id => event.id, :roll_num => UUID.new.generate.hex, :confirmed => true, :attended => false, :waitlist => true, :cancellation => false )
         @events_candidate = EventsCandidate.new(:event_id => event.id, :candidate_id => candidate.id, :roll_num => UUID.new.generate.hex, :confirmed => true, :attended => false, :waitlist => true, :cancellation => false )
         @events_candidate.save
       else
         flag = true
         event.batches.each do |batch|
           while(batch.capacity != batch.candidates.count && flag )
-            #self.events_candidate << EventsCandidate.create(:event_id => event.id, :batch_id => batch.id, :roll_num => UUID.new.generate.hex, :confirmed => true, :attended => false, :waitlist => false, :cancellation => false  )
             @events_candidate = EventsCandidate.new(:event_id => event.id, :candidate_id => candidate.id, :batch_id => batch.id, :roll_num => UUID.new.generate.hex, :confirmed => true, :attended => false, :waitlist => false, :cancellation => false )
             @events_candidate.save
             flag = false

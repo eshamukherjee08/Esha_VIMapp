@@ -8,20 +8,19 @@ class HomeController < ApplicationController
   # finds registered candidate's admit card details on the basis of roll number.
   def find_data
     @events_candidate = EventsCandidate.where(:roll_num => params[:roll_num].to_i).first  
-    @flag = 1
     unless @events_candidate.nil?
       if @events_candidate.event.event_date.future? or @events_candidate.event.event_date.today?
         unless @events_candidate.cancellation
           @event = @events_candidate.event
           @candidate = @events_candidate.candidate
         else
-          @f = 0
+          @msg = 'You have already cancelled your candidature.'
         end
       else
-        @flag =0
+        @msg = 'Sorry Event has already taken place, Register for new!'
       end
     else
-      @f =1
+      @msg = 'Sorry wrong roll number! Enter correct roll number or register for event.'
     end
   end
 

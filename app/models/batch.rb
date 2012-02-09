@@ -6,5 +6,4 @@ class Batch < ActiveRecord::Base
   has_many :candidates, :through => :events_candidates
   
   ## We dont need attr_accessible here
-  attr_accessible :capacity, :start_time, :end_time, :event_id
 end
