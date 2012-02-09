@@ -42,7 +42,7 @@ class CategoriesController < ApplicationController
   
   protected
   
-  ## if category not found - redirect somewhere
+  #if category not found - redirect
   def find_category
     @category = Category.where(:id => params[:id].to_i).first
     redirect_to error_walkins_path unless @category

@@ -19,50 +19,49 @@ class EventsCandidate < ActiveRecord::Base
       end
     end
   end
+
+  aasm_column :current_state
+    
+  aasm_initial_state :confirmed
+  aasm_state :waitlisted
+  aasm_state :attended
+  aasm_state :cancelled
+  aasm_state :alloted
+  aasm_state :selected
+  aasm_state :rejected
   
-  #sending mail to admin if candidature ia cancelled.
-  def self.send_mail_after_cancel(events_candidate)
-    AdminMailer.cancel_notification(events_candidate).deliver
+  aasm_event :allot do
+    transitions :to => :alloted, :from => [:confirmed, :waitlisted]
   end
   
+  aasm_event :allot_waitlist do
+    transitions :to => :waitlisted, :from => [:confirmed]
+  end
   
-  aasm :column => :current_state do
-    
-    state :confirmed, :initial => true
-    state :waitlisted
-    state :attended
-    state :cancelled
-    state :alloted
-    state :selected
-    state :rejected
-    
-    event :allot do
-      transitions :to => :alloted, :from => [:confirmed, :waitlisted]
-    end
-    
-    event :allot_waitlist do
-      transitions :to => :waitlisted, :from => [:confirmed]
-    end
-    
-    event :cancel do
-      transitions :to => :cancelled, :from => [:alloted, :waitlisted]
-    end
-    
-    event :attend do
-      transitions :to => :attended, :from => [:alloted]
-    end
-    
-    event :select do
-      transitions :to => :selected, :from => [:attended]
-    end
-    
-    event :reject do
-      transitions :to => :rejected, :from => [:attended]
-    end
-    
-    event :edit_status do
-      transitions :to => :attended, :from => [:selected, :rejected]
-    end
+  aasm_event :cancel, :after => :after_cancel do
+    transitions :to => :cancelled, :from => [:alloted, :waitlisted]
+  end
+  
+  aasm_event :attend do
+    transitions :to => :attended, :from => [:alloted]
+  end
+  
+  aasm_event :select do
+    transitions :to => :selected, :from => [:attended]
+  end
+  
+  aasm_event :reject do
+    transitions :to => :rejected, :from => [:attended]
+  end
+  
+  aasm_event :edit_status do
+    transitions :to => :attended, :from => [:selected, :rejected]
+  end
+  
+  def after_cancel
+    AdminMailer.cancel_notification(self).deliver
+    self.update_attributes(:batch_id => nil)
+    Event.where(:id => self.event_id).first.waitlist_allocation
   end
   
 end

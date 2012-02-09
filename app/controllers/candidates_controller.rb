@@ -58,11 +58,10 @@ class CandidatesController < ApplicationController
   
   #On confirming mailed link, allots candidate roll number and marks candidate as confirmed.
   def confirmation
-    @event = Event.where(:id => params[:event_id]).first
-    @candidate = Candidate.where(:perishable_token => params[:perishable_token]).first
-    events_candidate = EventsCandidate.where(:event_id => params[:event_id] , :candidate_id => @candidate.id)
+    candidate = Candidate.where(:perishable_token => params[:perishable_token]).first
+    events_candidate = EventsCandidate.where(:event_id => params[:event_id] , :candidate_id => candidate.id)
     if (events_candidate.empty? or !events_candidate.first.confirmed? )
-      @candidate.assign_to_batch(@event,@candidate)
+      assign_to_batch(params[:event_id],candidate)
     else
       redirect_to(root_path , :notice => 'Thank You, You Have already confirmed your registration.')
     end
@@ -77,12 +76,8 @@ class CandidatesController < ApplicationController
   #allows candidate to cancel registration and triggers mail to admin.
   def cancel
     @events_candidate = EventsCandidate.where(:event_id => params[:event_id], :candidate_id => params[:id]).first
-    @event = Event.where(:id => params[:event_id]).first
     @events_candidate.cancel!
     # Put in callback
-    @events_candidate.update_attributes(:batch_id => nil)
-    @event.waitlist_allocation
-    EventsCandidate.send_mail_after_cancel(@events_candidate)
     redirect_to(root_path , :notice => 'Your Registration has been Cancelled successfully!')
   end
   

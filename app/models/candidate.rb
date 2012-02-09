@@ -41,9 +41,8 @@ class Candidate < ActiveRecord::Base
     # Select batch function
     # Create funtion in event to check all batches full
     ## Please see this optimization
-    def assign_to_batch(event,candidate)
-      events_candidate = EventsCandidate.new(:event_id => event.id, :candidate_id => candidate.id, :roll_num => UUID.new.generate.hex)
-      
+    def assign_to_batch(eventid,candidate)
+      events_candidate = EventsCandidate.new(:event_id => eventid, :candidate_id => candidate.id, :roll_num => UUID.new.generate.hex)
       ## if capacity is full
       if (event.check_capacity(event))
         events_candidate.allot_waitlist!
