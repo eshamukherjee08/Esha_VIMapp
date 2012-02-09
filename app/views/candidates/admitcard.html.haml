@@ -14,7 +14,7 @@
   #single_break
     Venue : #{@event.location}
   #single_break
-    - if @candidate.events_candidates.first.waitlist?
+    - if @candidate.events_candidates.first.waitlisted?
       You are in our waitlist, on confirmation you'll be informed personally!
     - else
       Time : #{@candidate.batches.first.start_time.strftime('%H:%M')} Hrs

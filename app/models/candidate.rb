@@ -44,11 +44,13 @@ class Candidate < ActiveRecord::Base
     def assign_to_batch(event,candidate)
       events_candidate = EventsCandidate.where(:event_id => event.id , :candidate_id => candidate.id )
       if (event.check_capacity(event))
-        @events_candidate = EventsCandidate.new(:event_id => event.id, :candidate_id => candidate.id, :roll_num => UUID.new.generate.hex, :confirmed => true, :attended => false, :waitlist => true, :cancellation => false )
+        @events_candidate = EventsCandidate.new(:event_id => event.id, :candidate_id => candidate.id, :roll_num => UUID.new.generate.hex)
+        @events_candidate.allot_waitlist!
         @events_candidate.save
       else
         batch = event.find_batch(event)
-        @events_candidate = EventsCandidate.new(:event_id => event.id, :candidate_id => candidate.id, :batch_id => batch.id, :roll_num => UUID.new.generate.hex, :confirmed => true, :attended => false, :waitlist => false, :cancellation => false )
+        @events_candidate = EventsCandidate.new(:event_id => event.id, :candidate_id => candidate.id, :batch_id => batch.id, :roll_num => UUID.new.generate.hex)
+        @events_candidate.allot!
         @events_candidate.save
       end
     end

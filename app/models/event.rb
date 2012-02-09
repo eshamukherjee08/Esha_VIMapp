@@ -38,10 +38,12 @@ class Event < ActiveRecord::Base
    def waitlist_allocation
      batches.each do |batch|
        if batch.candidates.count.zero? or batch.candidates.count < batch.capacity
-         c = self.events_candidates.where(:waitlist => true).limit(batch.capacity - batch.candidates.count)
+         c = self.events_candidates.where(:current_state => :waitlisted).limit(batch.capacity - batch.candidates.count)
          # use update_all
          # create method
-         waitlist_update(c, batch.id)
+         unless c.empty?
+           waitlist_update(c, batch.id)
+         end
        end
      end
    end
@@ -50,7 +52,10 @@ class Event < ActiveRecord::Base
    
    #updating events_candidates on batch allocation.
    def waitlist_update(candidate_data, b_id)
-    candidate_data.update_all(:waitlist => false, :batch_id => b_id)
+    candidate_data.each do |element|
+      element.allot!
+      element.update_attributes(:batch_id => b_id)
+    end
    end
    
    #to ensure gap between a batch's start and end time.

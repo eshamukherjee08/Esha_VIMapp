@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120207091621) do
+ActiveRecord::Schema.define(:version => 20120225095705) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                                 :default => "", :null => false
@@ -91,14 +91,10 @@ ActiveRecord::Schema.define(:version => 20120207091621) do
     t.integer  "event_id"
     t.integer  "candidate_id"
     t.integer  "roll_num"
-    t.boolean  "confirmed",    :default => false
-    t.boolean  "attended",     :default => false
-    t.boolean  "waitlist",     :default => false
-    t.boolean  "cancellation", :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "batch_id"
-    t.boolean  "status"
+    t.string   "current_state"
   end
 
 end

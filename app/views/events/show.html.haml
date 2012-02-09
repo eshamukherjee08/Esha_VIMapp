@@ -63,7 +63,7 @@
           Status
       = form_tag mark_attended_event_events_candidates_path(@event) do
         - @events_candidates.each do |e|
-          - if !e.attended
+          - if e.alloted?
             %tr
               - candidate = e.candidate
               %td
@@ -74,15 +74,11 @@
                 = candidate.salary_exp
               %td
                 = link_to "Download", download_resume_candidate_path(e.candidate.id)
-              - if e.waitlist
-                %td
-                  WAIT LISTED
-              - else
-                %td
-                  = check_box_tag("attended[#{e.id}]")
+              %td
+                = check_box_tag("attended[#{e.id}]")
               %td
                 NO STATUS YET
-          - else
+          - elsif (e.attended? or e.selected? or e.rejected?)
             %tr
               %td
                 = e.candidate.name
@@ -94,7 +90,15 @@
                 = link_to "Download", download_resume_candidate_path(e.candidate.id)
               %td
                 = image_tag("check.jpg")
-              - if e.status.nil?
+              - if e.rejected?
+                %td
+                  = image_tag("red.jpg")
+                  = link_to 'EDIT', edit_status_candidates_path(e.candidate.id)
+              - elsif e.selected?
+                %td
+                  = image_tag("green.jpg")
+                  = link_to 'EDIT', edit_status_candidates_path(e.candidate.id)
+              - else
                 %td
                   %span{:id => "status_#{e.candidate.id}"}
                     %span{:id => "select_#{e.candidate.id}", :onclick => "mark_selected(#{e.candidate.id})"}
@@ -104,14 +108,6 @@
                     %span{:id => "reject_#{e.candidate.id}", :onclick => "mark_rejected(#{e.candidate.id})"}
                       %u
                         REJECTED
-              - elsif !e.status
-                %td
-                  = image_tag("red.jpg")
-                  = link_to 'EDIT', edit_status_candidates_path(e.candidate.id)
-              - else
-                %td
-                  = image_tag("green.jpg")
-                  = link_to 'EDIT', edit_status_candidates_path(e.candidate.id)
 
         - if @event.event_date.today?
           .actions{:style => "float:right;margin-right:170px"}

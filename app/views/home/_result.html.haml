@@ -13,7 +13,7 @@
   #single_break
     Date : #{@event.event_date}
   #single_break
-    - if @events_candidate.waitlist
+    - if @events_candidate.waitlisted?
       Sorry!You are on Waitlist, please keep on checking.
     - else
       Time : #{@candidate.batches.first.start_time.strftime('%H:%M')} Hrs
@@ -26,8 +26,8 @@
   #double_break
     = link_to "Generate Admit Card", admitcard_event_candidate_path(:event_id => @event.id, :id => @candidate.id )
     |
-    - if !(@events_candidate.attended?)
-      = link_to "CANCEL CANDIDATURE", cancel_event_candidate_path(:event_id => @event.id, :id => @candidate.id ), :confirm => 'Are you sure?'
-    - else
+    - if (@events_candidate.attended?)
       %span
         Thank You for attending the Event!
+    - else
+      = link_to "CANCEL CANDIDATURE", cancel_event_candidate_path(:event_id => @event.id, :id => @candidate.id ), :confirm => 'Are you sure?'

@@ -10,7 +10,7 @@
   #single_break
     Date : #{@event.event_date}
   #single_break
-    - if @candidate.events_candidates.first.waitlist?
+    - if @candidate.events_candidates.first.waitlisted?
       You are in our waitlist, on confirmation you'll be informed personally!
   #single_break
     Roll Number : #{@candidate.events_candidates.first.roll_num}

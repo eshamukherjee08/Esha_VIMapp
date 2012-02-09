@@ -10,7 +10,7 @@ class HomeController < ApplicationController
     @events_candidate = EventsCandidate.where(:roll_num => params[:roll_num].to_i).first  
     unless @events_candidate.nil?
       if @events_candidate.event.event_date.future? or @events_candidate.event.event_date.today?
-        unless @events_candidate.cancellation
+        unless @events_candidate.cancelled?
           @event = @events_candidate.event
           @candidate = @events_candidate.candidate
         else

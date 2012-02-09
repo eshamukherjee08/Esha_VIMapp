@@ -61,7 +61,7 @@ class CandidatesController < ApplicationController
     @event = Event.where(:id => params[:event_id]).first
     @candidate = Candidate.where(:perishable_token => params[:perishable_token]).first
     events_candidate = EventsCandidate.where(:event_id => params[:event_id] , :candidate_id => @candidate.id)
-    if (events_candidate.empty? or !events_candidate.first.confirmed )
+    if (events_candidate.empty? or !events_candidate.first.confirmed? )
       @candidate.assign_to_batch(@event,@candidate)
     else
       redirect_to(root_path , :notice => 'Thank You, You Have already confirmed your registration.')
@@ -78,7 +78,8 @@ class CandidatesController < ApplicationController
   def cancel
     @events_candidate = EventsCandidate.where(:event_id => params[:event_id], :candidate_id => params[:id]).first
     @event = Event.where(:id => params[:event_id]).first
-    @events_candidate.update_attributes( :cancellation => true, :batch_id => nil)
+    @events_candidate.cancel!
+    @events_candidate.update_attributes(:batch_id => nil)
     @event.waitlist_allocation
     EventsCandidate.send_mail_after_cancel(@events_candidate)
     redirect_to(root_path , :notice => 'Your Registration has been Cancelled successfully!')
@@ -114,19 +115,19 @@ class CandidatesController < ApplicationController
   #allows admin to mark candidate as selected.
   def mark_selected
    @candidate = Candidate.where(:id => params[:candidate_id]).first
-   @candidate.events_candidates.first.update_attributes(:status => true)
+   @candidate.events_candidates.first.select!
   end
   
   #allows admin to mark candidate as rejected.
   def mark_rejected
    @candidate = Candidate.where(:id => params[:candidate_id]).first
-   @candidate.events_candidates.first.update_attributes(:status => false)  
+   @candidate.events_candidates.first.reject!
   end
   
   #allows admin to edit status of candidate.
   def edit_status
     @candidate = Candidate.where(:id => params[:format]).first
-    @candidate.events_candidates.first.update_attributes(:status => nil)
+    @candidate.events_candidates.first.edit_status!
     redirect_to @candidate.events_candidates.first.event
   end
   
