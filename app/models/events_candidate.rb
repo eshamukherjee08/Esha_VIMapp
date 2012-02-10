@@ -23,14 +23,14 @@ class EventsCandidate < ActiveRecord::Base
   aasm_column :current_state
     
   aasm_initial_state :confirmed
-  aasm_state :waitlisted, :exit => :foo
+  aasm_state :waitlisted
   aasm_state :attended
   aasm_state :cancelled
   aasm_state :alloted
   aasm_state :selected
   aasm_state :rejected
   
-  aasm_event :allot do
+  aasm_event :allot, :before => :candidate_notify do
     transitions :to => :alloted, :from => [:confirmed, :waitlisted]
   end
   
@@ -64,11 +64,10 @@ class EventsCandidate < ActiveRecord::Base
     Event.where(:id => self.event_id).first.waitlist_allocation
   end
   
-  def foo
-    p "************"
-    p self
-    p self.batch_id
-    p "*************"
+  def candidate_notify
+    if(self.current_state == 'waitlisted')
+      CandidateMailer.allocation_email(self).deliver
+    end
   end
   
 end

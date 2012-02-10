@@ -13,13 +13,10 @@ class CandidateMailer < ActionMailer::Base
   end
   
   
-  def allocation_email(candidate, event)
-    @candidate = candidate
-    @event = event
-    p "****************"
-    p candidate
-    p event
-    mail( :to => candidate.email, :subject => "Batch Allocated")
+  def allocation_email(events_candidate)
+    @candidate = events_candidate.candidate
+    @event = events_candidate.event
+    mail( :to => events_candidate.candidate.email, :subject => "Batch Allocated")
   end
   
 end
