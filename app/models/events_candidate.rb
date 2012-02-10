@@ -1,7 +1,7 @@
 ## use AASM callbacks
 class EventsCandidate < ActiveRecord::Base
   
-  include AASM
+  include AASM   # using acts_as_state_machine
   
   #associations for EventsCandidate model used in has_many_through.
   belongs_to :event
