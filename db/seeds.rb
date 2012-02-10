@@ -10,4 +10,5 @@
 
 Category.find_or_initialize_by_name 'Ruby On Rails Developer'
 Category.find_or_initialize_by_name 'Android Developer'
+Category.find_or_initialize_by_name 'PHP Developer'
 Category.find_or_initialize_by_name 'Project Manager'
