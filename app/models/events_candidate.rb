@@ -19,6 +19,9 @@ class EventsCandidate < ActiveRecord::Base
       end
     end
   end
+  
+  
+  #aasm states and events declarations.
 
   aasm_column :current_state
     
@@ -58,12 +61,16 @@ class EventsCandidate < ActiveRecord::Base
     transitions :to => :attended, :from => [:selected, :rejected]
   end
   
+  
+  #send mail to admin and updation after cancel.
   def after_cancel
     AdminMailer.cancel_notification(self).deliver
     self.update_attributes(:batch_id => nil)
     Event.where(:id => self.event_id).first.waitlist_allocation
   end
   
+  
+  #send mail to candidate after waitlist confirmation.
   def candidate_notify
     if(self.current_state == 'waitlisted')
       CandidateMailer.allocation_email(self).deliver
