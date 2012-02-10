@@ -23,7 +23,7 @@ class EventsCandidate < ActiveRecord::Base
   aasm_column :current_state
     
   aasm_initial_state :confirmed
-  aasm_state :waitlisted
+  aasm_state :waitlisted, :exit => :foo
   aasm_state :attended
   aasm_state :cancelled
   aasm_state :alloted
@@ -62,6 +62,13 @@ class EventsCandidate < ActiveRecord::Base
     AdminMailer.cancel_notification(self).deliver
     self.update_attributes(:batch_id => nil)
     Event.where(:id => self.event_id).first.waitlist_allocation
+  end
+  
+  def foo
+    p "************"
+    p self
+    p self.batch_id
+    p "*************"
   end
   
 end

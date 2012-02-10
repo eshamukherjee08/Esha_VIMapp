@@ -15,6 +15,7 @@ class RemoveColumnsFromEventsCandidates < ActiveRecord::Migration
       elsif(element.confirmed and !element.attended and element.status == nil and !element.waitlist and !element.cancellation)
         @sql = "update events_candidates set current_state = 'alloted' where id = '#{element.id}'"
       end
+      execute(@sql)
     end
     remove_column :events_candidates, :confirmed
     remove_column :events_candidates, :attended
@@ -43,6 +44,7 @@ class RemoveColumnsFromEventsCandidates < ActiveRecord::Migration
       elsif(element.current_state == 'alloted')
         @sql = "update events_candidates set confirmed = 'true', attended = 'false', status = 'nil', cancellation = 'false', waitlist = 'false' where id = '#{element.id}'"
       end
+      execute(@sql)
     end
   end
 end
