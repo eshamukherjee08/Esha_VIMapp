@@ -6,20 +6,20 @@
   #double_break
     Following are your VinSol Walk-in Details:
   #single_break
-    Event Name: #{@event.name}
+    Event Name: #{@candidate.events.first.name}
   #single_break
-    Date : #{@event.event_date}
+    Date : #{@candidate.events.first.event_date}
   #single_break
     - if @candidate.events_candidates.first.waitlisted?
       You are in our waitlist, on confirmation you'll be informed personally!
   #single_break
     Roll Number : #{@candidate.events_candidates.first.roll_num}
   #single_break
-    Venue : #{@event.location}
+    Venue : #{@candidate.events.first.location}
   #double_break
     For any further queries please contact : 011-45675342
-  = link_to "Generate Admit Card", admitcard_event_candidate_path(:event_id => @event.id, :id => @candidate.id )
+  = link_to "Generate Admit Card", admitcard_event_candidate_path(:event_id => @candidate.events.first.id, :id => @candidate.id )
   \&emsp;
   |
   \&emsp;
-  \#{link_to "CANCEL CANDIDATURE", cancel_event_candidate_path(:event_id => @event.id, :id => @candidate.id ), :confirm => 'Are you sure?'}
+  \#{link_to "CANCEL CANDIDATURE", cancel_event_candidate_path(:event_id => @candidate.events.first.id, :id => @candidate.id ), :confirm => 'Are you sure?'}

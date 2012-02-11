@@ -58,10 +58,10 @@ class CandidatesController < ApplicationController
   
   #On confirming mailed link, allots candidate roll number and marks candidate as confirmed.
   def confirmation
-    candidate = Candidate.where(:perishable_token => params[:perishable_token]).first
-    events_candidate = EventsCandidate.where(:event_id => params[:event_id] , :candidate_id => candidate.id)
+    @candidate = Candidate.where(:perishable_token => params[:perishable_token]).first   #needed at confirmation view page.
+    events_candidate = EventsCandidate.where(:event_id => params[:event_id] , :candidate_id => @candidate.id)
     if (events_candidate.empty? or !events_candidate.first.confirmed? )
-      assign_to_batch(params[:event_id],candidate)
+      @candidate.assign_to_batch(params[:event_id],@candidate)
     else
       redirect_to(root_path , :notice => 'Thank You, You Have already confirmed your registration.')
     end

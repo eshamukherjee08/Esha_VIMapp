@@ -26,6 +26,7 @@ class EventsCandidate < ActiveRecord::Base
   aasm_column :current_state
     
   aasm_initial_state :confirmed
+  aasm_state :confirmed
   aasm_state :waitlisted
   aasm_state :attended
   aasm_state :cancelled
