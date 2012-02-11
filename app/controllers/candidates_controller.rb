@@ -1,8 +1,8 @@
 class CandidatesController < ApplicationController
 
   before_filter :find_candidate, :only => [:show, :edit, :update, :destroy, :admitcard]
-  before_filter :controlaccess, :except => [:new, :create, :confirmation, :admitcard, :cancel, :show]
-  layout :compute_layout #calculating layout for admit card.
+  before_filter :controlaccess, :except => [:new, :create, :confirmation, :admitcard, :cancel, :show]  
+  layout "admitcard", :only => [:admitcard]
   
   
   def index
@@ -133,11 +133,6 @@ class CandidatesController < ApplicationController
   def find_candidate
     @candidate = Candidate.where(:id => params[:id].to_i).first
     redirect_to error_walkins_path unless @candidate
-  end
-  
-  #computes layout for admitcard.
-  def compute_layout
-    action_name == "admitcard" ? "admitcard" : "application"
   end
     
 end
