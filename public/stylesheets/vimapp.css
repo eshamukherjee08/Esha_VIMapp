@@ -143,8 +143,10 @@ h1 {
   float: left; }
 
 /*Styling for map */
-#map {
-  display: inline; }
+#map iframe{
+  display: inline; 
+  height:300px;
+  width:520px;}
 
 /* Styling for event form */
 #main_event {

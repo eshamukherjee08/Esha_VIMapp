@@ -7,6 +7,7 @@ class Admin < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me, :forgot_your_password
   
   validates :email, :password, :password_confirmation, :presence => true
+  
     
   before_destroy :ensure_an_admin_remains
     
