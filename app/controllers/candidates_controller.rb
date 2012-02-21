@@ -1,8 +1,10 @@
 class CandidatesController < ApplicationController
 
   before_filter :find_candidate, :only => [:show, :edit, :update, :destroy, :admitcard]
+  before_filter :find_event, :only => [:admitcard, :create, :new, :show]
+  before_filter :find_marking_candidate, :only => [:mark_selected, :mark_rejected]
   before_filter :controlaccess, :except => [:new, :create, :confirmation, :admitcard, :cancel, :show]  
-  layout "admitcard", :only => [:admitcard]
+  layout :compute_layout #calculating layout for admit card.
   
   
   def index
@@ -10,12 +12,10 @@ class CandidatesController < ApplicationController
   end
 
   def show
-    @event = Event.where(:id => params[:event_id]).first
   end
 
   def new
     @candidate = Candidate.new
-    @event = Event.where(:id => params[:event_id]).first
   end
 
   def edit
@@ -24,11 +24,8 @@ class CandidatesController < ApplicationController
 
   def create
     @candidate = Candidate.new(params[:candidate])
-    @event = Event.where(:id => params[:event_id]).first
-    
     #perishable token generated for unique url to each registered candidate
     # Move to before_create
-    @candidate.perishable_token = Candidate.generate_token
     
     # Move to before_create
     if @event.experience == @candidate.exp
@@ -72,9 +69,12 @@ class CandidatesController < ApplicationController
   #creating admit card for confirmend candidates.
   ## @candidate.events.where
   def admitcard
-    @event = Event.where(:id => params[:event_id]).first
   end
   
+  #computes layout for admitcard.
+  def compute_layout
+   action_name == "admitcard" ? "admitcard" : "application"
+  end
   
   # allows candidate to cancel registration and triggers mail to admin.
   def cancel
@@ -104,7 +104,7 @@ class CandidatesController < ApplicationController
   #generates list of star marked candidates.
   # scope
   def starred_list
-   @candidates = Candidate.where(:starred => true)
+   @candidates = Candidate.starred_candidates
   end
   
   #performs category based search on star marked candidates.
@@ -114,13 +114,11 @@ class CandidatesController < ApplicationController
   
   #allows admin to mark candidate as selected.
   def mark_selected
-   @candidate = Candidate.where(:id => params[:candidate_id]).first
    @candidate.events_candidates.first.select!
   end
   
   #allows admin to mark candidate as rejected.
   def mark_rejected
-   @candidate = Candidate.where(:id => params[:candidate_id]).first
    @candidate.events_candidates.first.reject!
   end
   
@@ -136,7 +134,17 @@ class CandidatesController < ApplicationController
   
   def find_candidate
     @candidate = Candidate.where(:id => params[:id].to_i).first
-    redirect_to error_walkins_path unless @candidate
+    redirect_to(root_path , :notice => 'Sorry! Candidate not found.') unless @candidate
+  end
+  
+  def find_event
+    @event = Event.where(:id => params[:event_id]).first
+    redirect_to(root_path , :notice => 'Sorry! Event not found.') unless @event
+  end
+  
+  def find_marking_candidate
+    @candidate = Candidate.where(:id => params[:candidate_id]).first
+    redirect_to(root_path , :notice => 'Sorry! Candidate not found.') unless @candidate
   end
     
 end

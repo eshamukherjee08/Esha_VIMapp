@@ -23,20 +23,12 @@ class Candidate < ActiveRecord::Base
   validates :mobile_number, :format => { :with => /\A[0-9]{10}\Z/}, :uniqueness => true
  
   validates :name, :home_town, :format => {:with => /\w+(\s\w+)*/}
- 
+  
+  before_create :generate_token
+  
+  scope :starred_candidates, where(:starred => true)
     
-    #send confirmation mail to candidate on registration.
-    # Can we move this to callbacks
-    def self.send_confirmation_mail(candidate, event_id)
-      CandidateMailer.confirm_email(candidate, event_id).deliver
-    end
-    
-    #generating unique perishable token for candidate.
-    def self.generate_token
-      Digest::MD5.hexdigest("#{Time.now}")
-    end
-    
-    
+<<<<<<< HEAD
     #assigning candidate to a batch.
     # Select batch function
     # Create funtion in event to check all batches full
@@ -56,5 +48,37 @@ class Candidate < ActiveRecord::Base
         events_candidate.allot!
         events_candidate.save
       end
+=======
+  #send confirmation mail to candidate on registration.
+  # Can we move this to callbacks
+  def self.send_confirmation_mail(candidate, event_id)
+    CandidateMailer.confirm_email(candidate, event_id).deliver
+  end
+  
+  #generating unique perishable token for candidate.
+  def generate_token
+    self.perishable_token = Digest::MD5.hexdigest("#{Time.now}")
+  end
+  
+  
+  #assigning candidate to a batch.
+  # Select batch function
+  # Create funtion in event to check all batches full
+  ## Please see this optimization
+  def assign_to_batch(eventid,candidate)
+    event = Event.where(:id => eventid).first
+    events_candidate = EventsCandidate.new(:event_id => eventid, :candidate_id => candidate.id, :roll_num => UUID.new.generate.hex)
+    ## if capacity is full
+    if (event.check_capacity(event))
+      events_candidate.allot_waitlist!
+      events_candidate.save
+    else
+      batch = event.find_batch(event)
+      events_candidate.batch_id = batch.id
+      events_candidate.allot!
+      events_candidate.save
+>>>>>>> 975847c50918216163bd11da8eb7d51cd8c0aeb3
     end
+  end
+  
 end

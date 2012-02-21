@@ -12,8 +12,12 @@ class EventsCandidate < ActiveRecord::Base
   scope :not_cancelled, where("current_state in ('alloted','selected','rejected', 'attended')")
   
   #for marking attendance of attenting candidates.
+<<<<<<< HEAD
   ## unless not required
   def marking_attendance(events_candidates)
+=======
+  def self.marking_attendance(events_candidates)
+>>>>>>> 975847c50918216163bd11da8eb7d51cd8c0aeb3
     unless events_candidates.empty?
       events_candidates.each do |element|
         element.attend!
