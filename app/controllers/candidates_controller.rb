@@ -27,8 +27,10 @@ class CandidatesController < ApplicationController
     @event = Event.where(:id => params[:event_id]).first
     
     #perishable token generated for unique url to each registered candidate
+    # Move to before_create
     @candidate.perishable_token = Candidate.generate_token
     
+    # Move to before_create
     if @event.experience == @candidate.exp
       if @candidate.save
         Candidate.send_confirmation_mail(@candidate, params[:event_id])
@@ -68,22 +70,23 @@ class CandidatesController < ApplicationController
   end
   
   #creating admit card for confirmend candidates.
+  ## @candidate.events.where
   def admitcard
     @event = Event.where(:id => params[:event_id]).first
   end
   
   
-  #allows candidate to cancel registration and triggers mail to admin.
+  # allows candidate to cancel registration and triggers mail to admin.
   def cancel
     @events_candidate = EventsCandidate.where(:event_id => params[:event_id], :candidate_id => params[:id]).first
     @events_candidate.cancel!
-    # Put in callback
     redirect_to(root_path , :notice => 'Your Registration has been Cancelled successfully!')
   end
   
   # marks candidate star on admin's discrimination.
   def mark_candidate_star
     @candidate = Candidate.where(:id => params[:candidate_id]).first
+    # Make method
     @candidate.update_attributes(:starred => true)
   end
   
@@ -99,6 +102,7 @@ class CandidatesController < ApplicationController
   end
   
   #generates list of star marked candidates.
+  # scope
   def starred_list
    @candidates = Candidate.where(:starred => true)
   end
