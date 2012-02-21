@@ -46,6 +46,6 @@ class CategoriesController < ApplicationController
   ## flash msg - redirect_to root
   def find_category
     @category = Category.where(:id => params[:id].to_i).first
-    redirect_to error_walkins_path unless @category
+    redirect_to(root_path , :notice => 'Sorry! Category not found.') unless @category
   end
 end

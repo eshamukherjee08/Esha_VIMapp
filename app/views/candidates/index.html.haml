@@ -41,7 +41,7 @@
       %th
         Resume
       %th
-        Delete Candidate
+        
     - @candidates.each do |candidate|
       #mark
       %tr
@@ -49,7 +49,7 @@
           %td
             %span{:id => "span_#{candidate.id}", :onclick => "mark_candidate(#{candidate.id})"}
               %u
-                Mark
+                = image_tag("empty_star.png")
         - else
           %td
             %span{:id => "span_#{candidate.id}"}
