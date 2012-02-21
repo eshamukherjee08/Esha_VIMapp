@@ -12,6 +12,7 @@ class EventsCandidate < ActiveRecord::Base
   scope :not_cancelled, where("current_state in ('alloted','selected','rejected', 'attended')")
   
   #for marking attendance of attenting candidates.
+  ## unless not required
   def marking_attendance(events_candidates)
     unless events_candidates.empty?
       events_candidates.each do |element|
@@ -67,11 +68,13 @@ class EventsCandidate < ActiveRecord::Base
   def after_cancel
     AdminMailer.cancel_notification(self).deliver
     self.update_attributes(:batch_id => nil)
+    # event.waitlist_allocation
     Event.where(:id => self.event_id).first.waitlist_allocation
   end
   
   
-  #send mail to candidate after waitlist confirmation.
+  # send mail to candidate after waitlist confirmation.
+  ## should be after allocation
   def candidate_notify
     if(self.current_state == 'waitlisted')
       CandidateMailer.allocation_email(self).deliver
