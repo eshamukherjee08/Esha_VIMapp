@@ -30,7 +30,7 @@ class CandidatesController < ApplicationController
       if @candidate.save
         @candidate.events << @event
         Candidate.send_confirmation_mail(@candidate, params[:event_id])
-        redirect_to(event_candidate_path(:event_id => params[:event_id], :id => @candidate.id ) , :notice => 'Registered Successfully.')
+        redirect_to(event_candidate_path(@event, @candidate) , :notice => 'Registered Successfully.')
       else
         render :action => "new"
       end
@@ -70,10 +70,6 @@ class CandidatesController < ApplicationController
   def admitcard
   end
   
-  #computes layout for admitcard.
-  def compute_layout
-   action_name == "admitcard" ? "admitcard" : "application"
-  end
   
   # allows candidate to cancel registration and triggers mail to admin.
   def cancel
@@ -97,16 +93,18 @@ class CandidatesController < ApplicationController
   #allows candidate to download admit card by clicking download link.
   def download_resume
     @candidate = Candidate.where(:id => params[:id]).first
+    ## make a method
     send_file(@candidate.resume.path , :content_type => @candidate.resume_content_type)
   end
   
   #generates list of star marked candidates.
-  # scope
+  # change scope name to starred
   def starred_list
    @candidates = Candidate.starred_candidates
   end
   
   #performs category based search on star marked candidates.
+  ## Use category model
   def find_star_category
     @events = Event.where(:category_id => params[:category])
   end
@@ -125,7 +123,7 @@ class CandidatesController < ApplicationController
   def edit_status
     @candidate = Candidate.where(:id => params[:format]).first
     @candidate.events_candidates.first.edit_status!
-    redirect_to @candidate.events_candidates.first.event
+    redirect_to @candidate.events.first
   end
   
   
@@ -145,5 +143,11 @@ class CandidatesController < ApplicationController
     @candidate = Candidate.where(:id => params[:candidate_id]).first
     redirect_to(root_path , :notice => 'Sorry! Candidate not found.') unless @candidate
   end
+  
+  #computes layout for admitcard.
+  def compute_layout
+   action_name == "admitcard" ? "admitcard" : "application"
+  end
+  
     
 end
