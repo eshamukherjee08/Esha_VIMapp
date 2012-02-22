@@ -24,7 +24,7 @@ class CandidatesController < ApplicationController
 
   def create
     @candidate = Candidate.new(params[:candidate])
-    # Move to before_create
+
     # Move to before_create
     if @event.experience == @candidate.exp
       if @candidate.save
