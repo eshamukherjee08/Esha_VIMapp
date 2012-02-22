@@ -31,8 +31,7 @@ class Candidate < ActiveRecord::Base
   #assigning candidate to a batch.
   # Select batch function
   # Create funtion in event to check all batches full
-  ## Please see this optimization
-  ## Dont create EventsCandidate explicitly => put in before save
+
   ## waitlist allocation => after save
   def assign_to_batch(eventid,candidate)
     event = Event.where(:id => eventid).first

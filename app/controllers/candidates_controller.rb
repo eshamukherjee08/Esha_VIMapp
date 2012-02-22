@@ -4,7 +4,7 @@ class CandidatesController < ApplicationController
   before_filter :find_event, :only => [:admitcard, :create, :new, :show]
   before_filter :find_marking_candidate, :only => [:mark_selected, :mark_rejected]
   before_filter :controlaccess, :except => [:new, :create, :confirmation, :admitcard, :cancel, :show]  
-  layout :compute_layout #calculating layout for admit card.
+  layout :compute_layout
   
   
   def index
@@ -66,7 +66,7 @@ class CandidatesController < ApplicationController
   end
   
   #creating admit card for confirmend candidates.
-  ## @candidate.events.where
+  ### @candidate.events.where
   def admitcard
   end
   
@@ -81,7 +81,6 @@ class CandidatesController < ApplicationController
   # marks candidate star on admin's discrimination.
   def mark_candidate_star
     @candidate = Candidate.where(:id => params[:candidate_id]).first
-    # Make method
     @candidate.mark_star
   end
   
@@ -90,15 +89,13 @@ class CandidatesController < ApplicationController
     @events = Event.where(:category_id => params[:category])
   end
   
-  #allows candidate to download admit card by clicking download link.
   def download_resume
     @candidate = Candidate.where(:id => params[:id]).first
     ## make a method
     send_file(@candidate.resume.path , :content_type => @candidate.resume_content_type)
   end
   
-  #generates list of star marked candidates.
-  # change scope name to starred
+  ## change scope name to starred
   def starred_list
    @candidates = Candidate.starred_candidates
   end

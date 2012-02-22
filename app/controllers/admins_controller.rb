@@ -1,11 +1,9 @@
 class AdminsController < ApplicationController
   
-  #to edit admin password.
   def reset
 		@admin = current_admin
 	end
 
-  #to update edited password.
 	def update_password
 		@admin = current_admin
 		if(@admin.update_attributes(params[:admin]))
