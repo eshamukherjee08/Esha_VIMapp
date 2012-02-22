@@ -9,7 +9,8 @@ class HomeController < ApplicationController
 
   # preload them while finding event_candidate
   def find_searched_candidate_data
-    @events_candidate = EventsCandidate.where(:roll_num => params[:roll_num].to_i).first  
+    @events_candidate = EventsCandidate.where(:roll_num => params[:roll_num].to_i).first
+    EventsCandidate.includes(:event, :candidate)  
     if @events_candidate
       if @events_candidate.event.event_date.future? or @events_candidate.event.event_date.today?
         @msg = 'You have already cancelled your candidature.' unless !@events_candidate.cancelled?

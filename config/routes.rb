@@ -6,7 +6,6 @@ EshaVIMapp::Application.routes.draw do
     collection do
       get :mark_candidate_star
       get :find_category
-      get :find_star_category
       get :starred_list
       get :mark_selected
       get :mark_rejected

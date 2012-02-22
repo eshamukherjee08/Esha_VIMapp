@@ -26,7 +26,7 @@ class Candidate < ActiveRecord::Base
   
   before_create :generate_token
   
-  scope :starred_candidates, where(:starred => true)
+  scope :starred, where(:starred => true)
     
   #assigning candidate to a batch.
   # Select batch function
@@ -63,6 +63,22 @@ class Candidate < ActiveRecord::Base
   
   def mark_star
     self.update_attributes(:starred => true)
+  end
+  
+  def resume_download
+    send_file(self.resume.path , :content_type => self.resume_content_type)
+  end
+  
+  def selected
+    self.events_candidates.first.select!
+  end
+  
+  def rejected
+    self.events_candidates.first.reject!
+  end
+  
+  def status_edit
+    self.events_candidates.first.edit_status!
   end
   
 end

@@ -13,7 +13,7 @@ class EventsCandidate < ActiveRecord::Base
   
   #for marking attendance of attenting candidates.
   ## unless not required
-  def self.marking_attendance(events_candidates)
+  def self.mark_attendance(events_candidates)
     events_candidates.each do |element|
       element.attend!
     end
@@ -70,7 +70,6 @@ class EventsCandidate < ActiveRecord::Base
   def after_cancel
     AdminMailer.cancel_notification(self).deliver
     self.update_attributes(:batch_id => nil)
-    # event.waitlist_allocation
     self.event.waitlist_allocation
   end
   

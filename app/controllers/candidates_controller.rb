@@ -1,9 +1,9 @@
 class CandidatesController < ApplicationController
 
   before_filter :find_candidate, :only => [:show, :edit, :update, :destroy, :admitcard]
-  before_filter :find_event, :only => [:admitcard, :create, :new, :show]
+  before_filter :find_event, :only => [:create, :new, :show]
   before_filter :find_marking_candidate, :only => [:mark_selected, :mark_rejected]
-  before_filter :controlaccess, :except => [:new, :create, :confirmation, :admitcard, :cancel, :show]  
+  before_filter :authenticate_admin, :except => [:new, :create, :confirmation, :admitcard, :cancel, :show]  
   layout :compute_layout
   
   
@@ -23,10 +23,10 @@ class CandidatesController < ApplicationController
 
 
   def create
-    @candidate = Candidate.new(params[:candidate])
-
+    @candidate = Candidate.find_or_create_by_email_and_mobile_number(:email => params[:candidate][:email], :mobile_number => params[:candidate][:mobile_number])
+    @candidate.save(params[:candidate])
     # Move to before_create
-    if @event.experience == @candidate.exp
+    # if @event.experience == @candidate.exp
       if @candidate.save
         @candidate.events << @event
         Candidate.send_confirmation_mail(@candidate, params[:event_id])
@@ -34,9 +34,9 @@ class CandidatesController < ApplicationController
       else
         render :action => "new"
       end
-    else
-      redirect_to(walkins_path , :notice => 'Sorry, your experience is not as per event requirement. Please apply for appropriate event.')
-    end
+    # else
+    #   redirect_to(walkins_path , :notice => 'Sorry, your experience is not as per event requirement. Please apply for appropriate event.')
+    # end
   end
 
 
@@ -68,6 +68,7 @@ class CandidatesController < ApplicationController
   #creating admit card for confirmend candidates.
   ### @candidate.events.where
   def admitcard
+    @event = @candidate.events.first
   end
   
   
@@ -86,40 +87,38 @@ class CandidatesController < ApplicationController
   
   #conducts search on the basis of event category.
   def find_category
-    @events = Event.where(:category_id => params[:category])
+    @category = Category.where(:id => params[:category]).first
+    @events = @category.events
   end
   
   def download_resume
     @candidate = Candidate.where(:id => params[:id]).first
     ## make a method
-    send_file(@candidate.resume.path , :content_type => @candidate.resume_content_type)
+    @candidate.resume_download
   end
   
   ## change scope name to starred
   def starred_list
-   @candidates = Candidate.starred_candidates
+   @candidates = Candidate.starred
   end
   
   #performs category based search on star marked candidates.
   ## Use category model
-  def find_star_category
-    @events = Event.where(:category_id => params[:category])
-  end
   
   #allows admin to mark candidate as selected.
   def mark_selected
-   @candidate.events_candidates.first.select!
+   @candidate.selected
   end
   
   #allows admin to mark candidate as rejected.
   def mark_rejected
-   @candidate.events_candidates.first.reject!
+   @candidate.rejected
   end
   
   #allows admin to edit status of candidate.
   def edit_status
     @candidate = Candidate.where(:id => params[:format]).first
-    @candidate.events_candidates.first.edit_status!
+    @candidate.status_edit
     redirect_to @candidate.events.first
   end
   
@@ -141,7 +140,6 @@ class CandidatesController < ApplicationController
     redirect_to(root_path , :notice => 'Sorry! Candidate not found.') unless @candidate
   end
   
-  #computes layout for admitcard.
   def compute_layout
    action_name == "admitcard" ? "admitcard" : "application"
   end

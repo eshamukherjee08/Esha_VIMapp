@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   
   #controls access on the basis on admin session.
   ## Meaningful name
-  def controlaccess 
+  def authenticate_admin 
     unless admin_signed_in?
       redirect_to root_path, :notice => "Please log in"
     end 
