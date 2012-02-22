@@ -39,7 +39,7 @@ class Event < ActiveRecord::Base
      batches.each do |batch|
        if batch.candidates.count.zero? or batch.candidates.count < batch.capacity
          c = self.events_candidates.where(:current_state => :waitlisted).limit(batch.capacity - batch.candidates.count)
-         waitlist_update(c, batch.id) unless c.empty?
+         waitlist_update(c, batch) unless c.empty?
        end
      end
    end
@@ -48,10 +48,11 @@ class Event < ActiveRecord::Base
    
    #updating events_candidates on batch allocation.
    ## Push inot batch
-   def waitlist_update(candidate_data, b_id)
+   def waitlist_update(candidate_data, batch)
     candidate_data.each do |element|
-      element.allot!
-      element.update_attributes(:batch_id => b_id)
+      element.allot_batch!
+      batch.events_candidates << element
+      element.save
     end
    end
    
@@ -67,7 +68,7 @@ class Event < ActiveRecord::Base
    #to ensure gap between two consecutive batches.  
    ## dont need each
    def batch_start_time
-     batches.length.downto(2).each do |index|
+     batches.length.downto(2) do |index|
        if(batches[index-1].start_time < batches[index-2].end_time)
          errors.add(:base, "Please start batch #{index} after the end time of batch #{index-1}")
        end

@@ -28,27 +28,29 @@ class Candidate < ActiveRecord::Base
   
   scope :starred_candidates, where(:starred => true)
     
-<<<<<<< HEAD
-    #assigning candidate to a batch.
-    # Select batch function
-    # Create funtion in event to check all batches full
-    ## Please see this optimization
-    ## Dont create EventsCandidate explicitly => put in before save
-    ## waitlist allocation => after save
-    def assign_to_batch(eventid,candidate)
-      event = Event.where(:id => eventid).first
-      events_candidate = EventsCandidate.new(:event_id => eventid, :candidate_id => candidate.id, :roll_num => UUID.new.generate.hex)
-      ## if capacity is full
-      if (event.check_capacity(event))
-        events_candidate.allot_waitlist!
-        events_candidate.save
-      else
-        batch = event.find_batch(event)
-        events_candidate.batch_id = batch.id
-        events_candidate.allot!
-        events_candidate.save
-      end
-=======
+  #assigning candidate to a batch.
+  # Select batch function
+  # Create funtion in event to check all batches full
+  ## Please see this optimization
+  ## Dont create EventsCandidate explicitly => put in before save
+  ## waitlist allocation => after save
+  def assign_to_batch(eventid,candidate)
+    event = Event.where(:id => eventid).first
+    events_candidate = candidate.events_candidates.first
+    events_candidate.roll_num = UUID.new.generate.hex
+    ## if capacity is full
+    if (event.check_capacity(event))
+      events_candidate.allot_waitlist!
+      events_candidate.save
+    else
+      batch = event.find_batch(event)
+      batch.events_candidates << events_candidate
+      events_candidate.allot!
+      events_candidate.save
+    end
+  end
+  
+  
   #send confirmation mail to candidate on registration.
   # Can we move this to callbacks
   def self.send_confirmation_mail(candidate, event_id)
@@ -60,25 +62,8 @@ class Candidate < ActiveRecord::Base
     self.perishable_token = Digest::MD5.hexdigest("#{Time.now}")
   end
   
-  
-  #assigning candidate to a batch.
-  # Select batch function
-  # Create funtion in event to check all batches full
-  ## Please see this optimization
-  def assign_to_batch(eventid,candidate)
-    event = Event.where(:id => eventid).first
-    events_candidate = EventsCandidate.new(:event_id => eventid, :candidate_id => candidate.id, :roll_num => UUID.new.generate.hex)
-    ## if capacity is full
-    if (event.check_capacity(event))
-      events_candidate.allot_waitlist!
-      events_candidate.save
-    else
-      batch = event.find_batch(event)
-      events_candidate.batch_id = batch.id
-      events_candidate.allot!
-      events_candidate.save
->>>>>>> 975847c50918216163bd11da8eb7d51cd8c0aeb3
-    end
+  def mark_star
+    self.update_attributes(:starred => true)
   end
   
 end

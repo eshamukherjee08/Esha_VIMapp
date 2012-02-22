@@ -24,12 +24,11 @@ class CandidatesController < ApplicationController
 
   def create
     @candidate = Candidate.new(params[:candidate])
-    #perishable token generated for unique url to each registered candidate
     # Move to before_create
-    
     # Move to before_create
     if @event.experience == @candidate.exp
       if @candidate.save
+        @candidate.events << @event
         Candidate.send_confirmation_mail(@candidate, params[:event_id])
         redirect_to(event_candidate_path(:event_id => params[:event_id], :id => @candidate.id ) , :notice => 'Registered Successfully.')
       else
@@ -59,7 +58,7 @@ class CandidatesController < ApplicationController
   def confirmation
     @candidate = Candidate.where(:perishable_token => params[:perishable_token]).first   #needed at confirmation view page.
     events_candidate = EventsCandidate.where(:event_id => params[:event_id] , :candidate_id => @candidate.id)
-    if (events_candidate.empty? or !events_candidate.first.confirmed? )
+    if (events_candidate.first.registered?)
       @candidate.assign_to_batch(params[:event_id],@candidate)
     else
       redirect_to(root_path , :notice => 'Thank You, You Have already confirmed your registration.')
@@ -87,7 +86,7 @@ class CandidatesController < ApplicationController
   def mark_candidate_star
     @candidate = Candidate.where(:id => params[:candidate_id]).first
     # Make method
-    @candidate.update_attributes(:starred => true)
+    @candidate.mark_star
   end
   
   #conducts search on the basis of event category.

@@ -12,16 +12,10 @@ class EventsCandidate < ActiveRecord::Base
   scope :not_cancelled, where("current_state in ('alloted','selected','rejected', 'attended')")
   
   #for marking attendance of attenting candidates.
-<<<<<<< HEAD
   ## unless not required
-  def marking_attendance(events_candidates)
-=======
   def self.marking_attendance(events_candidates)
->>>>>>> 975847c50918216163bd11da8eb7d51cd8c0aeb3
-    unless events_candidates.empty?
-      events_candidates.each do |element|
-        element.attend!
-      end
+    events_candidates.each do |element|
+      element.attend!
     end
   end
   
@@ -30,8 +24,8 @@ class EventsCandidate < ActiveRecord::Base
 
   aasm_column :current_state
     
-  aasm_initial_state :confirmed
-  aasm_state :confirmed
+  aasm_initial_state :registered
+  aasm_state :registered
   aasm_state :waitlisted
   aasm_state :attended
   aasm_state :cancelled
@@ -39,12 +33,16 @@ class EventsCandidate < ActiveRecord::Base
   aasm_state :selected
   aasm_state :rejected
   
-  aasm_event :allot, :before => :candidate_notify do
-    transitions :to => :alloted, :from => [:confirmed, :waitlisted]
+  aasm_event :allot do
+    transitions :to => :alloted, :from => [:registered]
+  end
+  
+  aasm_event :allot_batch, :after => :candidate_notify do
+    transitions :to => :alloted, :from => [:waitlisted]
   end
   
   aasm_event :allot_waitlist do
-    transitions :to => :waitlisted, :from => [:confirmed]
+    transitions :to => :waitlisted, :from => [:registered]
   end
   
   aasm_event :cancel, :after => :after_cancel do
@@ -73,16 +71,14 @@ class EventsCandidate < ActiveRecord::Base
     AdminMailer.cancel_notification(self).deliver
     self.update_attributes(:batch_id => nil)
     # event.waitlist_allocation
-    Event.where(:id => self.event_id).first.waitlist_allocation
+    self.event.waitlist_allocation
   end
   
   
   # send mail to candidate after waitlist confirmation.
   ## should be after allocation
   def candidate_notify
-    if(self.current_state == 'waitlisted')
-      CandidateMailer.allocation_email(self).deliver
-    end
+    CandidateMailer.allocation_email(self).deliver
   end
   
 end
