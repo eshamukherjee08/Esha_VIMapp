@@ -16,8 +16,8 @@ class EventsCandidate < ActiveRecord::Base
   validates_attachment_presence :resume
   validates_attachment_content_type :resume, :content_type =>['text/plain', 'application/rtf', 'application/x-pdf', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']
   
-  #scope to find candidates who has not cancelled candidature.
-  scope :not_cancelled, where("current_state in ('alloted','selected','rejected', 'attended')")
+  #scope to find candidates who has confirmed candidature.
+  scope :valid_state, where("current_state in ('alloted','selected','rejected', 'attended')")
   
   #scope to find waitlisted candidates.
   scope :waitlist_candidates, where(:current_state => :waitlisted)

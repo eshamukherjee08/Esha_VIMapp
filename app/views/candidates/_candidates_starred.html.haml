@@ -1,0 +1,27 @@
+%table#candidate_table
+  %tr
+    %th
+      Important
+    %th
+      ID
+    %th
+      Name
+    %th
+      Current State
+    %th
+      Resume      
+  - @candidates.each do |candidate|
+    #mark
+    %tr
+      - if candidate.starred
+        %td
+          %span{:id => "span_#{candidate.id}"}
+            = image_tag("star.png")
+        %td
+          = candidate.id
+        %td
+          = candidate.name
+        %td
+          = candidate.current_state
+        %td
+          = link_to "Download", download_resume_candidate_path(candidate.id)

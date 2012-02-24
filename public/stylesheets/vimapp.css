@@ -232,13 +232,10 @@ h1 {
   font-size: 20px; }
 
 /*display table styles */
-#search_category {
-  border: 5px outset maroon;
-  width: 75%;
-  margin: auto; }
 
 #candidate_table {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  margin: auto;
   border-collapse: collapse; }
   #candidate_table td {
     font-size: 1em;
@@ -282,11 +279,6 @@ h1 {
   width: 800px;
   margin: auto; }
 
-#search_star_category {
-  border: 5px outset maroon;
-  width: 75%;
-  margin: auto; }
-
 #error {
   margin-left: 550px;
   color: red; }
@@ -307,124 +299,6 @@ h1 {
   text-align: center;
   font-size: 2.3em; }
 
-/*bokeh */
-/*.bokeh {
- *  width:100px; 
- *  height:100px; 
- *  position:absolute;
- *  margin-top:200px;
- *  -moz-border-radius:50px; 
- *  -webkit-border-radius:50px; 
- *}
- *
- *.bokeh2 { 
- *  width:200px; 
- *  height:200px; 
- *  position:absolute;
- *  margin-top:150px;
- *  -moz-border-radius:100px; 
- *  -webkit-border-radius:100px; 
- *}
- *   
- *#plain {
- *  border: 1px solid rgba(240, 60, 60, 0.7); 
- *  background-color: rgba(240, 60, 60, 0.3);
- *  top:200px; left:240px;
- *}
- *
- *#plain1 {
- *   border: 1px solid rgba(240, 60, 60, 0.7); 
- *   background-color: rgba(240, 60, 60, 0.3);
- *   top:10px; left:50px;
- *}
- *#plain2 {
- *   border: 1px solid rgba(250, 250, 0, 0.7); 
- *   background-color: rgba(250, 250, 0, 0.3);
- *   top:77px; left:34px;
- *}
- *#plain3 {
- *   border: 1px solid rgba(240, 60, 60, 0.7); 
- *   background-color: rgba(240, 60, 60, 0.3);
- *   top:150px; left:80px;
- *}
- *#plain4 {
- *   border: 1px solid rgba(240, 60, 60, 0.7); 
- *   background-color: rgba(240, 60, 60, 0.3);
- *   top:120px; left:200px;
- *}
- *#plain5 {
- *   border: 1px solid rgba(250, 250, 0, 0.7); 
- *   background-color: rgba(250, 250, 0, 0.3);
- *   top:80px; left:140px;
- *}
- *
- *#plain6 {
- *   border: 1px solid rgba(156, 217, 107, 0.7); 
- *   background-color: rgba(156, 217, 107, 0.3);
- *   top:80px; left:240px;
- *} */
-/*right side bokeh */
-/*#plain7 {
- *  border: 1px solid rgba(240, 60, 60, 0.7); 
- *  background-color: rgba(240, 60, 60, 0.3);
- *  top:400px; right:240px;
- *}
- *
- *#plain8 {
- *   border: 1px solid rgba(240, 60, 60, 0.7); 
- *   background-color: rgba(240, 60, 60, 0.3);
- *   top:250px; right:50px;
- *}
- *#plain9 {
- *   border: 1px solid rgba(250, 250, 0, 0.7); 
- *   background-color: rgba(250, 250, 0, 0.3);
- *   top:457px; right:104px;
- *}
- *#plain10 {
- *   border: 1px solid rgba(240, 60, 60, 0.7); 
- *   background-color: rgba(240, 60, 60, 0.3);
- *   top:350px; right:80px;
- *}
- *#plain11 {
- *   border: 1px solid rgba(240, 60, 60, 0.7); 
- *   background-color: rgba(240, 60, 60, 0.3);
- *   top:320px; right:200px;
- *}
- *#plain12 {
- *   border: 1px solid rgba(250, 250, 0, 0.7); 
- *   background-color: rgba(250, 250, 0, 0.3);
- *   top:280px; right:140px;
- *}
- *
- *#plain13 {
- *   border: 1px solid rgba(156, 217, 107, 0.7); 
- *   background-color: rgba(156, 217, 107, 0.3);
- *   top:280px; right:240px;
- *}
- *
- *#plain14 {
- *   border: 1px solid rgba(138,43,226, 0.7); 
- *   background-color: rgba(138,43,226, 0.3);
- *   top:420px; left:240px;
- *}
- *
- *#plain15 {
- *   border: 1px solid rgba(0,255,0, 0.7); 
- *   background-color: rgba(0,255,0, 0.3);
- *   top:370px; left:400px;
- *}
- *
- *#plain17 {
- *   border: 1px solid rgba(138,43,226, 0.7); 
- *   background-color: rgba(138,43,226, 0.3);
- *   top:1px;right:140px;
- *}
- *
- *#plain16 {
- *   border: 1px solid rgba(0,255,0, 0.7); 
- *   background-color: rgba(0,255,0, 0.3);
- *   top:50px; right:200px;
- *} */
 #register {
   display: inline;
   float: right;

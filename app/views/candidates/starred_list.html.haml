@@ -12,8 +12,7 @@
     Starred Candidates >>
 #search
   SEARCH PANEL:
-  \#{select_tag('category', options_for_select(fetch_category), :include_blank => "- Select -")}
-  <input type="button", value="SEARCH", onclick="s_category();" >
+  \#{select_tag('category', options_for_select(fetch_category), :include_blank => "- Select -", :onChange => "s_category();")}
 #search_star_category
   %table#candidate_table
     %tr

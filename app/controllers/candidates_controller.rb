@@ -9,6 +9,9 @@ class CandidatesController < ApplicationController
   
   
   def index
+    p "****************"
+    p params
+    p "****************"
     @candidates = Candidate.paginate :page => params[:page], :per_page => 15
   end
 
@@ -67,7 +70,7 @@ class CandidatesController < ApplicationController
   
   # allows candidate to cancel registration and triggers mail to admin.
   def cancel
-    # @candidate.cancel_registerations(events.where(:id => params[:event_id]).first)
+    ## @candidate.cancel_registerations(events.where(:id => params[:event_id]).first)
     @events_candidate = EventsCandidate.where(:event_id => params[:event_id], :candidate_id => params[:id]).first
     @events_candidate.cancel!
     redirect_to(root_path , :notice => 'Your Registration has been Cancelled successfully!')
@@ -88,11 +91,6 @@ class CandidatesController < ApplicationController
     @candidate = Candidate.where(:id => params[:id]).first
     @candidate.resume_download
   end
-
-  
-  def starred_list
-    @candidates = Candidate.starred
-  end  
 
   # candidate.mark_selected_for(@event)
   def mark_selected
