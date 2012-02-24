@@ -16,11 +16,11 @@
       %br/
       %p#details
         - if admin_signed_in?
-          = link_to 'Control Panel', events_path, :class => "#{'current_menu' if params[:controller] == 'events' && params[:action] == 'index' }"
+          = link_to 'Control Panel', events_path, :class => "#{'current_menu' if params[:controller] == 'events' && params[:action] == 'index' && params[:type] == nil }"
           |
           = link_to 'Invite Admin', new_admin_invitation_path, :class => "#{'current_menu' if params[:controller] == 'admins/invitations' && params[:action] == 'new' }"
           |
-          = link_to 'Past Events', past_events_path, :class => "#{'current_menu' if params[:controller] == 'events' && params[:action] == 'past' }"
+          = link_to 'Past Events', past_events_path, :class => "#{'current_menu' if params[:controller] == 'events' && params[:action] == 'index' && params[:type] == 'past_events' }"
           |
           = link_to 'Category', categories_path, :class => "#{'current_menu' if params[:controller] == 'categories' && params[:action] == 'index' }"
           |

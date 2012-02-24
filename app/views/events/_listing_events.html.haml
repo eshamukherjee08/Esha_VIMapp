@@ -1,6 +1,6 @@
 #triple_break
   #heading
-    Past Walk-Ins >>
+    Events >>
 %table#candidate_table
   %tr
     %th
@@ -10,17 +10,14 @@
     %th
       Experience
     %th
-      Location
-    %th
-      Description
-    %th
       Category
     %th
       Tech spec
     %th
       No. Of Batches
+    %th
+      Action
   - @events.each do |event|
-    / Out this in controller
     %tr
       %td
         = event.event_date.strftime("%d/%b/%Y")
@@ -29,12 +26,19 @@
       %td
         = event.experience
       %td
-        = event.location
-      %td
-        = event.description
-      %td
         = event.category.name
       %td
         = event.tech_spec
       %td
         = event.batches.count
+      %td
+        - if event.event_date.today? or event.event_date.future?
+          %span#link_list
+            = link_to 'Show', event
+            |
+            \#{link_to 'Edit', edit_event_path(event)}
+            |
+            \#{link_to 'Delete', event, :confirm => 'Are you sure?', :method => :delete}
+        - else
+          No Action Available
+          

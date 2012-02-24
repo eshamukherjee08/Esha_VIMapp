@@ -39,9 +39,9 @@ EshaVIMapp::Application.routes.draw do
   get "google_map/index"
   get :map_location, :to => "walkins#change_map", :as => "map_location"
             
-  resources :events do
+  resources :events do 
     collection do 
-      get :past
+      get :past, :to => "events#index", :defaults => {:type => 'past_events'}
     end
     
     member do
@@ -64,7 +64,6 @@ EshaVIMapp::Application.routes.draw do
       end
     end
   end
-  
   
   
   # The priority is based upon order of creation:

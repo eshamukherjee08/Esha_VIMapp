@@ -3,11 +3,16 @@ class EventsController < ApplicationController
   before_filter :find_event, :only => [:show, :edit, :update, :destroy, :wait_list]
 
   def index
-    @events = Event.upcoming_events.order(:event_date)
+    if (params[:type])
+      @events = Event.past_events.order(:event_date)
+    else
+      @events = Event.upcoming_events.order(:event_date)
+    end
+    # render 'events/index.js.haml'
   end
 
   def show
-    @events_candidates = @event.events_candidates.not_cancelled     
+    # @events_candidates = @event.events_candidates.not_cancelled     
   end
 
 
@@ -50,12 +55,8 @@ class EventsController < ApplicationController
     redirect_to events_path
   end
   
-  #fetching past events.
   # pagination
-  def past
-    @events = Event.past_events.order(:event_date)
-  end
-  
+
   #generating candidates in waitlist.
   def wait_list
     @events_candidates = @event.events_candidates.waitlist_candidates

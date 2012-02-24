@@ -239,7 +239,6 @@ h1 {
 
 #candidate_table {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-  width: 100%;
   border-collapse: collapse; }
   #candidate_table td {
     font-size: 1em;
