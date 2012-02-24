@@ -91,4 +91,16 @@ class EventsCandidate < ActiveRecord::Base
     CandidateMailer.allocation_email(self).deliver
   end
   
+  def selected
+    select!
+  end
+  
+  def rejected
+    reject!
+  end
+  
+  def status_edit
+    edit_status!
+  end
+  
 end

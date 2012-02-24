@@ -4,17 +4,14 @@ EshaVIMapp::Application.routes.draw do
 
   resources :candidates do
     collection do
-      get :mark_candidate_star
       get :find_category
       get :starred_list
       # make member functions
-      get :mark_selected
-      get :mark_rejected
-      get :edit_status
     end
     
     member do
       get :download_resume
+      get :mark_star
     end
   end
      
@@ -55,6 +52,9 @@ EshaVIMapp::Application.routes.draw do
       member do
         get :admitcard
         get :cancel
+        get :mark_selected
+        get :mark_rejected
+        get :edit_status
       end
     end
     

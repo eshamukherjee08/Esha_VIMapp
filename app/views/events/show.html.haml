@@ -1,29 +1,20 @@
 :javascript
-  function mark_selected(candidate_id, event_id) {
+  function mark_selected(event_id,candidate_id) {
   	$.ajax({
-  		url : "#{mark_selected_candidates_path}",
+  		url : "#{mark_selected_event_candidate_path("event_id","candidate_id")}",
   		dataType : 'script',
   		type : 'get',
-  		data : "candidate_id="+ candidate_id+"&event_id="+ event_id
+  		data : "candidate_id="+candidate_id+"&event_ID="+event_id
   	});
   }
-  function mark_rejected(candidate_id, event_id) {
+  function mark_rejected(event_id,candidate_id) {
   	$.ajax({
-  		url : "#{mark_rejected_candidates_path}",
+  		url : "#{mark_rejected_event_candidate_path("event_id","candidate_id")}",
   		dataType : 'script',
   		type : 'get',
-  		data : "candidate_id="+ candidate_id+"&event_id="+ event_id
+  		data : "candidate_id="+candidate_id+"&event_ID="+event_id
   	});
   	
-  }
-  
-  function editor(candidate_id) {
-    $.ajax({
-  		url : "#{edit_status_candidates_path}",
-  		dataType : 'script',
-  		type : 'get',
-  		data : "candidate_id="+ candidate_id
-  	});
   }
 %p#notice
   = notice
@@ -93,19 +84,19 @@
               - if e.rejected?
                 %td
                   = image_tag("red.jpg")
-                  = link_to 'EDIT', edit_status_candidates_path(e.candidate.id,:event_id => e.event.id)
+                  = link_to 'EDIT', edit_status_event_candidate_path(e.event.id,e.candidate.id)
               - elsif e.selected?
                 %td
                   = image_tag("green.jpg")
-                  = link_to 'EDIT', edit_status_candidates_path(e.candidate.id,:event_id => e.event.id)
+                  = link_to 'EDIT', edit_status_event_candidate_path(e.event.id,e.candidate.id)
               - else
                 %td
                   %span{:id => "status_#{e.candidate.id}"}
-                    %span{:id => "select_#{e.candidate.id}", :onclick => "mark_selected(#{e.candidate.id}, #{e.event.id})"}
+                    %span{:id => "select_#{e.candidate.id}", :onclick => "mark_selected(#{e.event.id},#{e.candidate.id})"}
                       %u
                         SELECTED
                     |
-                    %span{:id => "reject_#{e.candidate.id}", :onclick => "mark_rejected(#{e.candidate.id}, #{e.event.id})"}
+                    %span{:id => "reject_#{e.candidate.id}", :onclick => "mark_rejected(#{e.event.id},#{e.candidate.id})"}
                       %u
                         REJECTED
 

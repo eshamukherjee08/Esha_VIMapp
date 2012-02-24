@@ -1,7 +1,7 @@
 :javascript
   function mark_candidate(candidate_id) {
   	$.ajax({
-  		url : "#{mark_candidate_star_candidates_path}",
+  		url : "#{mark_star_candidate_path("candidate_id")}",
   		dataType : 'script',
   		type : 'get',
   		data : "candidate_id="+ candidate_id

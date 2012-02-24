@@ -5,9 +5,7 @@ class Candidate < ActiveRecord::Base
   has_many :events, :through => :events_candidates
   has_many :batches, :through => :events_candidates
   accepts_nested_attributes_for :events_candidates
-  
-  #validations for candidate model.
-  
+    
   #for term acceptance in registration form.
   validates :terms, :acceptance => true
  
@@ -30,7 +28,7 @@ class Candidate < ActiveRecord::Base
   def assign_to_batch(eventid,candidate,events_candidate)
     event = Event.where(:id => eventid).first
     events_candidate.roll_num = UUID.new.generate.hex
-    ## if capacity is full
+    # if capacity is full
     if (event.check_capacity(event))
       events_candidate.allot_waitlist!
       events_candidate.save
@@ -61,17 +59,5 @@ class Candidate < ActiveRecord::Base
   def resume_download
     send_file(self.resume.path , :content_type => self.resume_content_type)
   end
-  
-  def selected(events_candidate)
-    events_candidate.select!
-  end
-  
-  def rejected(events_candidate)
-    events_candidate.reject!
-  end
-  
-  # def status_edit(events_candidate)
-  #   events_candidate.edit_status!
-  # end
   
 end

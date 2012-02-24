@@ -1,7 +1,6 @@
 class CategoriesController < ApplicationController
 
   before_filter :find_category, :only => [:show, :edit, :update, :destroy]
-  before_filter :authenticate_admin
 
   def index
     @categories = Category.all

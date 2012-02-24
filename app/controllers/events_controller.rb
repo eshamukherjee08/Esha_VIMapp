@@ -1,8 +1,6 @@
 class EventsController < ApplicationController
   
-  before_filter :authenticate_admin #filter to disallow without admin rights.
   before_filter :find_event, :only => [:show, :edit, :update, :destroy, :wait_list]
-  
 
   def index
     @events = Event.upcoming_events.order(:event_date)

@@ -2,9 +2,9 @@ class CandidatesController < ApplicationController
 
   before_filter :find_candidate, :only => [:show, :edit, :update, :destroy, :admitcard]
   before_filter :find_event, :only => [:create, :new, :show]
-  before_filter :find_events_candidate, :only => [:confirmation, :edit_status]
-  before_filter :find_marking_candidate, :only => [:mark_selected, :mark_rejected]
-  before_filter :authenticate_admin, :except => [:new, :create, :confirmation, :admitcard, :cancel, :show]  
+  before_filter :find_events_candidate, :only => [:confirmation]
+  before_filter :find_marking_events_candidate, :only => [:mark_selected, :mark_rejected]
+  skip_before_filter :authenticate_admin, :only => [:new, :create, :confirmation, :admitcard, :cancel, :show] 
   layout :compute_layout
   
   
@@ -18,7 +18,7 @@ class CandidatesController < ApplicationController
   # Why do we need 1.times here?
   def new
     @candidate = Candidate.new
-    1.times { @candidate.events_candidates.build }
+    @candidate.events_candidates.build
   end
 
   def edit
@@ -79,7 +79,7 @@ class CandidatesController < ApplicationController
   end
   
   # marks candidate star on admin's discrimination.
-  def mark_candidate_star
+  def mark_star
     @candidate = Candidate.where(:id => params[:candidate_id]).first
     @candidate.mark_star
   end
@@ -88,7 +88,6 @@ class CandidatesController < ApplicationController
   def find_category
     @category = Category.where(:id => params[:category]).first
     # DO we need a variable?
-    @events = @category.events
   end
   
   def download_resume
@@ -103,17 +102,17 @@ class CandidatesController < ApplicationController
 
   # candidate.mark_selected_for(@event)
   def mark_selected
-    @candidate.selected(@events_candidate)
+    @events_candidate.selected
   end
   
   def mark_rejected
-   @candidate.rejected(@events_candidate)
+    @events_candidate.rejected
   end
   
   #allows admin to edit status of candidate.
   def edit_status
-    @candidate = Candidate.where(:id => params[:format]).first
-    @events_candidate.edit_status!
+    @events_candidate = EventsCandidate.where(:event_id => params[:event_id], :candidate_id => params[:id]).first
+    @events_candidate.status_edit
     redirect_to @events_candidate.event
   end
   
@@ -135,10 +134,9 @@ class CandidatesController < ApplicationController
     redirect_to(root_path , :notice => 'Sorry! Data not found.') unless @events_candidate
   end
   
-  def find_marking_candidate
-    @candidate = Candidate.where(:id => params[:candidate_id]).first
-    @events_candidate = EventsCandidate.where(:event_id => params[:event_id], :candidate_id => params[:candidate_id]).first
-    redirect_to(root_path , :notice => 'Sorry! Candidate not found.') unless @candidate or @events_candidate
+  def find_marking_events_candidate
+    @events_candidate = EventsCandidate.where(:event_id => params[:event_ID], :candidate_id => params[:candidate_id]).first
+    redirect_to(root_path , :notice => 'Sorry! Data not found.') unless @events_candidate
   end
   
   def compute_layout

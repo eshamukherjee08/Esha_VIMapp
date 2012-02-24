@@ -1,6 +1,7 @@
 class EventsCandidatesController < ApplicationController
   
   
+  
   #for marking attendance of candidates attending event.
   def mark_attended
     # @event = Event.where(:id => params[:event_id])
