@@ -15,7 +15,6 @@ class CandidatesController < ApplicationController
   def show
   end
 
-  # Why do we need 1.times here?
   def new
     @candidate = Candidate.new
     @candidate.events_candidates.build
@@ -24,15 +23,10 @@ class CandidatesController < ApplicationController
   def edit
   end
 
-  # Can write it like this ?
-  # Candidate.find_or_create_by_email_and_mobile_number(params[:candidate][:email], params[:candidate][:mobile_number])
   def create
     @candidate = Candidate.find_or_create_by_email_and_mobile_number(:email => params[:candidate][:email], :mobile_number => params[:candidate][:mobile_number])
-   
-   # Why are you updating and saving as well?
-    @candidate.update_attributes(params[:candidate])
 
-    if @candidate.save
+    if @candidate.save(params[:candidate])
       Candidate.send_confirmation_mail(@candidate, params[:event_id])
       redirect_to(event_candidate_path(@event, @candidate) , :notice => 'Registered Successfully.')
     else
@@ -40,7 +34,7 @@ class CandidatesController < ApplicationController
     end
   end
 
-
+  #remove update
   def update
     if @candidate.update_attributes(params[:candidate])
       redirect_to(@candidate, :notice => 'Candidate was successfully updated.')
@@ -73,6 +67,7 @@ class CandidatesController < ApplicationController
   
   # allows candidate to cancel registration and triggers mail to admin.
   def cancel
+    # @candidate.cancel_registerations(events.where(:id => params[:event_id]).first)
     @events_candidate = EventsCandidate.where(:event_id => params[:event_id], :candidate_id => params[:id]).first
     @events_candidate.cancel!
     redirect_to(root_path , :notice => 'Your Registration has been Cancelled successfully!')
@@ -87,7 +82,6 @@ class CandidatesController < ApplicationController
   #conducts search on the basis of event category.
   def find_category
     @category = Category.where(:id => params[:category]).first
-    # DO we need a variable?
   end
   
   def download_resume
@@ -97,7 +91,7 @@ class CandidatesController < ApplicationController
 
   
   def starred_list
-   @candidates = Candidate.starred
+    @candidates = Candidate.starred
   end  
 
   # candidate.mark_selected_for(@event)

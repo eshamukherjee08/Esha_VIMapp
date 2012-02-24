@@ -51,6 +51,7 @@ class EventsController < ApplicationController
   end
   
   #fetching past events.
+  # pagination
   def past
     @events = Event.past_events.order(:event_date)
   end
