@@ -26,9 +26,6 @@ class Candidate < ActiveRecord::Base
   scope :starred, where(:starred => true)
     
   #assigning candidate to a batch.
-  # Select batch function
-  # Create funtion in event to check all batches full
-
   ## waitlist allocation => after save
   def assign_to_batch(eventid,candidate,events_candidate)
     event = Event.where(:id => eventid).first
@@ -58,7 +55,7 @@ class Candidate < ActiveRecord::Base
   end
   
   def mark_star
-    self.update_attributes(:starred => true)
+    update_attributes(:starred => true)
   end
   
   def resume_download

@@ -28,7 +28,6 @@ class Event < ActiveRecord::Base
   after_save :waitlist_allocation
      
    #not to create event with zero number of batches.
-   # Divide into 2 separate methods, 2nd should be called before_destroy -> batch
    def confirm_count
      if new_record? and batches.empty?
       errors.add(:base, "Please ADD atleast ONE BATCH") 
