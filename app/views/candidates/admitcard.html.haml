@@ -8,7 +8,7 @@
     Following are your VinSol Walk-in Details:
   Event Name: #{@event.name}
   #single_break
-    Date : #{@event.event_date}
+    Date : #{@event.event_date.strftime("%b %d, %Y")}
   #single_break
     Roll Number : #{@candidate.events_candidates.first.roll_num}
   #single_break

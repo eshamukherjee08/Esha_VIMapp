@@ -19,6 +19,9 @@ class EventsCandidate < ActiveRecord::Base
   #scope to find candidates who has not cancelled candidature.
   scope :not_cancelled, where("current_state in ('alloted','selected','rejected', 'attended')")
   
+  #scope to find waitlisted candidates.
+  scope :waitlist_candidates, where(:current_state => :waitlisted)
+  
   #for marking attendance of attenting candidates.
   ## unless not required
   def self.mark_attendance(events_candidates)

@@ -4,9 +4,10 @@ class Event < ActiveRecord::Base
   belongs_to :admin
   belongs_to :category
   has_many :batches, :dependent => :destroy
-  accepts_nested_attributes_for :batches, :allow_destroy => true, :reject_if => lambda { |attributes| attributes['capacity'].blank? }
   has_many :events_candidates , :dependent => :destroy
   has_many :candidates, :through => :events_candidates
+  
+  accepts_nested_attributes_for :batches, :allow_destroy => true, :reject_if => lambda { |attributes| attributes['capacity'].blank? }
   
   validates_associated :batches
   
@@ -23,7 +24,7 @@ class Event < ActiveRecord::Base
   
   #scope to find past events.
   scope :past_events, lambda { where("event_date < ?", Time.zone.now - DATEVALUE.day) }
-  
+    
   after_save :waitlist_allocation
      
    #not to create event with zero number of batches.

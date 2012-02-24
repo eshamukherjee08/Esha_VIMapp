@@ -59,7 +59,7 @@ class EventsController < ApplicationController
   
   #generating candidates in waitlist.
   def wait_list
-    @events_candidates = @event.events_candidates.where(:current_state => :waitlisted)
+    @events_candidates = @event.events_candidates.waitlist_candidates
     if @events_candidates.empty?
       redirect_to( events_path , :notice => 'NO WAITLISTED CANDIDATES YET!' )
     end
@@ -69,7 +69,7 @@ class EventsController < ApplicationController
   protected
   
   def find_event
-     @event = Event.where(:id => params[:id].to_i).first
+     @event = Event.where(:id => params[:id]).first
      redirect_to(root_path , :notice => 'Sorry! Event not found.') unless @event
   end
     

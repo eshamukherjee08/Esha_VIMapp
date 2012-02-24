@@ -2,6 +2,7 @@ class CandidatesController < ApplicationController
 
   before_filter :find_candidate, :only => [:show, :edit, :update, :destroy, :admitcard]
   before_filter :find_event, :only => [:create, :new, :show]
+  before_filter :find_events_candidate, :only => [:confirmation, :edit_status]
   before_filter :find_marking_candidate, :only => [:mark_selected, :mark_rejected]
   before_filter :authenticate_admin, :except => [:new, :create, :confirmation, :admitcard, :cancel, :show]  
   layout :compute_layout
@@ -53,7 +54,6 @@ class CandidatesController < ApplicationController
   #On confirming mailed link, allots candidate roll number and marks candidate as confirmed.
   def confirmation
     @candidate = Candidate.where(:perishable_token => params[:perishable_token]).first   #needed at confirmation view page.
-    @events_candidate = EventsCandidate.where(:event_id => params[:event_id] , :candidate_id => @candidate.id).first
     if (@events_candidate.registered?)
       @candidate.assign_to_batch(params[:event_id],@candidate,@events_candidate)
     else
@@ -111,12 +111,7 @@ class CandidatesController < ApplicationController
   #allows admin to edit status of candidate.
   def edit_status
     @candidate = Candidate.where(:id => params[:format]).first
-    @events_candidate = EventsCandidate.where(:event_id => params[:event_id], :candidate_id => @candidate.id).first
     @events_candidate.edit_status!
-    # p "******************"
-    # p @events_candidate
-    # p "******************"
-    # @candidate.status_edit(@events_candidate)
     redirect_to @events_candidate.event
   end
   
@@ -133,6 +128,11 @@ class CandidatesController < ApplicationController
     redirect_to(root_path , :notice => 'Sorry! Event not found.') unless @event
   end
   
+  def find_events_candidate
+    @events_candidate = EventsCandidate.where(:event_id => params[:event_id], :candidate_id => @candidate.id).first
+    redirect_to(root_path , :notice => 'Sorry! Data not found.') unless @events_candidate
+  end
+  
   def find_marking_candidate
     @candidate = Candidate.where(:id => params[:candidate_id]).first
     @events_candidate = EventsCandidate.where(:event_id => params[:event_id], :candidate_id => params[:candidate_id]).first
@@ -143,5 +143,4 @@ class CandidatesController < ApplicationController
    action_name == "admitcard" ? "admitcard" : "application"
   end
   
-    
 end

@@ -11,7 +11,7 @@
   #single_break
     Event Name: #{@events_candidate.event.name}
   #single_break
-    Date : #{@events_candidate.event.event_date}
+    Date : #{@events_candidate.event.event_date.strftime("%b %d, %Y")}
   #single_break
     - if @events_candidate.waitlisted?
       Sorry!You are on Waitlist, please keep on checking.
