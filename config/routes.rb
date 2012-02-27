@@ -5,7 +5,7 @@ EshaVIMapp::Application.routes.draw do
   resources :candidates do
     collection do
       get :find_category
-      get :starred_list, :to => "candidates#index", :defaults => {:type => 'starred'}
+      get :starred, :to => "candidates#index", :defaults => {:type => 'starred'}
       # make member functions
     end
     
@@ -44,10 +44,6 @@ EshaVIMapp::Application.routes.draw do
       get :past, :to => "events#index", :defaults => {:type => 'past_events'}
     end
     
-    member do
-      get :wait_list
-    end
-    
     resources :candidates do
       member do
         get :admitcard
@@ -56,6 +52,12 @@ EshaVIMapp::Application.routes.draw do
         get :mark_rejected
         get :edit_status
       end
+      
+      collection do
+        get :wait_list, :to => "candidates#show_candidates", :defaults => {:type => 'waitlist_candidates'}
+        get :confirmed, :to => "candidates#show_candidates"
+      end
+      
     end
     
     resources :events_candidates do

@@ -20,7 +20,7 @@ class Candidate < ActiveRecord::Base
   validates_associated :events_candidates
   
   before_create :generate_token
-  
+    
   scope :starred, where(:starred => true)
     
   #assigning candidate to a batch.
@@ -43,7 +43,7 @@ class Candidate < ActiveRecord::Base
   
   #send confirmation mail to candidate on registration.
   # Can we move this to callbacks
-  def self.send_confirmation_mail(candidate, event_id)
+  def self.send_confirmation_mail(candidate, event_id)   #need event for mail, have to paas event explicitely so not in callback.
     CandidateMailer.confirm_email(candidate, event_id).deliver
   end
   
@@ -58,6 +58,10 @@ class Candidate < ActiveRecord::Base
   
   def resume_download
     send_file(self.resume.path , :content_type => self.resume_content_type)
+  end
+  
+  def cancel_registeration(event)
+    EventsCandidate.where(:event_id => event.id, :candidate_id => self.id).first.cancel!
   end
   
 end

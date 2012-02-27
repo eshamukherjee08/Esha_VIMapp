@@ -1,0 +1,107 @@
+:javascript
+  function mark_selected(event_id,candidate_id) {
+  	$.ajax({
+  		url : "#{mark_selected_event_candidate_path("event_id","candidate_id")}",
+  		dataType : 'script',
+  		type : 'get',
+  		data : "candidate_id="+candidate_id+"&event_ID="+event_id
+  	});
+  }
+  function mark_rejected(event_id,candidate_id) {
+  	$.ajax({
+  		url : "#{mark_rejected_event_candidate_path("event_id","candidate_id")}",
+  		dataType : 'script',
+  		type : 'get',
+  		data : "candidate_id="+candidate_id+"&event_ID="+event_id
+  	});
+  	
+  }
+%p#notice
+  = notice
+#double_break
+  #heading
+    RegisteredCandidates>>
+    = link_to 'Back', event_path(@event)
+%h3{:style => "display:inline;margin-left:41%"}
+  %b
+    Event date:
+%u
+  = @event.event_date.strftime("%b %d, %Y")
+#single_break
+  %h3{:style => "display:inline;margin-left:41%"}
+    %b
+      Name:
+  %u
+    = @event.name
+- if @events_candidates.empty?
+  %h3{:style => "text-align:center;color:red;margin-top:40px"}
+    NO REGISTRATIONS FOR THIS EVENT
+- else
+  #search_category
+    %table#candidate_table
+      %tr
+        %th
+          Name
+        %th
+          ID
+        %th
+          Salary Expected
+        %th
+          Resume
+        %th
+          Attended
+        %th
+          Status
+      = form_tag mark_attended_event_events_candidates_path(@event) do
+        - @events_candidates.each do |e|
+          - if e.alloted?
+            %tr
+              - candidate = e.candidate
+              %td
+                = candidate.name
+              %td
+                = candidate.id
+              %td
+                = e.salary_exp
+              %td
+                = link_to "Download", download_resume_candidate_path(e.candidate.id)
+              %td
+                = check_box_tag("attended[#{e.id}]")
+              %td
+                NO STATUS YET
+          - elsif (e.attended? or e.selected? or e.rejected?)
+            %tr
+              %td
+                = e.candidate.name
+              %td
+                = e.candidate.id
+              %td
+                = e.salary_exp
+              %td
+                = link_to "Download", download_resume_candidate_path(e.candidate.id)
+              %td
+                = image_tag("check.jpg")
+              - if e.rejected?
+                %td
+                  = image_tag("red.jpg")
+                  = link_to 'EDIT', edit_status_event_candidate_path(e.event.id,e.candidate.id)
+              - elsif e.selected?
+                %td
+                  = image_tag("green.jpg")
+                  = link_to 'EDIT', edit_status_event_candidate_path(e.event.id,e.candidate.id)
+              - else
+                %td
+                  %span{:id => "status_#{e.candidate.id}"}
+                    %span{:id => "select_#{e.candidate.id}", :onclick => "mark_selected(#{e.event.id},#{e.candidate.id})"}
+                      %u
+                        SELECTED
+                    |
+                    %span{:id => "reject_#{e.candidate.id}", :onclick => "mark_rejected(#{e.event.id},#{e.candidate.id})"}
+                      %u
+                        REJECTED
+        %span#attendance
+          - if @event.event_date.today?
+            .actions{:style => "float:right;margin-right:170px"}
+              = submit_tag 'Mark Attended'
+          - else
+            Attendance Marking Will Be Available On/After Event Date

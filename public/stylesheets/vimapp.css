@@ -310,3 +310,9 @@ h1 {
   margin: auto;
   margin-top: 30px;
   padding: 30px; }
+  
+#attendance {
+  margin-left:480px;
+  color:maroon;
+  font-size: 1.2em;
+}

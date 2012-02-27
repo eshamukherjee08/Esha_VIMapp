@@ -32,8 +32,8 @@
   \:#{@event.batches.count}
 #double_break
   %p#link_list
-    = link_to 'View Confirmed List'
+    = link_to 'View Confirmed List', confirmed_event_candidates_path(@event)
     |
-    \#{link_to 'View Wait List', wait_list_event_path(@event)}
+    \#{link_to 'View Wait List', wait_list_event_candidates_path(@event)}
     |
     \#{link_to 'Back', events_path}

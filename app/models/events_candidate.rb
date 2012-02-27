@@ -72,7 +72,7 @@ class EventsCandidate < ActiveRecord::Base
     transitions :to => :rejected, :from => [:attended]
   end
   
-  aasm_event :edit_status do
+  aasm_event :change_status do
     transitions :to => :attended, :from => [:selected, :rejected]
   end
   
@@ -99,8 +99,8 @@ class EventsCandidate < ActiveRecord::Base
     reject!
   end
   
-  def status_edit
-    edit_status!
+  def status_change
+    change_status!
   end
   
 end

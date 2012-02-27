@@ -8,11 +8,9 @@ class EventsController < ApplicationController
     else
       @events = Event.upcoming_events.order(:event_date)
     end
-    # render 'events/index.js.haml'
   end
 
   def show
-    # @events_candidates = @event.events_candidates.not_cancelled     
   end
 
 
@@ -56,15 +54,6 @@ class EventsController < ApplicationController
   end
   
   # pagination
-
-  #generating candidates in waitlist.
-  def wait_list
-    @events_candidates = @event.events_candidates.waitlist_candidates
-    if @events_candidates.empty?
-      redirect_to( events_path , :notice => 'NO WAITLISTED CANDIDATES YET!' )
-    end
-  end
-  
   
   protected
   

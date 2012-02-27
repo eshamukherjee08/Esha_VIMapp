@@ -1,5 +1,6 @@
 class Admins::InvitationsController < Devise::InvitationsController
   
+  skip_before_filter :authenticate_admin
  
   def create
       self.resource = resource_class.invite!(params[resource_name], current_inviter)
