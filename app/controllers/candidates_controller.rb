@@ -15,6 +15,7 @@ class CandidatesController < ApplicationController
   def show
   end
   
+  ## index
   def show_candidates
     if(params[:type])
       @events_candidates = EventsCandidate.where(:event_id => params[:event_id]).waitlist_candidates
