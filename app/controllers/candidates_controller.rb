@@ -1,9 +1,9 @@
 class CandidatesController < ApplicationController
 
   before_filter :find_candidate, :only => [:show, :edit, :update, :destroy, :admitcard, :cancel, :mark_star, :download_resume]
-  before_filter :find_event, :only => [:create, :new, :show]
+  before_filter :find_event, :only => [:create, :new, :show, :confirmation, :admitcard]
   before_filter :find_events_candidate, :only => [:confirmation]
-  before_filter :find_marking_events_candidate, :only => [:mark_selected, :mark_rejected, :edit_status]
+  before_filter :find_marking_events_candidate, :only => [:mark_selected, :mark_rejected, :edit_status, :admitcard]
   skip_before_filter :authenticate_admin, :only => [:new, :create, :confirmation, :admitcard, :cancel, :show] 
   layout :compute_layout
   
@@ -64,7 +64,6 @@ class CandidatesController < ApplicationController
   
   #creating admit card for confirmend candidates.
   def admitcard
-    @event = @candidate.events.first
   end
   
   

@@ -1,21 +1,3 @@
-:javascript
-  function mark_candidate(candidate_id) {
-  	$.ajax({
-  		url : "/candidates/"+candidate_id+"/mark_star",
-  		dataType : 'script',
-  		type : 'get',
-  		data : "candidate_id="+ candidate_id
-  	});
-  }
-  
-  function s_category(ele) {
-  	$.ajax({
-  		url : "#{find_category_candidates_path}",
-  		dataType : 'script',
-  		type : 'get',
-  		data : "category="+$("#category").val()+"&page="+ele
-  	});
-  }
 %br/
 %br/
 - if(params[:type] == 'starred')

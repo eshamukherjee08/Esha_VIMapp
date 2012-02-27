@@ -1,21 +1,3 @@
-:javascript
-  function mark_selected(event_id,candidate_id) {
-  	$.ajax({
-  		url : "/events/"+event_id+"/candidates/"+candidate_id+"/mark_selected",
-  		dataType : 'script',
-  		type : 'get',
-  		data : "candidate_id="+candidate_id
-  	});
-  }
-  function mark_rejected(event_id,candidate_id) {
-  	$.ajax({
-  		url : "/events/"+event_id+"/candidates/"+candidate_id+"/mark_rejected",
-  		dataType : 'script',
-  		type : 'get',
-  		data : "candidate_id="+candidate_id
-  	});
-  	
-  }
 %p#notice
   = notice
 #double_break

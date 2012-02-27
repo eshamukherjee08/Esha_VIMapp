@@ -1,13 +1,3 @@
-:javascript
-  function show_map() {
-     $.ajax({
-       url : "#{map_location_path}",
-       dataType : 'script',
-       type : 'get',
-       data : "location="+$("#event_location").attr("value")
-     });
-   }
-   
 %br/
 = link_to 'ALREADY REGISTERED?', search_path
 #single_break
