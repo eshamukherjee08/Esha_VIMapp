@@ -1,18 +1,18 @@
 :javascript
   function mark_selected(event_id,candidate_id) {
   	$.ajax({
-  		url : "#{mark_selected_event_candidate_path("event_id","candidate_id")}",
+  		url : "/events/"+event_id+"/candidates/"+candidate_id+"/mark_selected",
   		dataType : 'script',
   		type : 'get',
-  		data : "candidate_id="+candidate_id+"&event_ID="+event_id
+  		data : "candidate_id="+candidate_id
   	});
   }
   function mark_rejected(event_id,candidate_id) {
   	$.ajax({
-  		url : "#{mark_rejected_event_candidate_path("event_id","candidate_id")}",
+  		url : "/events/"+event_id+"/candidates/"+candidate_id+"/mark_rejected",
   		dataType : 'script',
   		type : 'get',
-  		data : "candidate_id="+candidate_id+"&event_ID="+event_id
+  		data : "candidate_id="+candidate_id
   	});
   	
   }
