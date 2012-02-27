@@ -1,7 +1,7 @@
 class CandidatesController < ApplicationController
 
   before_filter :find_candidate, :only => [:show, :edit, :update, :destroy, :admitcard, :cancel]
-  before_filter :find_event, :only => [:create, :new, :show, :show_candidates]
+  before_filter :find_event, :only => [:create, :new, :show]
   before_filter :find_events_candidate, :only => [:confirmation]
   before_filter :find_marking_events_candidate, :only => [:mark_selected, :mark_rejected]
   skip_before_filter :authenticate_admin, :only => [:new, :create, :confirmation, :admitcard, :cancel, :show] 
@@ -9,20 +9,23 @@ class CandidatesController < ApplicationController
   
   
   def index
-    @candidates = Candidate.paginate :page => params[:page], :per_page => 15
+    if(params[:type] == 'starred')
+      @candidates = Candidate.starred
+    elsif(params[:event_id] && params[:type] == 'waitlist_candidates')
+      @events_candidates = EventsCandidate.where(:event_id => params[:event_id]).waitlist_candidates
+      @event = Event.where(:id => params[:event_id]).first 
+    elsif(params[:event_id] && params[:type] == 'confirmed_candidates')
+      @events_candidates = EventsCandidate.where(:event_id => params[:event_id]).valid_state
+      @event = Event.where(:id => params[:event_id]).first
+    else
+      @candidates = Candidate.paginate :page => params[:page], :per_page => 15
+    end 
   end
 
   def show
   end
   
   ## index
-  def show_candidates
-    if(params[:type])
-      @events_candidates = EventsCandidate.where(:event_id => params[:event_id]).waitlist_candidates
-    else
-      @events_candidates = EventsCandidate.where(:event_id => params[:event_id]).valid_state
-    end
-  end
 
   def new
     @candidate = Candidate.new

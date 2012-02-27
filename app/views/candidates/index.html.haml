@@ -8,27 +8,21 @@
   	});
   }
   
-  function s_category() {
+  function s_category(ele) {
   	$.ajax({
   		url : "#{find_category_candidates_path}",
   		dataType : 'script',
   		type : 'get',
-  		data : "category="+$("#category").val()+"&page=index"
+  		data : "category="+$("#category").val()+"&page="+ele
   	});
   }
-
-#heading
-  Listing Candidates >>
 %br/
 %br/
-#search
-  SEARCH PANEL:
-  \#{select_tag('category', options_for_select(fetch_category), :include_blank => "- Select -", :onChange => "s_category();")}
-#search_category
-  - if(params[:type])
-    = render 'candidates_starred'
-  - else
-    = render 'candidates_all'
-%p
-  = will_paginate @candidates
-%br/
+- if(params[:type] == 'starred')
+  = render 'candidates_starred'
+- elsif(params[:event_id] && params[:type] == 'waitlist_candidates')
+  = render 'candidates_waitlist'
+- elsif(params[:event_id] && params[:type] == 'confirmed_candidates')
+  = render 'candidates_confirmed'
+- else
+  = render 'candidates_all'

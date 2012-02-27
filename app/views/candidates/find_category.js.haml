@@ -1,4 +1,4 @@
-- if (params[:page] == 'index')
-  $('#search_category').html("#{escape_javascript (render :partial => 'search_category')}").paginate();
+- if (params[:page] == 'star')
+  $('#search_category').html("#{escape_javascript (render :partial => 'search_star_category')}");
 - else
-  $('#search_star_category').html("#{escape_javascript (render :partial => 'search_star_category')}");
+  $('#search_category').html("#{escape_javascript (render :partial => 'search_category')}").paginate();

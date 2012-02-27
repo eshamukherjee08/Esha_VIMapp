@@ -1,27 +1,31 @@
-%table#candidate_table
-  %tr
-    %th
-      Important
-    %th
-      ID
-    %th
-      Name
-    %th
-      Current State
-    %th
-      Resume      
-  - @candidates.each do |candidate|
-    #mark
+#search
+  SEARCH PANEL:
+  \#{select_tag('category', options_for_select(fetch_category), :include_blank => "- Select -", :onChange => "s_category('star');")}
+#search_category
+  %table#candidate_table
     %tr
-      - if candidate.starred
-        %td
-          %span{:id => "span_#{candidate.id}"}
-            = image_tag("star.png")
-        %td
-          = candidate.id
-        %td
-          = candidate.name
-        %td
-          = candidate.current_state
-        %td
-          = link_to "Download", download_resume_candidate_path(candidate.id)
+      %th
+        Important
+      %th
+        ID
+      %th
+        Name
+      %th
+        Current State
+      %th
+        Resume      
+    - @candidates.each do |candidate|
+      #mark
+      %tr
+        - if candidate.starred
+          %td
+            %span{:id => "span_#{candidate.id}"}
+              = image_tag("star.png")
+          %td
+            = candidate.id
+          %td
+            = candidate.name
+          %td
+            = candidate.current_state
+          %td
+            = link_to "Download", download_resume_candidate_path(candidate.id)

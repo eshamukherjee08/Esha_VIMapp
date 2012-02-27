@@ -54,8 +54,8 @@ EshaVIMapp::Application.routes.draw do
       end
       
       collection do
-        get :wait_list, :to => "candidates#show_candidates", :defaults => {:type => 'waitlist_candidates'}
-        get :confirmed, :to => "candidates#show_candidates"
+        get :wait_list, :to => "candidates#index", :defaults => {:type => 'waitlist_candidates'}
+        get :confirmed, :to => "candidates#index", :defaults => {:type => 'confirmed_candidates'}
       end
       
     end
