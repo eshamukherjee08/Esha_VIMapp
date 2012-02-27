@@ -32,9 +32,9 @@ class CandidatesController < ApplicationController
   end
 
   def create
+    ## use find_or_initialize_by and save
     @candidate = Candidate.find_or_create_by_email_and_mobile_number(:email => params[:candidate][:email], :mobile_number => params[:candidate][:mobile_number])
 
-    # if @candidate.save(params[:candidate])   #not working
     if @candidate.update_attributes(params[:candidate])
       Candidate.send_confirmation_mail(@candidate, params[:event_id])
       redirect_to(event_candidate_path(@event, @candidate) , :notice => 'Registered Successfully.')
@@ -49,9 +49,10 @@ class CandidatesController < ApplicationController
   end
   
   #On confirming mailed link, allots candidate roll number and marks candidate as confirmed.
+  ## candidate.save
   def confirmation
     if (@events_candidate.registered?)
-      @candidate.assign_to_batch(params[:event_id],@candidate,@events_candidate)
+      @candidate.assign_to_batch(params[:event_id], @candidate, @events_candidate)
     else
       redirect_to(root_path , :notice => 'Thank You, You Have already confirmed your registration.')
     end
@@ -65,13 +66,13 @@ class CandidatesController < ApplicationController
   
   # allows candidate to cancel registration and triggers mail to admin.
   def cancel
-    #@candidate.cancel_registeration(events.where(:id => params[:event_id]).first)
     @candidate.cancel_registeration(@candidate.events.where(:id => params[:event_id]).first)
     redirect_to(root_path , :notice => 'Your Registration has been Cancelled successfully!')
   end
   
   # marks candidate star on admin's discrimination.
   def mark_star
+    ## @candidate = Candidate.where(:id => params[:id]).first
     @candidate = Candidate.where(:id => params[:candidate_id]).first
     @candidate.mark_star
   end

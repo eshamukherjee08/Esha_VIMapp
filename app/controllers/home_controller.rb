@@ -12,6 +12,7 @@ class HomeController < ApplicationController
   # preload them while finding event_candidate
   def find_searched_candidate_data
     @events_candidate = EventsCandidate.where(:roll_num => params[:roll_num]).first
+    ## please correcr
     EventsCandidate.includes(:event, :candidate)  
     if @events_candidate
       if @events_candidate.event.event_date.future? or @events_candidate.event.event_date.today?
