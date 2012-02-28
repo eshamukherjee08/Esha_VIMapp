@@ -1,9 +1,7 @@
-## use AASM callbacks
 class EventsCandidate < ActiveRecord::Base
   
-  include AASM   # using acts_as_state_machine
+  include AASM  
   
-  #associations for EventsCandidate model used in has_many_through.
   belongs_to :event
   belongs_to :candidate
   belongs_to :batch
@@ -19,11 +17,8 @@ class EventsCandidate < ActiveRecord::Base
   #scope to find candidates who has confirmed candidature.
   scope :valid_state, where("current_state in ('alloted','selected','rejected', 'attended')")
   
-  #scope to find waitlisted candidates.
   scope :waitlist_candidates, where(:current_state => :waitlisted)
   
-  #for marking attendance of attenting candidates.
-  ## unless not required
   def self.mark_attendance(events_candidates)
     events_candidates.each do |element|
       element.attend!
@@ -31,8 +26,6 @@ class EventsCandidate < ActiveRecord::Base
   end
   
   
-  #aasm states and events declarations.
-
   aasm_column :current_state
     
   aasm_initial_state :registered

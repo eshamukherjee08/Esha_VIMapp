@@ -1,8 +1,11 @@
 class CandidatesController < ApplicationController
 
   before_filter :find_candidate, :only => [:show, :edit, :update, :destroy, :admitcard, :cancel, :mark_star, :download_resume]
+  
   before_filter :find_event, :only => [:create, :new, :show, :confirmation, :admitcard]
+  
   before_filter :find_events_candidate, :only => [:confirmation]
+  
   before_filter :find_marking_events_candidate, :only => [:mark_selected, :mark_rejected, :edit_status, :admitcard]
   skip_before_filter :authenticate_admin, :only => [:new, :create, :confirmation, :admitcard, :cancel, :show] 
   layout :compute_layout
@@ -11,12 +14,15 @@ class CandidatesController < ApplicationController
   def index
     if(params[:type] == 'starred')
       @candidates = Candidate.starred.paginate(:per_page => 5, :page => params[:page])
+    
     elsif(params[:event_id] && params[:type] == 'waitlist_candidates')
       @events_candidates = EventsCandidate.where(:event_id => params[:event_id]).waitlist_candidates.paginate(:per_page => 10, :page => params[:page])
       @event = Event.where(:id => params[:event_id]).first 
+    
     elsif(params[:event_id] && params[:type] == 'confirmed_candidates')
       @events_candidates = EventsCandidate.where(:event_id => params[:event_id]).valid_state.paginate(:per_page => 10, :page => params[:page])
       @event = Event.where(:id => params[:event_id]).first
+    
     else
       @candidates = Candidate.paginate(:per_page => 5, :page => params[:page])
     end 
