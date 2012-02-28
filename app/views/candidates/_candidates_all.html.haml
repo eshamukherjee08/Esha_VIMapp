@@ -38,4 +38,4 @@
           = link_to "Download", download_resume_candidate_path(candidate.id)
         %td
           = link_to(image_tag("delete.png"), candidate, :confirm => 'Are you sure?', :method => :delete)
-= will_paginate @candidates
+  = will_paginate @candidates
