@@ -1,4 +1,10 @@
-- if (params[:page] == 'star')
+- if (params[:page_type] == 'star')
   $('#search_category').html("#{escape_javascript (render :partial => 'search_star_category')}");
+  $("#pagination").html("#{escape_javascript (will_paginate @candidates)}");
+  $('.pagination a').attr('data-remote', 'true');
+  $("#pageEnteriesInfo").html("#{escape_javascript (page_entries_info @candidates)}");
 - else
-  $('#search_category').html("#{escape_javascript (render :partial => 'search_category')}").paginate();
+  $('#search_category').html("#{escape_javascript (render :partial => 'search_category')}");
+  $("#pagination").html("#{escape_javascript (will_paginate @candidates)}");
+  $('.pagination a').attr('data-remote', 'true');
+  $("#pageEnteriesInfo").html("#{escape_javascript (page_entries_info @candidates)}");

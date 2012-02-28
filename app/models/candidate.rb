@@ -36,7 +36,6 @@ class Candidate < ActiveRecord::Base
       events_candidate.allot!
     end
     ## save candidate instead of events_candidate
-    events_candidate.save
   end
   
   

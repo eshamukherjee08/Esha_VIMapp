@@ -10,15 +10,15 @@ class CandidatesController < ApplicationController
   
   def index
     if(params[:type] == 'starred')
-      @candidates = Candidate.starred
+      @candidates = Candidate.starred.paginate(:per_page => 5, :page => params[:page])
     elsif(params[:event_id] && params[:type] == 'waitlist_candidates')
-      @events_candidates = EventsCandidate.where(:event_id => params[:event_id]).waitlist_candidates
+      @events_candidates = EventsCandidate.where(:event_id => params[:event_id]).waitlist_candidates.paginate(:per_page => 10, :page => params[:page])
       @event = Event.where(:id => params[:event_id]).first 
     elsif(params[:event_id] && params[:type] == 'confirmed_candidates')
-      @events_candidates = EventsCandidate.where(:event_id => params[:event_id]).valid_state
+      @events_candidates = EventsCandidate.where(:event_id => params[:event_id]).valid_state.paginate(:per_page => 10, :page => params[:page])
       @event = Event.where(:id => params[:event_id]).first
     else
-      @candidates = Candidate.paginate :page => params[:page], :per_page => 15
+      @candidates = Candidate.paginate(:per_page => 5, :page => params[:page])
     end 
   end
 
@@ -37,12 +37,18 @@ class CandidatesController < ApplicationController
 
   def create
     ## use find_or_initialize_by and save
-    @candidate = Candidate.find_or_create_by_email_and_mobile_number(:email => params[:candidate][:email], :mobile_number => params[:candidate][:mobile_number])
-
+    @candidate = Candidate.find_or_initialize_by_email_and_mobile_number(:email => params[:candidate][:email], :mobile_number => params[:candidate][:mobile_number])
     if @candidate.update_attributes(params[:candidate])
+      p "*************"
+      p params[:candidate]
+      p "*************"
       Candidate.send_confirmation_mail(@candidate, params[:event_id])
       redirect_to(event_candidate_path(@event, @candidate) , :notice => 'Registered Successfully.')
     else
+      p "NNNNNNNNNNNNNN"
+      p params[:candidate]
+      p "NNNNNNNNNNNNNN"
+      @candidate.events_candidates.build
       render :action => "new"
     end
   end
@@ -57,6 +63,7 @@ class CandidatesController < ApplicationController
   def confirmation
     if (@events_candidate.registered?)
       @candidate.assign_to_batch(params[:event_id], @candidate, @events_candidate)
+      @candidate.save
     else
       redirect_to(root_path , :notice => 'Thank You, You Have already confirmed your registration.')
     end
@@ -82,6 +89,7 @@ class CandidatesController < ApplicationController
   #conducts search on the basis of event category.
   def find_category
     @category = Category.where(:id => params[:category]).first
+    @candidates = @category.find_all_candidates.paginate(:per_page => 5, :page => params[:page])
   end
   
   def download_resume

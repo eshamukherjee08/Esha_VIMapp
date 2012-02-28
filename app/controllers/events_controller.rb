@@ -4,9 +4,9 @@ class EventsController < ApplicationController
 
   def index
     if (params[:type])
-      @events = Event.past_events.order(:event_date)
+      @events = Event.past_events.order(:event_date).paginate(:per_page => 2, :page => params[:page])
     else
-      @events = Event.upcoming_events.order(:event_date)
+      @events = Event.upcoming_events.order(:event_date).paginate(:per_page => 2, :page => params[:page])
     end
   end
 
@@ -34,6 +34,7 @@ class EventsController < ApplicationController
     if @event.save
       redirect_to(events_path, :notice => 'Event was successfully created.') 
     else
+      3.times { @event.batches.build }
       render :action => "new" 
     end
   end

@@ -50,7 +50,7 @@ function s_category(ele) {
 		url : "/candidates/find_category",
 		dataType : 'script',
 		type : 'get',
-		data : "category="+$("#category").val()+"&page="+ele
+		data : "category="+$("#category").val()+"&page_type="+ele
 	});
 }
 
