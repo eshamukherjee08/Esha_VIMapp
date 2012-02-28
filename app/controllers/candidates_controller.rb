@@ -20,7 +20,7 @@ class CandidatesController < ApplicationController
       @event = Event.where(:id => params[:event_id]).first 
     
     elsif(params[:event_id] && params[:type] == 'confirmed_candidates')
-      @events_candidates = EventsCandidate.where(:event_id => params[:event_id]).valid_state.paginate(:per_page => 10, :page => params[:page])
+      @events_candidates = EventsCandidate.where(:event_id => params[:event_id]).valid.paginate(:per_page => 10, :page => params[:page])
       @event = Event.where(:id => params[:event_id]).first
     
     else
@@ -89,11 +89,12 @@ class CandidatesController < ApplicationController
   #conducts search on the basis of event category.
   def find_category
     @category = Category.where(:id => params[:category]).first
-    @candidates = @category.find_all_candidates.paginate(:per_page => 5, :page => params[:page])
+    @candidates = @category.all_candidates.paginate(:per_page => 5, :page => params[:page])
   end
   
   def download_resume
-    @candidate.resume_download
+    # @candidate.resume_download
+    send_file(@candidate.events_candidates.first.resume.path , :content_type => @candidate.events_candidates.first.resume_content_type)
   end
 
   # candidate.mark_selected_for(@event)

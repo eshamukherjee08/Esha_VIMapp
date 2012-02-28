@@ -3,8 +3,8 @@ class Category < ActiveRecord::Base
   validates :name, :presence => true
   
   
-  def find_all_candidates
-    self.events.collect{|e| e.candidates}.first
+  def all_candidates
+    events.collect{|e| e.candidates}.first
   end
   
 end

@@ -53,12 +53,8 @@ class Candidate < ActiveRecord::Base
     update_attributes(:starred => true)
   end
   
-  def resume_download
-    send_file(self.resume.path , :content_type => self.resume_content_type)
-  end
-  
   def cancel_registeration(event)
-    EventsCandidate.where(:event_id => event.id, :candidate_id => self.id).first.cancel!
+    EventsCandidate.where(:event_id => event.id, :candidate_id => id).first.cancel!
   end
   
 end
