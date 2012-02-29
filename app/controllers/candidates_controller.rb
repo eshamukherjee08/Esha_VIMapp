@@ -16,9 +16,10 @@ class CandidatesController < ApplicationController
       @candidates = Candidate.starred.paginate(:per_page => 5, :page => params[:page])
     
     elsif(params[:event_id] && params[:type] == 'waitlist_candidates')
-      @events_candidates = EventsCandidate.where(:event_id => params[:event_id]).waitlist_candidates.paginate(:per_page => 10, :page => params[:page])
       @event = Event.where(:id => params[:event_id]).first 
-    
+      @events_candidates = @event.event_candidates.waitlist_candidates.paginate(:per_page => 10, :page => params[:page])
+      
+    ## Change according to above
     elsif(params[:event_id] && params[:type] == 'confirmed_candidates')
       @events_candidates = EventsCandidate.where(:event_id => params[:event_id]).valid.paginate(:per_page => 10, :page => params[:page])
       @event = Event.where(:id => params[:event_id]).first
@@ -31,8 +32,6 @@ class CandidatesController < ApplicationController
   def show
   end
   
-  ## index
-
   def new
     @candidate = Candidate.new
     @candidate.events_candidates.build
@@ -82,7 +81,6 @@ class CandidatesController < ApplicationController
   
   # marks candidate star on admin's discrimination.
   def mark_star
-    ## @candidate = Candidate.where(:id => params[:id]).first
     @candidate.mark_star
   end
   
