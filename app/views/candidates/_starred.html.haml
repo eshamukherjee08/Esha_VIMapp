@@ -1,5 +1,5 @@
 #search
   SEARCH PANEL:
-  \#{select_tag('category', options_for_select(fetch_category), :include_blank => "- Select -", :onChange => "s_category('star');")}
+  \#{select_tag('category', options_from_collection_for_select(Category.all, :id, :name), :include_blank => "- Select -", :onChange => "s_category('star');")}
 #search_category
   = render 'search_star_category'

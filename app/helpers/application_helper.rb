@@ -20,7 +20,4 @@ module ApplicationHelper
   #   end
   # end
   # 
-  def fetch_category
-    Category.all.collect { |c| [c.name, c.id] }
-  end
 end

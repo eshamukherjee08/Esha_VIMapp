@@ -9,7 +9,7 @@
       - if @event.new_record?
         = f.label :category
         \:
-        \#{f.select(:category_id, fetch_category, {:prompt => '--Select Category--'})}
+        \#{f.select(:category_id, options_from_collection_for_select(Category.all, :id, :name), {:prompt => '--Select Category--'})}
       - else
         = f.label :category
         \:

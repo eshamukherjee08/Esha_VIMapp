@@ -13,6 +13,7 @@ class Batch < ActiveRecord::Base
   
   after_update :waitlist_allocation
   
+  # validate :check_count
   
   #not to delete a batch if allocation started.
   def check_allocation
@@ -26,7 +27,14 @@ class Batch < ActiveRecord::Base
       errors.add(:base, "Keep a gap after start time: #{start_time.strftime('%H:%M')}")
     end
   end
-
+  
+  # def check_count
+  #   changed_for_autosave?
+  #   capacity_was
+  #   capacity_change
+  #   changes
+  # end
+  
   #move waitlisted candidates to any new or old batch with available space.
   def waitlist_allocation
     count_c = event.has_waitlist.limit(capacity - candidates.count)

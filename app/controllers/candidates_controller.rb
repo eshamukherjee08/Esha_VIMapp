@@ -1,5 +1,7 @@
 class CandidatesController < ApplicationController
 
+  require 'will_paginate/array'
+  
   before_filter :find_candidate, :only => [:show, :edit, :update, :destroy, :admitcard, :cancel, :mark_star, :download_resume]
   
   before_filter :find_event, :only => [:create, :new, :show, :confirmation, :admitcard]
