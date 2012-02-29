@@ -3,7 +3,7 @@ class Category < ActiveRecord::Base
   validates :name, :presence => true
   
   def all_candidates
-    events.collect{|e| e.candidates}.flatten
+    EventsCandidate.where("event_id IN(#{events.map {|u| u.id.to_i}.join(",")})")
   end
   
 end

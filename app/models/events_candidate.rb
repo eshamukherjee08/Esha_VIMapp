@@ -7,7 +7,6 @@ class EventsCandidate < ActiveRecord::Base
   belongs_to :batch
   
   delegate :experience, :to => :event
-  
   has_attached_file :resume
   
   validates :salary_exp, :presence => true
@@ -17,7 +16,9 @@ class EventsCandidate < ActiveRecord::Base
   #scope to find candidates who has confirmed candidature.
   scope :valid, where("current_state in ('alloted','selected','rejected', 'attended')")
   
-  scope :waitlist_candidates, where(:current_state => :waitlisted)
+  scope :waitlist, where(:current_state => :waitlisted)
+  
+  scope :star, where("candidate_id IN(#{Candidate.starred.map {|u| u.id.to_i}.join(",")})")
   
   def self.mark_attendance(events_candidates)
     events_candidates.each do |element|

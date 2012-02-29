@@ -10,19 +10,18 @@
       Current State
     %th
       Resume
-  - @candidates.each do |candidate|
+  - @events_candidates.each do |e|
     #mark
     %tr
-      - if candidate.starred
-        %td
-          = image_tag("star.png")
-        %td
-          = candidate.id
-        %td
-          = candidate.name
-        %td
-          = candidate.current_state
-        %td
-          = link_to "Download", download_resume_candidate_path(candidate.id)
+      %td
+        = image_tag("star.png")
+      %td
+        = e.candidate.id
+      %td
+        = e.candidate.name
+      %td
+        = e.candidate.current_state
+      %td
+        = link_to "Download", download_resume_candidate_path(e.candidate.id)
 
-= will_paginate @candidates
+= will_paginate @events_candidates

@@ -11,27 +11,27 @@
     %th
       Resume
     %th
-  - @candidates.each do |candidate|
+  - @events_candidates.each do |e|
     #mark
     %tr
-      - if !candidate.starred
+      - if !e.candidate.starred
         %td
-          %span{:id => "span_#{candidate.id}", :onclick => "mark_candidate(#{candidate.id})"}
+          %span{:id => "span_#{e.candidate.id}", :onclick => "mark_candidate(#{e.candidate.id})"}
             %u
               = image_tag("empty_star.png")
       - else
         %td
-          %span{:id => "span_#{candidate.id}"}
+          %span{:id => "span_#{e.candidate.id}"}
             = image_tag("star.png")
       %td
-        = candidate.id
+        = e.candidate.id
       %td
-        = candidate.name
+        = e.candidate.name
       %td
-        = candidate.current_state
+        = e.candidate.current_state
       %td
-        = link_to "Download", download_resume_candidate_path(candidate.id)
+        = link_to "Download", download_resume_candidate_path(e.candidate.id)
       %td
-        = link_to(image_tag("delete.png"), candidate, :confirm => 'Are you sure?', :method => :delete)
+        = link_to(image_tag("delete.png"), candidate_path(e.candidate.id), :confirm => 'Are you sure?', :method => :delete)
                 
-= will_paginate @candidates
+= will_paginate @events_candidates

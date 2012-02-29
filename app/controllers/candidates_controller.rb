@@ -1,6 +1,4 @@
 class CandidatesController < ApplicationController
-
-  require 'will_paginate/array'
   
   before_filter :find_candidate, :only => [:show, :edit, :update, :destroy, :admitcard, :cancel, :mark_star, :download_resume]
   
@@ -15,20 +13,19 @@ class CandidatesController < ApplicationController
   
   def index
     if(params[:type] == 'starred')
-      @candidates = Candidate.starred.paginate(:per_page => 5, :page => params[:page])
+      @events_candidates = EventsCandidate.star.paginate(:per_page => 5, :page => params[:page])
     
     elsif(params[:event_id] && params[:type] == 'waitlist_candidates')
       @event = Event.where(:id => params[:event_id]).first 
-      @events_candidates = @event.events_candidates.waitlist_candidates.paginate(:per_page => 10, :page => params[:page])
+      @events_candidates = @event.events_candidates.waitlist.paginate(:per_page => 10, :page => params[:page])
       
     ## Change according to above
     elsif(params[:event_id] && params[:type] == 'confirmed_candidates')
       @event = Event.where(:id => params[:event_id]).first
       @events_candidates = @event.events_candidates.valid.paginate(:per_page => 10, :page => params[:page])
       
-    
     else
-      @candidates = Candidate.paginate(:per_page => 5, :page => params[:page])
+      @events_candidates = EventsCandidate.paginate(:per_page => 5, :page => params[:page])
     end 
   end
 
@@ -90,7 +87,7 @@ class CandidatesController < ApplicationController
   #conducts search on the basis of event category.
   def find_category
     @category = Category.where(:id => params[:category]).first
-    @candidates = @category.all_candidates.paginate(:per_page => 5, :page => params[:page])
+    @events_candidates = @category.all_candidates.paginate(:per_page => 5, :page => params[:page])
   end
   
   def download_resume
