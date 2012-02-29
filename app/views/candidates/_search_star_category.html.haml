@@ -1,6 +1,8 @@
 %table#candidate_table
   %tr
     %th
+      Important
+    %th
       ID
     %th
       Name
@@ -10,10 +12,11 @@
       Resume
   - @candidates.each do |candidate|
     #mark
-    - if candidate.starred
-      %tr
+    %tr
+      - if candidate.starred
         %td
           = image_tag("star.png")
+        %td
           = candidate.id
         %td
           = candidate.name
