@@ -15,21 +15,19 @@ class Event < ActiveRecord::Base
   validates :event_date, :date => {:after => Proc.new {Time.zone.now}, :message => "Please Enter valid date"}
   
   validate :confirm_count
-  validate :batch_end_time
-  validate :batch_start_time
+  validate :confirm_batch_gap
   
     
   #scope to find upcoming events.  
   # upcoming
-  scope :upcoming_events, lambda { where("event_date >= ?", Time.zone.now - DATEVALUE.day) }
+  scope :upcoming, lambda { where("event_date >= ?", Time.zone.now - DATEVALUE.day) }
   
   #scope to find past events.
   # past
-  scope :past_events, lambda { where("event_date < ?", Time.zone.now - DATEVALUE.day) }
+  scope :past, lambda { where("event_date < ?", Time.zone.now - DATEVALUE.day) }
   
   #   after_update
   # Move to batch
-  after_save :waitlist_allocation
      
    #not to create event with zero number of batches.
    def confirm_count
@@ -38,42 +36,16 @@ class Event < ActiveRecord::Base
      end
    end
    
-   #move waitlisted candidates to any new or old batch with available space.
-   def waitlist_allocation
-     # method on event => has waitlist_candidates
-     
-     batches.each do |batch|
-       if batch.candidates.count.zero? or batch.candidates.count < batch.capacity
-         
-         c = self.events_candidates.where(:current_state => :waitlisted).limit(batch.capacity - batch.candidates.count)
-         waitlist_update(c, batch) unless c.empty?
-       end
-     end
+   def  has_waitlist
+     events_candidates.where(:current_state => :waitlisted)
    end
-     
-   
-   #updating events_candidates on batch allocation.
-   def waitlist_update(candidate_data, batch)
-    candidate_data.each do |element|
-      element.allot_batch!
-      batch.events_candidates << element
-      element.save
-    end
-   end
-   
-   #to ensure gap between a batch's start and end time.
-   # batch - before_save
-   def batch_end_time
-     batches.each do |batch|
-       if (batch.end_time <= batch.start_time)
-         errors.add(:base, "Keep a gap after start time: #{batch.start_time.strftime('%H:%M')}")
-       end
-     end
-   end
-    
+
+   # def waitlist_allocation
+   #   # method on event => has waitlist_candidates
+
    #to ensure gap between two consecutive batches.  
    ## change name 
-   def batch_start_time
+   def confirm_batch_gap
      batches.length.downto(2) do |index|
        if(batches[index-1].start_time < batches[index-2].end_time)
          errors.add(:base, "Please start batch #{index} after the end time of batch #{index-1}")

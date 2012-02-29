@@ -4,9 +4,9 @@ class EventsController < ApplicationController
 
   def index
     if (params[:type])
-      @events = Event.past_events.order(:event_date).paginate(:per_page => 2, :page => params[:page])
+      @events = Event.past.order(:event_date).paginate(:per_page => 2, :page => params[:page])
     else
-      @events = Event.upcoming_events.order(:event_date).paginate(:per_page => 2, :page => params[:page])
+      @events = Event.upcoming.order(:event_date).paginate(:per_page => 2, :page => params[:page])
     end
   end
 

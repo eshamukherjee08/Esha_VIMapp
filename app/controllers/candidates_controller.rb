@@ -17,12 +17,13 @@ class CandidatesController < ApplicationController
     
     elsif(params[:event_id] && params[:type] == 'waitlist_candidates')
       @event = Event.where(:id => params[:event_id]).first 
-      @events_candidates = @event.event_candidates.waitlist_candidates.paginate(:per_page => 10, :page => params[:page])
+      @events_candidates = @event.events_candidates.waitlist_candidates.paginate(:per_page => 10, :page => params[:page])
       
     ## Change according to above
     elsif(params[:event_id] && params[:type] == 'confirmed_candidates')
-      @events_candidates = EventsCandidate.where(:event_id => params[:event_id]).valid.paginate(:per_page => 10, :page => params[:page])
       @event = Event.where(:id => params[:event_id]).first
+      @events_candidates = @event.events_candidates.valid.paginate(:per_page => 10, :page => params[:page])
+      
     
     else
       @candidates = Candidate.paginate(:per_page => 5, :page => params[:page])
