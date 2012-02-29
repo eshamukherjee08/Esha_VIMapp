@@ -20,11 +20,15 @@ class Event < ActiveRecord::Base
   
     
   #scope to find upcoming events.  
+  # upcoming
   scope :upcoming_events, lambda { where("event_date >= ?", Time.zone.now - DATEVALUE.day) }
   
   #scope to find past events.
+  # past
   scope :past_events, lambda { where("event_date < ?", Time.zone.now - DATEVALUE.day) }
-    
+  
+  #   after_update
+  # Move to batch
   after_save :waitlist_allocation
      
    #not to create event with zero number of batches.
@@ -36,18 +40,19 @@ class Event < ActiveRecord::Base
    
    #move waitlisted candidates to any new or old batch with available space.
    def waitlist_allocation
+     # method on event => has waitlist_candidates
+     
      batches.each do |batch|
        if batch.candidates.count.zero? or batch.candidates.count < batch.capacity
+         
          c = self.events_candidates.where(:current_state => :waitlisted).limit(batch.capacity - batch.candidates.count)
          waitlist_update(c, batch) unless c.empty?
        end
      end
    end
-   
-   
+     
    
    #updating events_candidates on batch allocation.
-   ## Push inot batch
    def waitlist_update(candidate_data, batch)
     candidate_data.each do |element|
       element.allot_batch!
@@ -57,6 +62,7 @@ class Event < ActiveRecord::Base
    end
    
    #to ensure gap between a batch's start and end time.
+   # batch - before_save
    def batch_end_time
      batches.each do |batch|
        if (batch.end_time <= batch.start_time)
@@ -66,7 +72,7 @@ class Event < ActiveRecord::Base
    end
     
    #to ensure gap between two consecutive batches.  
-   ## dont need each
+   ## change name 
    def batch_start_time
      batches.length.downto(2) do |index|
        if(batches[index-1].start_time < batches[index-2].end_time)
@@ -75,7 +81,7 @@ class Event < ActiveRecord::Base
      end
    end
    
-   #check if all batches of an event is full.called at candidate.rb.
+   #check if all batches of an event are full.called at candidate.rb.
    def check_capacity(event)
      (event.batches.sum(:capacity) <= event.events_candidates.where('batch_id is not null').count)
    end

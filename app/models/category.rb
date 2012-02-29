@@ -4,7 +4,7 @@ class Category < ActiveRecord::Base
   
   
   def all_candidates
-    events.collect{|e| e.candidates}.first
+    events.collect{|e| e.candidates}.flatten
   end
   
 end
