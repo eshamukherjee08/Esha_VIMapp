@@ -8,12 +8,11 @@ class Batch < ActiveRecord::Base
   validates :start_time, :end_time, :presence => true
   validates :capacity, :allow_nil => false, :numericality => true
   
+  ## before_destroy
   validate :check_allocation
   validate :check_gap
   
   after_update :waitlist_allocation
-  
-  # validate :check_count
   
   #not to delete a batch if allocation started.
   def check_allocation
@@ -28,28 +27,21 @@ class Batch < ActiveRecord::Base
     end
   end
   
-  # def check_count
-  #   changed_for_autosave?
-  #   capacity_was
-  #   capacity_change
-  #   changes
-  # end
-  
+
   #move waitlisted candidates to any new or old batch with available space.
   def waitlist_allocation
-    count_c = event.has_waitlist.limit(capacity - candidates.count)
-    if count_c
-      if candidates.count.zero? or candidates.count < capacity
-        waitlist_update(count_c, self)
-      end
+    selected_for_allocation = event.waitlist.limit(capacity - candidates.count)
+    if selected_for_allocation and candidates.count < capacity
+      waitlist_update(selected_for_allocation)
     end
   end
     
   #updating events_candidates on batch allocation.
-  def waitlist_update(candidate_data, batch)
+  def waitlist_update(candidate_data)
    candidate_data.each do |element|
+     # self needed?
+     self.events_candidates << element
      element.allot_batch!
-     batch.events_candidates << element
      element.save
    end
   end
