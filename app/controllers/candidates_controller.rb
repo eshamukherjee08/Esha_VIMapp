@@ -1,6 +1,6 @@
 class CandidatesController < ApplicationController
   
-  before_filter :find_candidate, :only => [:show, :edit, :update, :destroy, :admitcard, :cancel, :mark_star, :download_resume]
+  before_filter :find_candidate, :only => [:show, :edit, :update, :destroy, :admitcard, :cancel, :mark_star]
   
   before_filter :find_event, :only => [:create, :new, :show, :confirmation, :admitcard]
   
@@ -60,7 +60,7 @@ class CandidatesController < ApplicationController
   #On confirming mailed link, allots candidate roll number and marks candidate as confirmed.
   ## candidate.save
   def confirmation
-    if (@events_candidate.registered?)
+    if @events_candidate.registered?
       @candidate.assign_to_batch(params[:event_id], @candidate, @events_candidate)
       @candidate.save
     else
@@ -91,8 +91,8 @@ class CandidatesController < ApplicationController
   end
   
   def download_resume
-    # @candidate.resume_download
-    send_file(@candidate.events_candidates.first.resume.path , :content_type => @candidate.events_candidates.first.resume_content_type)
+    @events_candidate = EventsCandidate.where(:id => params[:id]).first
+    send_file(@events_candidate.resume.path , :content_type => @events_candidate.resume_content_type)
   end
 
   # candidate.mark_selected_for(@event)

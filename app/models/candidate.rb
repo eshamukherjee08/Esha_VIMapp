@@ -28,7 +28,6 @@ class Candidate < ActiveRecord::Base
   def assign_to_batch(eventid, candidate, events_candidate)
     event = Event.where(:id => eventid).first
     events_candidate.roll_num = UUID.new.generate.hex
-    # if capacity is full
     if (event.check_capacity(event))
       events_candidate.allot_waitlist!      
     else

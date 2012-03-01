@@ -10,7 +10,6 @@ EshaVIMapp::Application.routes.draw do
     end
     
     member do
-      get :download_resume
       get :mark_star
     end
   end
@@ -64,6 +63,12 @@ EshaVIMapp::Application.routes.draw do
       collection do
         post :mark_attended
       end
+    end
+  end
+  
+  resources :events_candidates, :only => [:index] do
+    member do
+      get :download_resume, :to => "candidates#download_resume"
     end
   end
   

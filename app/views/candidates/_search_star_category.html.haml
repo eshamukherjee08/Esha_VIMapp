@@ -22,6 +22,6 @@
       %td
         = e.candidate.current_state
       %td
-        = link_to "Download", download_resume_candidate_path(e.candidate.id)
+        = link_to "Download", download_resume_events_candidate_path(e.id)
 
 = will_paginate @events_candidates

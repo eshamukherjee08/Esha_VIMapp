@@ -60,7 +60,7 @@
               %td
                 = e.salary_exp
               %td
-                = link_to "Download", download_resume_candidate_path(e.candidate.id)
+                = link_to "Download", download_resume_events_candidate_path(e.id)
               %td
                 = image_tag("check.jpg")
               - if e.rejected?

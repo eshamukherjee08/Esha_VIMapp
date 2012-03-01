@@ -30,7 +30,7 @@
       %td
         = e.candidate.current_state
       %td
-        = link_to "Download", download_resume_candidate_path(e.candidate.id)
+        = link_to "Download", download_resume_events_candidate_path(e.id)
       %td
         = link_to(image_tag("delete.png"), candidate_path(e.candidate.id), :confirm => 'Are you sure?', :method => :delete)
                 

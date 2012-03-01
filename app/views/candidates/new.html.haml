@@ -13,18 +13,18 @@
   #new_head
     %b
       Event date:
-  = @event.event_date.strftime("%b %d, %Y")
+    = @event.event_date.strftime("%b %d, %Y")
   %p
   #new_head
     %b
       Name:
-  = @event.name
+    = @event.name
   %p
   #new_head
     %b
       Experience:
-  %span#exp_data    
-    = @event.experience
+    %span#exp_data    
+      = @event.experience
 %br/
 %br/
 = render 'form'
