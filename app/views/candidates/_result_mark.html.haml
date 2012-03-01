@@ -1,0 +1,8 @@
+%span{:id => "status_#{ele.candidate.id}"}
+  %span{:id => "select_#{ele.candidate.id}", :onclick => "mark_selected(#{ele.event.id},#{ele.candidate.id})"}
+    %u
+      SELECTED
+  |
+  %span{:id => "reject_#{ele.candidate.id}", :onclick => "mark_rejected(#{ele.event.id},#{ele.candidate.id})"}
+    %u
+      REJECTED

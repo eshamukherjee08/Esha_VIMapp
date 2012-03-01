@@ -110,7 +110,6 @@ class CandidatesController < ApplicationController
     redirect_to confirmed_event_candidates_path(@events_candidate.event)
   end
   
-  
   protected
   
   def find_candidate

@@ -34,7 +34,7 @@
           Attended
         %th
           Status
-      = form_tag mark_attended_event_events_candidates_path(@event) do
+      = form_tag mark_attended_event_events_candidates_path(@event), :remote => true do
         - @events_candidates.each do |e|
           - if e.alloted?
             %tr
@@ -46,11 +46,12 @@
               %td
                 = e.salary_exp
               %td
-                = link_to "Download", download_resume_candidate_path(e.candidate.id)
+                = link_to "Download", download_resume_events_candidate_path(e.id)
+              %td{:id => "attend_#{e.id}"}
+                = check_box_tag("events_candidates[ids][]", e.id)
               %td
-                = check_box_tag("attended[#{e.id}]")
-              %td
-                NO STATUS YET
+                %span{:id => "status_#{e.candidate.id}"}
+                  NO STATUS YET
           - elsif (e.attended? or e.selected? or e.rejected?)
             %tr
               %td
@@ -73,14 +74,7 @@
                   = link_to 'EDIT', edit_status_event_candidate_path(e.event.id,e.candidate.id)
               - else
                 %td
-                  %span{:id => "status_#{e.candidate.id}"}
-                    %span{:id => "select_#{e.candidate.id}", :onclick => "mark_selected(#{e.event.id},#{e.candidate.id})"}
-                      %u
-                        SELECTED
-                    |
-                    %span{:id => "reject_#{e.candidate.id}", :onclick => "mark_rejected(#{e.event.id},#{e.candidate.id})"}
-                      %u
-                        REJECTED
+                  = render :partial => 'result_mark', :locals => {:ele => e}
         - if @event.scheduled_at.today?
           #att_button
             = submit_tag 'Mark Attended'
