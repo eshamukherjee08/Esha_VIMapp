@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120301080904) do
+ActiveRecord::Schema.define(:version => 20120301101420) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                                 :default => "", :null => false
@@ -56,7 +56,6 @@ ActiveRecord::Schema.define(:version => 20120301080904) do
     t.string   "current_state"
     t.string   "home_town"
     t.integer  "mobile_number"
-    t.string   "salary_exp"
     t.boolean  "starred"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -94,6 +93,7 @@ ActiveRecord::Schema.define(:version => 20120301080904) do
     t.datetime "updated_at"
     t.integer  "batch_id"
     t.string   "current_state"
+    t.string   "salary_exp"
   end
 
 end
