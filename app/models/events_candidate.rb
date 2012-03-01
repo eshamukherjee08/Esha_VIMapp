@@ -7,6 +7,7 @@ class EventsCandidate < ActiveRecord::Base
   belongs_to :batch
   
   delegate :experience, :to => :event
+  
   has_attached_file :resume
   
   validates :salary_exp, :presence => true
@@ -42,7 +43,7 @@ class EventsCandidate < ActiveRecord::Base
     transitions :to => :alloted, :from => [:registered]
   end
   
-  aasm_event :allot_batch, :after => :candidate_notify do
+  aasm_event :allot_batch, :after => :allocation_notfification do
     transitions :to => :alloted, :from => [:waitlisted]
   end
   
@@ -76,13 +77,13 @@ class EventsCandidate < ActiveRecord::Base
     AdminMailer.cancel_notification(self).deliver
     # self needed?
     self.update_attributes(:batch_id => nil)
-    self.event.waitlist_allocation
+    self.event.find_empty_batch.waitlist_allocation
   end
   
   
   # send mail to candidate after waitlist confirmation.
   ## allocation_notfification
-  def candidate_notify
+  def allocation_notfification
     CandidateMailer.allocation_email(self).deliver
   end
   
@@ -96,6 +97,10 @@ class EventsCandidate < ActiveRecord::Base
   
   def status_change
     change_status!
+  end
+  
+  def can_cancel?
+    event.event_date.future? or event.event_date.today?
   end
   
 end

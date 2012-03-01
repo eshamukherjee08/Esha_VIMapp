@@ -8,9 +8,12 @@ class Batch < ActiveRecord::Base
   validates :start_time, :end_time, :presence => true
   validates :capacity, :allow_nil => false, :numericality => true
   
-  ## before_destroy
+  # before_destroy :check_allocation
+  #http://api.rubyonrails.org/classes/ActiveRecord/AutosaveAssociation.html
   validate :check_allocation
   validate :check_gap
+  
+  scope :empty_batch, lambda {where("batch.capacity != batch.candidates.count")}
   
   after_update :waitlist_allocation
   
@@ -40,7 +43,7 @@ class Batch < ActiveRecord::Base
   def waitlist_update(candidate_data)
    candidate_data.each do |element|
      # self needed?
-     self.events_candidates << element
+     events_candidates << element
      element.allot_batch!
      element.save
    end

@@ -50,17 +50,18 @@ class Event < ActiveRecord::Base
    #check if all batches of an event are full.called at candidate.rb.
    # remove event
    # rename
-   def check_capacity(event)
-     (event.batches.sum(:capacity) <= event.events_candidates.where('batch_id is not null').count)
+   def capacity_full?
+     (batches.sum(:capacity) <= events_candidates.where('batch_id is not null').count)
    end
    
       
    #find the first batch that has an empty space, called at candidate.rb
    # find_empty_batch
-   def find_batch(event)
+   def find_empty_batch
      # event.batches.select{|batch| batch.capacity != batch.candidates.count)}.first
      # scope
-     event.batches.select{|batch| batch if batch.capacity != batch.candidates.count)}.first
+     batches.empty_batch
+     # batches.select{|batch| batch.capacity != batch.candidates.count}.first
    end
    
 end

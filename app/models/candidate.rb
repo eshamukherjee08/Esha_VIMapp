@@ -3,7 +3,9 @@ class Candidate < ActiveRecord::Base
   #associations of candidate model.
   has_many :events_candidates , :dependent => :destroy
   has_many :events, :through => :events_candidates
+  
   has_many :batches, :through => :events_candidates
+  
   accepts_nested_attributes_for :events_candidates
     
   #for term acceptance in registration form.
@@ -28,10 +30,10 @@ class Candidate < ActiveRecord::Base
   def assign_to_batch(eventid, candidate, events_candidate)
     event = Event.where(:id => eventid).first
     events_candidate.roll_num = UUID.new.generate.hex
-    if (event.check_capacity(event))
+    if (event.capacity_full?)
       events_candidate.allot_waitlist!      
     else
-      event.find_batch(event).events_candidates << events_candidate
+      event.find_empty_batch.events_candidates << events_candidate
       events_candidate.allot!
     end
   end
