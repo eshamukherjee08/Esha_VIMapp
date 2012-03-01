@@ -33,9 +33,8 @@ class Candidate < ActiveRecord::Base
   # Create funtion in event to check all batches full
 
   ## waitlist allocation => after save
-  def assign_to_batch(eventid,candidate)
+  def assign_to_batch(eventid,candidate,events_candidate)
     event = Event.where(:id => eventid).first
-    events_candidate = candidate.events_candidates.first
     events_candidate.roll_num = UUID.new.generate.hex
     ## if capacity is full
     if (event.check_capacity(event))
@@ -69,16 +68,16 @@ class Candidate < ActiveRecord::Base
     send_file(self.resume.path , :content_type => self.resume_content_type)
   end
   
-  def selected
-    self.events_candidates.first.select!
+  def selected(events_candidate)
+    events_candidate.select!
   end
   
-  def rejected
-    self.events_candidates.first.reject!
+  def rejected(events_candidate)
+    events_candidate.reject!
   end
   
-  def status_edit
-    self.events_candidates.first.edit_status!
-  end
+  # def status_edit(events_candidate)
+  #   events_candidate.edit_status!
+  # end
   
 end

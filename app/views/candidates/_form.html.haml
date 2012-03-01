@@ -41,7 +41,8 @@
       .field{:style => "margin-top:20px"}
         = f.label :experience
         %br/
-        = f.select("exp", EXPERIENCE, {:prompt => '--Select Experience--'})
+        %span#exp_sel
+          = f.select("exp", EXPERIENCE, {:prompt => '--Select Experience--'}, :onblur => "check_exp(this.value);")
     #even_f{:style => "margin-right:20px"}
       .field
         = f.label :resume

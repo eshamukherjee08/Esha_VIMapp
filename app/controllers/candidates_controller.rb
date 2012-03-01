@@ -23,20 +23,16 @@ class CandidatesController < ApplicationController
 
 
   def create
-    @candidate = Candidate.find_or_create_by_email_and_mobile_number(:email => params[:candidate][:email], :mobile_number => params[:candidate][:mobile_number])
-    @candidate.save(params[:candidate])
+    @candidate = Candidate.find_or_create_by_email_and_mobile_number(:email => params[:candidate][:email], :mobile_number => params[:candidate][:mobile_number])#.merge!(params[:candidate])
+    @candidate.update_attributes(params[:candidate])
     # Move to before_create
-    # if @event.experience == @candidate.exp
-      if @candidate.save
-        @candidate.events << @event
-        Candidate.send_confirmation_mail(@candidate, params[:event_id])
-        redirect_to(event_candidate_path(@event, @candidate) , :notice => 'Registered Successfully.')
-      else
-        render :action => "new"
-      end
-    # else
-    #   redirect_to(walkins_path , :notice => 'Sorry, your experience is not as per event requirement. Please apply for appropriate event.')
-    # end
+    if @candidate.save
+      @candidate.events << @event
+      Candidate.send_confirmation_mail(@candidate, params[:event_id])
+      redirect_to(event_candidate_path(@event, @candidate) , :notice => 'Registered Successfully.')
+    else
+      render :action => "new"
+    end
   end
 
 
@@ -57,9 +53,9 @@ class CandidatesController < ApplicationController
   #On confirming mailed link, allots candidate roll number and marks candidate as confirmed.
   def confirmation
     @candidate = Candidate.where(:perishable_token => params[:perishable_token]).first   #needed at confirmation view page.
-    events_candidate = EventsCandidate.where(:event_id => params[:event_id] , :candidate_id => @candidate.id)
-    if (events_candidate.first.registered?)
-      @candidate.assign_to_batch(params[:event_id],@candidate)
+    @events_candidate = EventsCandidate.where(:event_id => params[:event_id] , :candidate_id => @candidate.id).first
+    if (@events_candidate.registered?)
+      @candidate.assign_to_batch(params[:event_id],@candidate,@events_candidate)
     else
       redirect_to(root_path , :notice => 'Thank You, You Have already confirmed your registration.')
     end
@@ -102,24 +98,26 @@ class CandidatesController < ApplicationController
    @candidates = Candidate.starred
   end
   
-  #performs category based search on star marked candidates.
-  ## Use category model
-  
   #allows admin to mark candidate as selected.
   def mark_selected
-   @candidate.selected
+   @candidate.selected(@events_candidate)
   end
   
   #allows admin to mark candidate as rejected.
   def mark_rejected
-   @candidate.rejected
+   @candidate.rejected(@events_candidate)
   end
   
   #allows admin to edit status of candidate.
   def edit_status
     @candidate = Candidate.where(:id => params[:format]).first
-    @candidate.status_edit
-    redirect_to @candidate.events.first
+    @events_candidate = EventsCandidate.where(:event_id => params[:event_id], :candidate_id => @candidate.id).first
+    @events_candidate.edit_status!
+    # p "******************"
+    # p @events_candidate
+    # p "******************"
+    # @candidate.status_edit(@events_candidate)
+    redirect_to @events_candidate.event
   end
   
   
@@ -137,7 +135,8 @@ class CandidatesController < ApplicationController
   
   def find_marking_candidate
     @candidate = Candidate.where(:id => params[:candidate_id]).first
-    redirect_to(root_path , :notice => 'Sorry! Candidate not found.') unless @candidate
+    @events_candidate = EventsCandidate.where(:event_id => params[:event_id], :candidate_id => params[:candidate_id]).first
+    redirect_to(root_path , :notice => 'Sorry! Candidate not found.') unless @candidate or @events_candidate
   end
   
   def compute_layout
