@@ -15,9 +15,9 @@ class EventsCandidate < ActiveRecord::Base
   validates_attachment_content_type :resume, :content_type =>['text/plain', 'application/rtf', 'application/x-pdf', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']
   
   #scope to find candidates who has confirmed candidature.
-  scope :valid, where("current_state in ('alloted','selected','rejected', 'attended')")
+  scope :valid, where("state in ('alloted','selected','rejected', 'attended')")
   
-  scope :waitlist, where(:current_state => :waitlisted)
+  scope :waitlist, where(:state => :waitlisted)
   
   scope :star, where("candidate_id IN(#{Candidate.starred.map {|u| u.id.to_i}.join(",")})")
   
@@ -28,7 +28,7 @@ class EventsCandidate < ActiveRecord::Base
   end
   
   
-  aasm_column :current_state
+  aasm_column :state
     
   aasm_initial_state :registered
   aasm_state :registered
@@ -100,7 +100,7 @@ class EventsCandidate < ActiveRecord::Base
   end
   
   def can_cancel?
-    event.event_date.future? or event.event_date.today?
+    event.scheduled_at.future? or event.scheduled_at.today?
   end
   
 end

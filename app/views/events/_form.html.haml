@@ -2,9 +2,9 @@
   = nested_form_for @event do |f|
     = render :partial => 'shared/errors', :locals => {:obj => @event}
     #odd_field.field
-      = f.label :event_date
+      = f.label :scheduled_at
       \:
-      \#{f.text_field :event_date, :value => @event.event_date.try(:strftime, "%d/%m/%Y")}
+      \#{f.text_field :scheduled_at, :value => @event.scheduled_at.try(:strftime, "%d/%m/%Y")}
     #drop_box.field
       - if @event.new_record?
         = f.label :category

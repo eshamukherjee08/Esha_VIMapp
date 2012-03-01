@@ -8,7 +8,7 @@
   %b
     Event date:
 %u
-  = @event.event_date.strftime("%b %d, %Y")
+  = @event.scheduled_at.strftime("%b %d, %Y")
 #single_break
   #new_head_conf
     %b
@@ -81,7 +81,7 @@
                     %span{:id => "reject_#{e.candidate.id}", :onclick => "mark_rejected(#{e.event.id},#{e.candidate.id})"}
                       %u
                         REJECTED
-        - if @event.event_date.today?
+        - if @event.scheduled_at.today?
           #att_button
             = submit_tag 'Mark Attended'
         - else

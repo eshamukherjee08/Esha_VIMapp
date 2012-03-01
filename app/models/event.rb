@@ -12,17 +12,17 @@ class Event < ActiveRecord::Base
   validates_associated :batches
   
   validates :experience, :name, :location, :description, :category, :tech_spec, :presence => true
-  validates :event_date, :date => {:after => Proc.new {Time.zone.now}, :message => "Please Enter valid date"}
+  validates :scheduled_at, :date => {:after => Proc.new {Time.zone.now}, :message => "Please Enter valid date"}
   
   validate :atleast_one_batch
   validate :confirm_batch_gap
   
     
   #scope to find upcoming events.  
-  scope :upcoming, lambda { where("event_date >= ?", Time.zone.now - DATEVALUE.day) }
+  scope :upcoming, lambda { where("scheduled_at >= ?", Time.zone.now - DATEVALUE.day) }
   
   #scope to find past events.
-  scope :past, lambda { where("event_date < ?", Time.zone.now - DATEVALUE.day) }
+  scope :past, lambda { where("scheduled_at < ?", Time.zone.now - DATEVALUE.day) }
   
 
    #not to create event with zero number of batches.
@@ -43,7 +43,7 @@ class Event < ActiveRecord::Base
    
    
    def waitlist
-     events_candidates.where(:current_state => :waitlisted)
+     events_candidates.where(:state => :waitlisted)
    end
 
 

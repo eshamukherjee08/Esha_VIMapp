@@ -28,9 +28,9 @@
         = f.text_field :home_town, :size => 55
     #odd_f
       .field
-        = f.label :current_state
+        = f.label :residing_state
         %br/
-        = f.select(:current_state, STATE, {:prompt => '--Select Current State--'})
+        = f.select(:residing_state, STATE, {:prompt => '--Select Current State--'})
     #even_f
       .field
         = f.label :mobile_number

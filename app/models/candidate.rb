@@ -11,7 +11,7 @@ class Candidate < ActiveRecord::Base
   #for term acceptance in registration form.
   validates :terms, :acceptance => true
  
-  validates :address, :dob, :current_state, :presence => true
+  validates :address, :dob, :residing_state, :presence => true
  
   validates :email, :format => { :with =>  /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/ }, :uniqueness => true
  

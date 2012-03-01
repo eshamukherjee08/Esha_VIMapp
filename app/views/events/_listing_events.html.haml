@@ -20,7 +20,7 @@
   - @events.each do |event|
     %tr
       %td
-        = event.event_date.strftime("%b %d, %Y")
+        = event.scheduled_at.strftime("%b %d, %Y")
       %td
         = event.name
       %td
@@ -32,7 +32,7 @@
       %td
         = event.batches.count
       %td
-        - if event.event_date.today? or event.event_date.future?
+        - if event.scheduled_at.today? or event.scheduled_at.future?
           %span#link_list
             = link_to 'Show', event
             |
