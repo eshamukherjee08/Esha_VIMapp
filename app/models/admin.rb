@@ -12,7 +12,7 @@ class Admin < ActiveRecord::Base
     
   #to ensure atleast one admin remains
   def ensure_an_admin_remains 
-    if(Admin.count < 2)
+    if Admin.count < 2
       raise "Can't delete last admin" 
     end 
   end

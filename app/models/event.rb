@@ -24,6 +24,8 @@ class Event < ActiveRecord::Base
   #scope to find past events.
   scope :past, lambda { where("scheduled_at < ?", Time.zone.now - DATEVALUE.day) }
   
+  before_destroy :confirm_no_allocation
+  
 
    #not to create event with zero number of batches.
    def atleast_one_batch
@@ -41,6 +43,11 @@ class Event < ActiveRecord::Base
      end
    end
    
+   def confirm_no_allocation
+     if candidates.count > 0
+       raise "Can't delete event" 
+     end
+   end
    
    def waitlist
      events_candidates.where(:state => :waitlisted)

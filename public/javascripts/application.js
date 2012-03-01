@@ -1,5 +1,5 @@
 $(function() {
-$( "#event_event_date" ).datepicker({ dateFormat: "dd/mm/yy" });
+$( "#event_scheduled_at" ).datepicker({ dateFormat: "dd/mm/yy" });
 });
 
 function mark_selected(event_id,candidate_id) {

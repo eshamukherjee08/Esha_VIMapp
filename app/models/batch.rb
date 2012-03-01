@@ -6,7 +6,7 @@ class Batch < ActiveRecord::Base
   has_many :candidates, :through => :events_candidates
   
   validates :start_time, :end_time, :presence => true
-  validates :capacity, :allow_nil => false, :numericality => true
+  validates :capacity, :numericality => {:greater_than => 0, :less_than => 101}
   
   # before_destroy :check_allocation
   #http://api.rubyonrails.org/classes/ActiveRecord/AutosaveAssociation.html
