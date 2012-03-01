@@ -4,25 +4,22 @@ class Candidate < ActiveRecord::Base
   has_many :events_candidates , :dependent => :destroy
   has_many :events, :through => :events_candidates
   has_many :batches, :through => :events_candidates
- 
-  has_attached_file :resume
+  accepts_nested_attributes_for :events_candidates
   
   #validations for candidate model.
   
   #for term acceptance in registration form.
   validates :terms, :acceptance => true
  
-  validates :address, :dob, :current_state, :exp, :salary_exp, :presence => true
- 
-  validates_attachment_presence :resume
-  
-  validates_attachment_content_type :resume, :content_type =>['text/plain', 'application/rtf', 'application/x-pdf', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']
+  validates :address, :dob, :current_state, :presence => true
  
   validates :email, :format => { :with =>  /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/ }, :uniqueness => true
  
   validates :mobile_number, :format => { :with => /\A[0-9]{10}\Z/}, :uniqueness => true
  
   validates :name, :home_town, :format => {:with => /\w+(\s\w+)*/}
+  
+  validates_associated :events_candidates
   
   before_create :generate_token
   

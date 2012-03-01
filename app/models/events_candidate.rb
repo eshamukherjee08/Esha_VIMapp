@@ -9,6 +9,13 @@ class EventsCandidate < ActiveRecord::Base
   belongs_to :batch
   
   delegate :experience, :to => :event
+  
+  has_attached_file :resume
+  
+  validates :salary_exp, :presence => true
+  validates_attachment_presence :resume
+  validates_attachment_content_type :resume, :content_type =>['text/plain', 'application/rtf', 'application/x-pdf', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']
+  
   #scope to find candidates who has not cancelled candidature.
   scope :not_cancelled, where("current_state in ('alloted','selected','rejected', 'attended')")
   

@@ -16,6 +16,7 @@ class CandidatesController < ApplicationController
 
   def new
     @candidate = Candidate.new
+    1.times { @candidate.events_candidates.build }
   end
 
   def edit
@@ -27,7 +28,6 @@ class CandidatesController < ApplicationController
     @candidate.update_attributes(params[:candidate])
     # Move to before_create
     if @candidate.save
-      @candidate.events << @event
       Candidate.send_confirmation_mail(@candidate, params[:event_id])
       redirect_to(event_candidate_path(@event, @candidate) , :notice => 'Registered Successfully.')
     else

@@ -1,5 +1,5 @@
 #main_candidate
-  = form_for @candidate, :html => { :multipart => true } do |f|
+  = nested_form_for @candidate, :html => { :multipart => true } do |f|
     = render 'candidate_error'
     #even_f
       .field
@@ -38,18 +38,7 @@
         %br/
         (+91)#{f.text_field :mobile_number, :size => 45}
     #odd_f{:style => "margin-top:20px"}
-      .field
-        = f.label :salary_exp
-        %br/
-        = f.select(:salary_exp, SALARY, {:prompt => '--Select Expected Salary--'})
-    #odd_f{:style => "margin-right:20px"}
-      .field
-        = f.label :resume
-        %br/
-        %span{:style => "font-size:15px"}
-          (Upload only .doc/.docx/.txt/.pdf file types)
-        %br/
-        = f.file_field :resume
+      = f.fields_for :events_candidates
       = hidden_field_tag :event_id, params[:event_id]
     %div{:style => "margin-top:50px"}
       = f.check_box 'terms'

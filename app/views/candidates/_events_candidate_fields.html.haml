@@ -1,0 +1,14 @@
+#odd_f{:style => "margin-top:20px"}
+  .field
+    = f.label :salary_exp
+    %br/
+    = f.select(:salary_exp, SALARY, {:prompt => '--Select Expected Salary--'})
+#odd_f{:style => "margin-right:20px"}
+  .field
+    = f.label :resume
+    %br/
+    %span{:style => "font-size:15px"}
+      (Upload only .doc/.docx/.txt/.pdf file types)
+    %br/
+    = f.file_field :resume
+    = hidden_field_tag 'candidate[events_candidates_attributes][0][event_id]', params[:event_id]
