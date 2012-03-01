@@ -145,13 +145,13 @@ h1 {
 /*Styling for map */
 #map iframe{
   display: inline; 
-  height:300px;
-  width:520px;}
+  width:525px;
+  height:220px}
 
 /* Styling for event form */
 #main_event {
   border: 5px maroon outset;
-  margin: 45px;
+  margin: 5%;
   padding: 20px; }
 
 #even_field {
@@ -163,7 +163,8 @@ h1 {
 
 #odd_field {
   display: inline;
-  font-size: 20px; }
+  font-size: 20px;
+ }
 
 #fills {
   display: inline;
@@ -176,7 +177,8 @@ h1 {
   float: right;
   border: 5px green outset;
   width: 590px;
-  padding-left: 10px; }
+  padding-left: 10px;
+  margin-left:63px; }
 
 #buttons {
   margin-top: 50px;
@@ -227,6 +229,18 @@ h1 {
   float: right;
   margin-bottom: 0px;
   font-size: 20px; }
+
+#ht_even_f{
+  display: inline;
+  float: right;
+  margin-bottom: 0px;
+  font-size: 20px;
+  margin-left:300px;
+}
+
+#terms{
+  margin-top:50px;
+}
 
 #odd_f {
   font-size: 20px; }
@@ -309,10 +323,90 @@ h1 {
   width: 600px;
   margin: auto;
   margin-top: 30px;
-  padding: 30px; }
+  padding: 30px;
+  text-align:center }
+  
+#register_msg{
+  color:maroon;
+  text-align:center;
+  margin-top:20px;
+  font-size:40px;
+}
+
+#registration{
+  color:maroon;
+}
   
 #attendance {
   margin-left:480px;
   color:maroon;
   font-size: 1.2em;
+}
+
+#head_margin{
+  margin-left:350px;
+}
+
+#form_box_events{
+  margin-left:50px;
+  border:3px;
+  font-size:20px;
+}
+
+#special {
+  margin-bottom:35px;
+}
+
+#drop_box{
+  display:inline;
+  float:right;
+  margin-right:355px;
+  font-size:20px;
+}
+
+#batch_label{
+  float:right;
+  margin-right:540px;
+  font-size:20px;
+}
+
+#event_event_date{
+  margin-bottom:150px;
+}
+
+#name_odd_field{
+  display: inline;
+  font-size: 20px;
+  margin-right:90px;
+}
+
+#confirm_mail{
+  color:maroon;
+  text-align:center;
+  margin-top:20px;
+  font-size:40px;
+}
+
+#new_head{
+  margin:auto;
+  font-size:1.17em;
+}
+
+#new_head_conf{
+  display:inline;
+  margin-left:41%;
+  font-size:1.17em;
+}
+
+#no_registration{
+  text-align:center;
+  font-size:1.17em;
+  color:red;
+  margin-top:40px;
+}
+
+#att_button{
+  margin-left:31%;
+  color:maroon;
+  font-size:1.17em;
 }

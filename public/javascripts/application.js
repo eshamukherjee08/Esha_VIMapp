@@ -1,3 +1,7 @@
+$(function() {
+$( "#event_event_date" ).datepicker({ dateFormat: "dd/mm/yy" });
+});
+
 function mark_selected(event_id,candidate_id) {
 	$.ajax({
 		url : "/events/"+event_id+"/candidates/"+candidate_id+"/mark_selected",

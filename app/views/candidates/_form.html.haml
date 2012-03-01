@@ -17,30 +17,29 @@
         %br/
         = f.text_area :address, :rows => 4, :columns => 10
     #odd_f
-      .field{:style => "margin-bottom:40px"}
+      .field
         = f.label :dob, "Date Of Birth"
         %br/
         = f.date_select :dob, :start_year => 1950, :end_year => 1990, :prompt => {:day => 'Select day', :month => 'Select month', :year => 'Select year'}
-
-    #even_f{:style => "margin-left:300px"}
+    #ht_even_f
       .field
         = f.label :home_town
         %br/
         = f.text_field :home_town, :size => 55
     #odd_f
-      .field{:style => "margin-top:20px; display:inline"}
+      .field
         = f.label :current_state
         %br/
         = f.select(:current_state, STATE, {:prompt => '--Select Current State--'})
-    #even_f{:style => "margin-right:5px"}
+    #even_f
       .field
         = f.label :mobile_number
         %br/
         (+91)#{f.text_field :mobile_number, :size => 45}
-    #odd_f{:style => "margin-top:20px"}
+    #odd_f
       = f.fields_for :events_candidates
       = hidden_field_tag :event_id, params[:event_id]
-    %div{:style => "margin-top:50px"}
+    #terms
       = f.check_box 'terms'
       I Agree to terms and conditions laid by VinSol.
     .actions

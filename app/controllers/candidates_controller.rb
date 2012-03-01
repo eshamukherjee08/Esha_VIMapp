@@ -39,15 +39,9 @@ class CandidatesController < ApplicationController
     ## use find_or_initialize_by and save
     @candidate = Candidate.find_or_initialize_by_email_and_mobile_number(:email => params[:candidate][:email], :mobile_number => params[:candidate][:mobile_number])
     if @candidate.update_attributes(params[:candidate])
-      p "*************"
-      p params[:candidate]
-      p "*************"
       Candidate.send_confirmation_mail(@candidate, params[:event_id])
       redirect_to(event_candidate_path(@event, @candidate) , :notice => 'Registered Successfully.')
     else
-      p "NNNNNNNNNNNNNN"
-      p params[:candidate]
-      p "NNNNNNNNNNNNNN"
       @candidate.events_candidates.build
       render :action => "new"
     end

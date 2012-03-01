@@ -4,12 +4,8 @@
     #odd_field.field
       = f.label :event_date
       \:
-      \#{f.text_field :event_date, :value => @event.event_date.try(:strftime, "%d/%m/%Y"), :style => "margin-bottom:150px;"}
-      :javascript
-        $(function() {
-        $( "#event_event_date" ).datepicker({ dateFormat: "dd/mm/yy" });
-        });
-    .field{:style => "display:inline; margin-right:300px; font-size:20px; margin-left:400px;"}
+      \#{f.text_field :event_date, :value => @event.event_date.try(:strftime, "%d/%m/%Y")}
+    #drop_box.field
       - if @event.new_record?
         = f.label :category
         \:
@@ -18,8 +14,8 @@
         = f.label :category
         \:
         = f.label @event.category.name
-    #special{:style => "margin-bottom:35px;"}
-      #odd_field.field{:style => "margin-right:90px;"}
+    #special
+      #name_odd_field.field
         = f.label :name
         \:
       #even_field.field
@@ -29,11 +25,11 @@
         = f.text_field :name, :size => 100
       #fills
         = f.text_area :description, :rows => 3, :cols => 73
-    #special{:style => "margin-bottom:35px;"}
+    #special
       #odd_field.field
         = f.label :tech_spec, "Technical Specifications"
         \:
-      .field{:style => "display:inline;float:right;margin-right:350px;font-size:20px;"}
+      #drop_box.field
         - if @event.new_record?
           = f.label :experience
           \:
@@ -48,16 +44,16 @@
     #odd_field.field
       = f.label :location
       \:
-      %div{:style => "display:inline;margin-left:15px; margin-right:45px;"}
-        = f.text_field :location, :size => 80, :onblur => "show_map();"
-    %div{:style => "display:inline;float:right;margin-right:540px;font-size:20px;"}
+      %span
+        = f.text_field :location, :size => 83, :onblur => "show_map();"
+    #batch_label
       #single_break
         Batches:
-    #main_batch{:style => "margin-bottom:50px;margin-left:63px;"}
+    #main_batch
       = f.fields_for :batches
       %p
         = f.link_to_add "Add a Batch", :batches
     #map
-      %iframe{:height => "300", :src => "/google_map/index/?lat=28.635308&lon=77.22496&zoom=15", :width => "520"}
+      %iframe{:src => "/google_map/index/?lat=28.635308&lon=77.22496&zoom=15"}
     .but_div
       = f.submit

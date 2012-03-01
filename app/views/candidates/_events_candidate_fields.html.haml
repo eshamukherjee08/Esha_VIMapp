@@ -1,13 +1,13 @@
-#odd_f{:style => "margin-top:20px"}
+#odd_f
   .field
     = f.label :salary_exp
     %br/
     = f.select(:salary_exp, SALARY, {:prompt => '--Select Expected Salary--'})
-#odd_f{:style => "margin-right:20px"}
+#odd_f
   .field
     = f.label :resume
     %br/
-    %span{:style => "font-size:15px"}
+    %sup
       (Upload only .doc/.docx/.txt/.pdf file types)
     %br/
     = f.file_field :resume
