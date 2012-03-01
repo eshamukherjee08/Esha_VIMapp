@@ -60,8 +60,8 @@ class Event < ActiveRecord::Base
    def find_empty_batch
      # event.batches.select{|batch| batch.capacity != batch.candidates.count)}.first
      # scope
-     batches.empty_batch
-     # batches.select{|batch| batch.capacity != batch.candidates.count}.first
+     # batches.empty_batch
+     batches.select{|batch| batch.capacity != batch.candidates.count}.first
    end
    
 end

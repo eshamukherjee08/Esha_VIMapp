@@ -13,7 +13,7 @@ class Batch < ActiveRecord::Base
   validate :check_allocation
   validate :check_gap
   
-  scope :empty_batch, lambda {where("batch.capacity != batch.candidates.count")}
+  # scope :empty_batch, lambda {|batch| where( "batch.capacity < ?", batch.candidates.count)}
   
   after_update :waitlist_allocation
   
