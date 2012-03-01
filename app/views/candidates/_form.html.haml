@@ -1,6 +1,6 @@
 #main_candidate
   = nested_form_for @candidate, :html => { :multipart => true } do |f|
-    = render 'candidate_error'
+    = render :partial => 'shared/errors', :locals => {:obj => @candidate}
     #even_f
       .field
         = f.label :email

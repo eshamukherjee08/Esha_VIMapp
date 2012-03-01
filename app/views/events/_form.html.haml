@@ -1,6 +1,6 @@
 #main_event
   = nested_form_for @event do |f|
-    = render 'event_error'
+    = render :partial => 'shared/errors', :locals => {:obj => @event}
     #odd_field.field
       = f.label :event_date
       \:
