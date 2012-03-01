@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120301101420) do
+ActiveRecord::Schema.define(:version => 20120301102814) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",                                 :default => "", :null => false
@@ -60,9 +60,6 @@ ActiveRecord::Schema.define(:version => 20120301101420) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "email"
-    t.string   "resume_file_name"
-    t.string   "resume_content_type"
-    t.integer  "resume_file_size"
     t.string   "perishable_token"
   end
 
@@ -94,6 +91,9 @@ ActiveRecord::Schema.define(:version => 20120301101420) do
     t.integer  "batch_id"
     t.string   "current_state"
     t.string   "salary_exp"
+    t.string   "resume_file_name"
+    t.string   "resume_content_type"
+    t.integer  "resume_file_size"
   end
 
 end
