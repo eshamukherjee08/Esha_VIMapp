@@ -1,12 +1,3 @@
-:javascript
-  function check_exp(a) {
-    var b = $("#exp_data").text().trim();
-    if(a != b)
-    {
-      alert("Sorry Experience specified doesnot match with experience required!Please select another event");
-      $("#exp_sel option:eq(0)").prop('selected', true);
-    }
-   }
 - if notice
   %p#notice
     = notice

@@ -8,6 +8,7 @@ class EventsCandidate < ActiveRecord::Base
   belongs_to :candidate
   belongs_to :batch
   
+  delegate :experience, :to => :event
   #scope to find candidates who has not cancelled candidature.
   scope :not_cancelled, where("current_state in ('alloted','selected','rejected', 'attended')")
   

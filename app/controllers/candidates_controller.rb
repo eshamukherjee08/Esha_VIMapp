@@ -23,7 +23,7 @@ class CandidatesController < ApplicationController
 
 
   def create
-    @candidate = Candidate.find_or_create_by_email_and_mobile_number(:email => params[:candidate][:email], :mobile_number => params[:candidate][:mobile_number])#.merge!(params[:candidate])
+    @candidate = Candidate.find_or_create_by_email_and_mobile_number(:email => params[:candidate][:email], :mobile_number => params[:candidate][:mobile_number])
     @candidate.update_attributes(params[:candidate])
     # Move to before_create
     if @candidate.save
