@@ -11,7 +11,7 @@ class Event < ActiveRecord::Base
   
   validates_associated :batches
   
-  validates :experience, :name, :location, :description, :category, :tech_spec, :presence => true
+  validates :experience, :name, :location, :category, :tech_spec, :presence => true
   validates :scheduled_at, :date => {:after => Proc.new {Time.zone.now}, :message => "Please Enter valid date"}
   
   validate :atleast_one_batch

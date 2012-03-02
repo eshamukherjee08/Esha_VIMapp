@@ -16,15 +16,15 @@
       %br/
       %p#details
         - if admin_signed_in?
-          = link_to 'Control Panel', events_path, :class => "#{'current_menu' if params[:controller] == 'events' && params[:action] == 'index' && params[:type] == nil }"
+          = link_to 'Control Panel', events_path, :class => "#{'current_menu' if controller_name == 'events' && action_name == 'index' && params[:type] == nil }"
           |
-          = link_to 'Invite Admin', new_admin_invitation_path, :class => "#{'current_menu' if params[:controller] == 'admins/invitations' && params[:action] == 'new' }"
+          = link_to 'Invite Admin', new_admin_invitation_path, :class => "#{'current_menu' if controller_name == 'admins/invitations' && action_name == 'new' }"
           |
-          = link_to 'Past Events', past_events_path, :class => "#{'current_menu' if params[:controller] == 'events' && params[:action] == 'index' && params[:type] == 'past_events' }"
+          = link_to 'Past Events', past_events_path, :class => "#{'current_menu' if controller_name == 'events' && action_name == 'index' && params[:type] == 'past_events' }"
           |
-          = link_to 'Category', categories_path, :class => "#{'current_menu' if params[:controller] == 'categories' && params[:action] == 'index' }"
+          = link_to 'Category', categories_path, :class => "#{'current_menu' if controller_name == 'categories' && action_name == 'index' }"
           |
-          = link_to 'Edit Password', password_reset_admins_path, :class => "#{'current_menu' if params[:controller] == 'admins' && params[:action] == 'reset' }"
+          = link_to 'Edit Password', password_reset_admins_path, :class => "#{'current_menu' if controller_name == 'admins' && action_name == 'reset' }"
           |
           = link_to 'Sign Out', destroy_admin_session_path, :method => :delete
     %div

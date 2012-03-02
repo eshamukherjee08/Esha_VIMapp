@@ -1,26 +1,41 @@
 #heading
   WaitListed Candidates >>
   = link_to 'Back', event_path(@event)
-%div
-  %table#candidate_table
-    %tr
-      %th
-        ID
-      %th
-        Name
-      %th
-        Experience
-      %th
-        Current State
-    - @events_candidates.each do |e|
-      #mark
+#new_head_conf
+  %b
+    Event date:
+%u
+  = @event.scheduled_at.strftime("%b %d, %Y")
+#single_break
+  #new_head_conf
+    %b
+      Name:
+  %u
+    = @event.name
+- if @events_candidates.empty?
+  #no_registration
+    NO WAITLIST FOR THIS EVENT
+- else
+  %div
+    %table#candidate_table
       %tr
-        %td
-          = e.candidate.id
-        %td
-          = e.candidate.name
-        %td
-          = e.experience
-        %td
-          = e.candidate.residing_state
-= will_paginate @events_candidates
+        %th
+          ID
+        %th
+          Name
+        %th
+          Experience
+        %th
+          Current State
+      - @events_candidates.each do |e|
+        #mark
+        %tr
+          %td
+            = e.candidate.id
+          %td
+            = e.candidate.name
+          %td
+            = e.experience
+          %td
+            = e.candidate.residing_state
+  = will_paginate @events_candidates
