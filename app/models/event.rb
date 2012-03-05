@@ -25,7 +25,7 @@ class Event < ActiveRecord::Base
   scope :past, lambda { where("scheduled_at < ?", Time.zone.now - DATEVALUE.day) }
   
   before_destroy :confirm_no_allocation
-  
+  before_save :default_value_description
 
    #not to create event with zero number of batches.
    def atleast_one_batch
@@ -44,8 +44,23 @@ class Event < ActiveRecord::Base
    end
    
    def confirm_no_allocation
-     if candidates.count > 0
-       raise "Can't delete event" 
+     p "**************"
+     p self
+     p self.candidates
+     p self.events_candidates.valid.count
+     p self.events_candidates.count
+     p self.allocation_started?
+     p "******************"
+     if(self.candidates.count > 0)
+       p "*********HERE********"
+       raise 'cant delete event!'
+       return false
+     end
+   end
+   
+   def default_value_description
+     if self.description.blank?
+       self.description = 'No description available'
      end
    end
    
@@ -69,6 +84,10 @@ class Event < ActiveRecord::Base
      # scope
      # batches.empty_batch
      batches.select{|batch| batch.capacity != batch.candidates.count}.first
+   end
+   
+   def allocation_started?
+     (events_candidates.valid.count > 1)
    end
    
 end
