@@ -52,7 +52,7 @@ function search_num(search_val) {
 
 function s_category(ele) {
 	$.ajax({
-		url : "/candidates/find_category",
+		url : "/categories/find",
 		dataType : 'script',
 		type : 'get',
 		data : "category="+$("#category").val()+"&page_type="+ele

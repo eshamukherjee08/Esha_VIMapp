@@ -2,9 +2,9 @@
 %br/
 - if(params[:type] == 'starred')
   = render 'starred'
-- elsif(params[:event_id] && params[:type] == 'waitlist_candidates')
+- elsif(params[:event_id] && params[:type] == 'waitlist')
   = render 'waitlist'
-- elsif(params[:event_id] && params[:type] == 'confirmed_candidates')
+- elsif(params[:event_id] && params[:type] == 'confirmed')
   = render 'confirmed'
 - else
   = render 'candidates'

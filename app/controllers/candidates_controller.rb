@@ -3,8 +3,9 @@ class CandidatesController < ApplicationController
   skip_before_filter :authenticate_admin, :only => [:new, :create, :confirmation, :admitcard, :cancel, :show] 
   
   # first find_event and then candidate
+  before_filter :find_event, :only => [:create, :new, :show, :confirmation, :admitcard, :cancel]
   before_filter :find_candidate, :only => [:show, :edit, :update, :destroy, :admitcard, :cancel, :mark_star] 
-  before_filter :find_event, :only => [:create, :new, :show, :confirmation, :admitcard]
+  
   
   before_filter :find_events_candidate, :only => [:confirmation]
   before_filter :find_marking_events_candidate, :only => [:mark_selected, :mark_rejected, :edit_status, :admitcard]
@@ -15,7 +16,7 @@ class CandidatesController < ApplicationController
     if(params[:type] == 'starred')
       @events_candidates = EventsCandidate.star.paginate(:per_page => 10, :page => params[:page])
     
-    elsif(params[:event_id] && params[:type] == 'waitlist_candidates')
+    elsif(params[:event_id] && params[:type] == 'waitlist')
       @event = Event.where(:id => params[:event_id]).first 
       @events_candidates = @event.events_candidates.waitlist.paginate(:per_page => 10, :page => params[:page])
       
@@ -74,7 +75,7 @@ class CandidatesController < ApplicationController
   # allows candidate to cancel registration and triggers mail to admin.
   def cancel
     # find_event => @event
-    @candidate.cancel_registeration(@candidate.events.where(:id => params[:event_id]).first)
+    @candidate.cancel_registeration(@event)
     redirect_to(root_path , :notice => 'Your Registration has been Cancelled successfully!')
   end
   
@@ -85,10 +86,6 @@ class CandidatesController < ApplicationController
   
   #conducts search on the basis of event category.
   # categories controller
-  def find_category
-    @category = Category.where(:id => params[:category]).first
-    @events_candidates = @category.all_candidates.paginate(:per_page => 10, :page => params[:page])
-  end
   
   def download_resume
     @events_candidate = EventsCandidate.where(:id => params[:id]).first
@@ -114,9 +111,7 @@ class CandidatesController < ApplicationController
   protected
   
   def find_candidate
-    # @candidate = (params[:event_id] ? @event.candidates : Candidate).where(:id => params[:id]).first
-    
-    @candidate = Candidate.where(:id => params[:id]).first
+    @candidate = (params[:event_id] ? @event.candidates : Candidate).where(:id => params[:id]).first
     redirect_to(root_path , :notice => 'Sorry! Candidate not found.') unless @candidate
   end
   

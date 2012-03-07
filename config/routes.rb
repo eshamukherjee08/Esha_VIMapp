@@ -1,10 +1,14 @@
 EshaVIMapp::Application.routes.draw do
 
-  resources :categories
+  resources :categories do
+    collection do
+      get :find
+    end
+  end
 
   resources :candidates do
     collection do
-      get :find_category
+      # get :find_category
       get :starred, :to => "candidates#index", :defaults => {:type => 'starred'}
       # make member functions
     end
@@ -15,7 +19,7 @@ EshaVIMapp::Application.routes.draw do
   end
      
   get "confirmation/:event_id/:perishable_token", :to => "candidates#confirmation", :as => "confirmation"
-  get :find_search_data, :to => "home#search_by_rollnumber", :as => "find_search_data"
+  get :find_search_data, :to => "homes#search_by_rollnumber", :as => "find_search_data"
   
   
   resource :home, :only => :show do
@@ -56,12 +60,6 @@ EshaVIMapp::Application.routes.draw do
         get :mark_rejected
         get :edit_status
       end
-      
-      collection do
-        get :wait_list, :to => "candidates#index", :defaults => {:type => 'waitlist_candidates'}
-        get :confirmed, :to => "candidates#index", :defaults => {:type => 'confirmed_candidates'}
-      end
-      
     end
     
     resources :events_candidates do

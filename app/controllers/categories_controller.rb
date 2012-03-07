@@ -38,11 +38,17 @@ class CategoriesController < ApplicationController
     redirect_to categories_path
   end
   
+  def find
+    @category = Category.where(:id => params[:category]).first
+    @events_candidates = @category.all_events_candidates.paginate(:per_page => 10, :page => params[:page])
+    # @events_candidates = @category.events.event_candidates.paginate(:per_page => 10, :page => params[:page])
+  end
+  
   
   protected
   
   def find_category
-    @category = Category.where(:id => params[:id].to_i).first
+    @category = Category.where(:id => params[:id]).first
     redirect_to(root_path , :notice => 'Sorry! Category not found.') unless @category
   end
 end
