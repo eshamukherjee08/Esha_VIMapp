@@ -5,7 +5,7 @@ class Admins::SessionsController < Devise::SessionsController
 
   #overriding devise default root redirection after signin.
   def after_sign_in_path_for(resource)
-    events_path
+    home_path
   end
 
 end

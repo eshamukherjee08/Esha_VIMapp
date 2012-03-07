@@ -3,6 +3,8 @@
     %p#notice
       = notice
 #double_break
+  #heading_a
+    ADMIN CONTROL PANEL
 - unless (@events.empty?)
   #single_break
     %h2#heads
@@ -12,7 +14,7 @@
       = link_to 'Add New Event', new_event_path
   %p#line
   #event_display
-    = render 'listing_events'
+    = render 'events/listing_events'
 - else
   %h2#heads
     SORRY NO EVENTS CREATED YET!
@@ -20,3 +22,12 @@
   %p#links
     = link_to 'Add New Event', new_event_path
   %p#line
+%p#line
+#single_break
+  %h2#heads
+    REGISTERED CANDIDATES :
+#triple_break
+  %p#links
+    = link_to 'View All Registered Candidates', candidates_path
+    |
+    \#{link_to 'Star Candidates', starred_candidates_path}

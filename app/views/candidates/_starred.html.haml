@@ -1,5 +1,11 @@
+View Candidates:
+= link_to 'Registered List', candidates_path
 #search
+  %b
+    All Starred Candidates
+  %br
   SEARCH PANEL:
   \#{select_tag('category', options_from_collection_for_select(Category.all, :id, :name), :include_blank => "- Select -", :onChange => "s_category('star');")}
+%br
 #search_category
   = render 'search_star_category'

@@ -21,13 +21,15 @@
       %br/
       - if admin_signed_in?
         %span#details
-          = link_to 'Control Panel', events_path, :class => "#{'current_menu' if controller_name == 'events' && action_name == 'index' && params[:type] == nil }"
+          = link_to 'Control Panel', home_path, :class => "#{'current_menu' if controller_name == 'home' && action_name == 'show'}"
           |
           = link_to 'Invite Admin', new_admin_invitation_path, :class => "#{'current_menu' if controller_name == 'admins/invitations' && action_name == 'new' }"
           |
-          = link_to 'Past Events', past_events_path, :class => "#{'current_menu' if controller_name == 'events' && action_name == 'index' && params[:type] == 'past_events' }"
+          = link_to 'Events', events_path, :class => "#{'current_menu' if controller_name == 'events' && action_name == 'index' }"
           |
           = link_to 'Category', categories_path, :class => "#{'current_menu' if controller_name == 'categories' && action_name == 'index' }"
+          |
+          = link_to 'Candidates', candidates_path, :class => "#{'current_menu' if controller_name == 'candidates' && action_name == 'index' }"
 
     %div
       - unless admin_signed_in?

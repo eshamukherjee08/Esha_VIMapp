@@ -1,9 +1,0 @@
-- if notice
-  %p#notice
-    = notice
-= link_to 'ALREADY REGISTERED?', search_path
-%br/
-- if !admin_signed_in?
-  = link_to 'Sign In', new_admin_session_path
-  %br/
-= link_to 'Vinsol Walkins', walkins_path

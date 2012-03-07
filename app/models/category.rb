@@ -3,7 +3,7 @@ class Category < ActiveRecord::Base
   #     def event_candidates
   #       EventsCandidate.where("event_id IN(#{self.collect(&:id)})")
   #     end
-  end
+  # end
   validates :name, :presence => true
 
   #   rename

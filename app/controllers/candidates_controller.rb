@@ -13,7 +13,7 @@ class CandidatesController < ApplicationController
   
   def index
     if(params[:type] == 'starred')
-      @events_candidates = EventsCandidate.star.paginate(:per_page => 5, :page => params[:page])
+      @events_candidates = EventsCandidate.star.paginate(:per_page => 10, :page => params[:page])
     
     elsif(params[:event_id] && params[:type] == 'waitlist_candidates')
       @event = Event.where(:id => params[:event_id]).first 
@@ -25,7 +25,7 @@ class CandidatesController < ApplicationController
       @events_candidates = @event.events_candidates.valid.paginate(:per_page => 10, :page => params[:page])
       
     else
-      @events_candidates = EventsCandidate.paginate(:per_page => 5, :page => params[:page])
+      @events_candidates = EventsCandidate.paginate(:per_page => 10, :page => params[:page])
     end 
   end
 
@@ -87,7 +87,7 @@ class CandidatesController < ApplicationController
   # categories controller
   def find_category
     @category = Category.where(:id => params[:category]).first
-    @events_candidates = @category.all_candidates.paginate(:per_page => 5, :page => params[:page])
+    @events_candidates = @category.all_candidates.paginate(:per_page => 10, :page => params[:page])
   end
   
   def download_resume

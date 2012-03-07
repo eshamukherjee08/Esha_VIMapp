@@ -1,6 +1,10 @@
 #triple_break
   #heading
-    Events >>
+    View Events:
+  - if params[:type]
+    = link_to 'Show UpComing', events_path
+  - else
+    = link_to 'Show Past', past_events_path
 %table#candidate_table
   %tr
     %th

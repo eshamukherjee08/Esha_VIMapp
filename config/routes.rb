@@ -15,9 +15,14 @@ EshaVIMapp::Application.routes.draw do
   end
      
   get "confirmation/:event_id/:perishable_token", :to => "candidates#confirmation", :as => "confirmation"
-  get "home/index"
-  get "home/search", :to => "home#search", :as => "search"
   get :find_search_data, :to => "home#search_by_rollnumber", :as => "find_search_data"
+  
+  
+  resource :home, :only => :show do
+    collection do
+      get :search, :as => "search"
+    end
+  end
   
   devise_for :admins, :controllers => { :invitations => 'admins/invitations', :sessions => 'admins/sessions'}
   
