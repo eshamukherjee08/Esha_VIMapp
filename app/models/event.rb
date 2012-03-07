@@ -10,7 +10,10 @@ class Event < ActiveRecord::Base
     end
   end
 
-  has_many :events_candidates , :dependent => :destroy
+  has_many :events_candidates , :dependent => :destroy # do
+  #     def mark_attendance
+  #     end
+  #   end
   has_many :candidates, :through => :events_candidates
   
   accepts_nested_attributes_for :batches, :allow_destroy => true, :reject_if => lambda { |attributes| attributes['capacity'].blank? }
