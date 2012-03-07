@@ -10,14 +10,10 @@ class Candidate < ActiveRecord::Base
 
   accepts_nested_attributes_for :events_candidates
     
-  validates :terms, :acceptance => true
- 
+  validates :terms, :acceptance => true 
   validates :address, :dob, :residing_state, :presence => true
- 
   validates :email, :format => { :with =>  /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/ }, :uniqueness => true
- 
   validates :mobile_number, :format => { :with => /\A[0-9]{10}\Z/}, :uniqueness => true
- 
   validates :name, :home_town, :format => {:with => /\w+(\s\w+)*/}
   
   validates_associated :events_candidates
@@ -26,6 +22,7 @@ class Candidate < ActiveRecord::Base
     
   scope :starred, where(:starred => true)
     
+  
   #assigning candidate to a batch.
   ## waitlist allocation => after save
   def assign_to_batch(eventid, candidate, events_candidate)
@@ -55,6 +52,7 @@ class Candidate < ActiveRecord::Base
     update_attributes(:starred => true)
   end
   
+  # events_candidates.where(:event_id => event.id).first.cancel!
   def cancel_registeration(event)
     EventsCandidate.where(:event_id => event.id, :candidate_id => id).first.cancel!
   end

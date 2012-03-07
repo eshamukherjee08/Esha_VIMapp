@@ -1,6 +1,7 @@
 class HomeController < ApplicationController
   skip_before_filter :authenticate_admin
   
+  # make this show
   def index
   end
   
@@ -14,7 +15,6 @@ class HomeController < ApplicationController
     @events_candidate = EventsCandidate.where(:roll_num => params[:roll_num]).includes(:event, :candidate).first
 
     if @events_candidate
-      # Method - can_cancel?
       if @events_candidate.can_cancel?
         @msg = 'You have already cancelled your candidature.' if @events_candidate.cancelled?
       else

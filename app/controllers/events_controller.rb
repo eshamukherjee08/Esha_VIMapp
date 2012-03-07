@@ -38,9 +38,7 @@ class EventsController < ApplicationController
 
   def edit
   end
-
-
-
+  
 
   def update
     if @event.update_attributes(params[:event])
@@ -56,7 +54,6 @@ class EventsController < ApplicationController
     redirect_to events_path
   end
   
-  # pagination
   
   protected
   

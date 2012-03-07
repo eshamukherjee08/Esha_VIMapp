@@ -12,9 +12,7 @@ class Batch < ActiveRecord::Base
   #http://api.rubyonrails.org/classes/ActiveRecord/AutosaveAssociation.html
   validate :check_allocation
   validate :check_gap
-  
-  # scope :empty_batch, lambda {|batch| where( "batch.capacity < ?", batch.candidates.count)}
-  
+    
   after_update :waitlist_allocation
   
   #not to delete a batch if allocation started.

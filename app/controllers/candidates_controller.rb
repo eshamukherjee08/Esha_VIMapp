@@ -1,15 +1,15 @@
 class CandidatesController < ApplicationController
+
+  skip_before_filter :authenticate_admin, :only => [:new, :create, :confirmation, :admitcard, :cancel, :show] 
   
-  before_filter :find_candidate, :only => [:show, :edit, :update, :destroy, :admitcard, :cancel, :mark_star]
-  
+  # first find_event and then candidate
+  before_filter :find_candidate, :only => [:show, :edit, :update, :destroy, :admitcard, :cancel, :mark_star] 
   before_filter :find_event, :only => [:create, :new, :show, :confirmation, :admitcard]
   
   before_filter :find_events_candidate, :only => [:confirmation]
-  
   before_filter :find_marking_events_candidate, :only => [:mark_selected, :mark_rejected, :edit_status, :admitcard]
-  skip_before_filter :authenticate_admin, :only => [:new, :create, :confirmation, :admitcard, :cancel, :show] 
-  layout :compute_layout
   
+  layout :compute_layout
   
   def index
     if(params[:type] == 'starred')
@@ -20,7 +20,7 @@ class CandidatesController < ApplicationController
       @events_candidates = @event.events_candidates.waitlist.paginate(:per_page => 10, :page => params[:page])
       
     ## Change according to above
-    elsif(params[:event_id] && params[:type] == 'confirmed_candidates')
+    elsif(params[:event_id] && params[:type] == 'confirmed')
       @event = Event.where(:id => params[:event_id]).first
       @events_candidates = @event.events_candidates.valid.paginate(:per_page => 10, :page => params[:page])
       
@@ -41,7 +41,6 @@ class CandidatesController < ApplicationController
   end
 
   def create
-    ## use find_or_initialize_by and save
     @candidate = Candidate.find_or_initialize_by_email_and_mobile_number(:email => params[:candidate][:email], :mobile_number => params[:candidate][:mobile_number])
     if @candidate.update_attributes(params[:candidate])
       Candidate.send_confirmation_mail(@candidate, params[:event_id])
@@ -58,7 +57,6 @@ class CandidatesController < ApplicationController
   end
   
   #On confirming mailed link, allots candidate roll number and marks candidate as confirmed.
-  ## candidate.save
   def confirmation
     if @events_candidate.registered?
       @candidate.assign_to_batch(params[:event_id], @candidate, @events_candidate)
@@ -75,16 +73,18 @@ class CandidatesController < ApplicationController
   
   # allows candidate to cancel registration and triggers mail to admin.
   def cancel
+    # find_event => @event
     @candidate.cancel_registeration(@candidate.events.where(:id => params[:event_id]).first)
     redirect_to(root_path , :notice => 'Your Registration has been Cancelled successfully!')
   end
   
-  # marks candidate star on admin's discrimination.
+  # marks candidate star on admin's discretion.
   def mark_star
     @candidate.mark_star
   end
   
   #conducts search on the basis of event category.
+  # categories controller
   def find_category
     @category = Category.where(:id => params[:category]).first
     @events_candidates = @category.all_candidates.paginate(:per_page => 5, :page => params[:page])
@@ -94,6 +94,7 @@ class CandidatesController < ApplicationController
     @events_candidate = EventsCandidate.where(:id => params[:id]).first
     send_file(@events_candidate.resume.path , :content_type => @events_candidate.resume_content_type)
   end
+
 
   # candidate.mark_selected_for(@event)
   def mark_selected
@@ -113,6 +114,8 @@ class CandidatesController < ApplicationController
   protected
   
   def find_candidate
+    # @candidate = (params[:event_id] ? @event.candidates : Candidate).where(:id => params[:id]).first
+    
     @candidate = Candidate.where(:id => params[:id]).first
     redirect_to(root_path , :notice => 'Sorry! Candidate not found.') unless @candidate
   end
