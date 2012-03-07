@@ -17,7 +17,10 @@
 #single_break
   %u
     DESCRIPTION
-  \:#{@event.description}
+  - if (@event.description.nil?)
+    \:No Description Available!
+  - else
+    \:#{@event.description}
 #single_break
   %u
     CATEGORY

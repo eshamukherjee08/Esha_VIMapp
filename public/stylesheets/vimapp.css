@@ -26,9 +26,9 @@ h1 {
 
 .but_div {
   display: inline;
-  width: 100px;
-  height: 60px;
-  margin-left: 1100px; }
+  width: 180px;
+  height: 80px;
+  margin-left:980px; }
 
 #event_submit {
   width: 130px;
@@ -138,6 +138,11 @@ h1 {
 #details {
   float: right;
   font-size: 25px; }
+  
+#sub_details {
+  float: right;
+  font-size: 15px;
+}
 
 #batch_element {
   float: left; }
@@ -145,8 +150,12 @@ h1 {
 /*Styling for map */
 #map iframe{
   display: inline; 
-  width:525px;
+  width:500px;
   height:220px}
+  
+#map {
+  margin-bottom:20px;
+}
 
 /* Styling for event form */
 #main_event {
@@ -176,7 +185,7 @@ h1 {
   display: inline;
   float: right;
   border: 5px green outset;
-  width: 590px;
+  width: 550px;
   padding-left: 10px;
   margin-left:63px; }
 

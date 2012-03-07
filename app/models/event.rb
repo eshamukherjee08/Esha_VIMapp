@@ -34,12 +34,11 @@ class Event < ActiveRecord::Base
   before_destroy :confirm_no_allocation
   
   # Not needed - Do not display description if empty
-  before_save :default_value_description
 
    #not to create event with zero number of batches.
    ### remove new_record?
    def atleast_one_batch
-     if new_record? and batches.empty?
+     if batches.empty?
       errors.add(:base, "Please ADD atleast ONE BATCH") 
      end
    end
@@ -61,11 +60,6 @@ class Event < ActiveRecord::Base
    end
    
    # Remove
-   def default_value_description
-     if self.description.blank?
-       self.description = 'No description available'
-     end
-   end
    
 
    def waitlist
@@ -81,12 +75,9 @@ class Event < ActiveRecord::Base
       
    #find the first batch that has an empty space, called at candidate.rb
    def find_empty_batch
-     batches.select{|batch| batch.capacity != batch.candidates.count}.first
+     # batches.select{|batch| batch.capacity != batch.candidates.count}.first
+     batches.empty_batch
    end
-   
-   
-   def allocation_started?
-     (events_candidates.valid.count > 1)
-   end
+
    
 end

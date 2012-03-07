@@ -1,4 +1,5 @@
 $(function() {
+  $( "#event_scheduled_at" ).datepicker({ minDate: 0 });
 $( "#event_scheduled_at" ).datepicker({ dateFormat: "dd/mm/yy" });
 });
 

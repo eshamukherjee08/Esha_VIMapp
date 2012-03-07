@@ -6,13 +6,8 @@ class AddResumeToEventsCandidates < ActiveRecord::Migration
     EventsCandidate.reset_column_information
 
     # Can be done with a single loop -> please correct
-    EventsCandidate.all.each do |element|
-      Candidate.all.each do |candidate|
-        if(element.candidate_id == candidate.id)
-          @sql = "update events_candidates set resume_file_name = '#{candidate.resume_file_name}', resume_content_type = '#{candidate.resume_content_type}', resume_file_size = '#{candidate.resume_file_size}'  where candidate_id = '#{candidate.id}'"
-        end
-      end
-      execute(@sql) 
+    Candidate.all.each do |candidate|
+      EventsCandidate.where(:candidate_id => candidate.id).update_attributes(:resume_file_name => candidate.resume_file_name, :resume_content_type => candidate.resume_content_type, :resume_file_size => candidate.resume_file_size)
     end
   end
 

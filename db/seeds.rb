@@ -8,7 +8,7 @@
 @admin.save!
 
 # find_or_create_by
-Category.find_or_initialize_by_name 'Ruby On Rails Developer'
-Category.find_or_initialize_by_name 'Android Developer'
-Category.find_or_initialize_by_name 'PHP Developer'
-Category.find_or_initialize_by_name 'Project Manager'
+Category.find_or_create_by_by_name 'Ruby On Rails Developer'
+Category.find_or_create_by_by_name 'Android Developer'
+Category.find_or_create_by_by_name 'PHP Developer'
+Category.find_or_create_by_by_name 'Project Manager'
