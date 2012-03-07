@@ -14,6 +14,7 @@ gem 'mysql2', '0.2.7'
 gem 'devise', :git => 'git://github.com/plataformatec/devise.git' 
 #### COMMENT - Put versions for everything
 gem 'devise_invitable', '0.6.0'
+gem 'aasm', '3.0.2'
 
 gem "jquery-rails", '1.0.18'
 gem 'nested_form'

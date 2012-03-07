@@ -4,6 +4,8 @@ class AddResumeToEventsCandidates < ActiveRecord::Migration
     add_column :events_candidates, :resume_content_type, :string
     add_column :events_candidates, :resume_file_size, :integer
     EventsCandidate.reset_column_information
+
+    # Can be done with a single loop -> please correct
     EventsCandidate.all.each do |element|
       Candidate.all.each do |candidate|
         if(element.candidate_id == candidate.id)

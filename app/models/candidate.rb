@@ -2,13 +2,14 @@ class Candidate < ActiveRecord::Base
   
   #associations of candidate model.
   has_many :events_candidates , :dependent => :destroy
+
   has_many :events, :through => :events_candidates
   
   has_many :batches, :through => :events_candidates
   
+
   accepts_nested_attributes_for :events_candidates
     
-  #for term acceptance in registration form.
   validates :terms, :acceptance => true
  
   validates :address, :dob, :residing_state, :presence => true

@@ -7,7 +7,6 @@ class Admin < ActiveRecord::Base
   
   validates :email, :password, :password_confirmation, :presence => true
   
-    
   before_destroy :ensure_an_admin_remains
     
   #to ensure atleast one admin remains
@@ -17,3 +16,6 @@ class Admin < ActiveRecord::Base
     end 
   end
 end
+
+## has_many created_events ?
+## Invitation_by_id, type => polymorphic

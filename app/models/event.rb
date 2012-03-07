@@ -2,7 +2,13 @@ class Event < ActiveRecord::Base
   
   belongs_to :admin
   belongs_to :category
-  has_many :batches, :dependent => :destroy
+  
+  # Can be written linke this, instead of find_empty_batch
+  has_many :batches, :dependent => :destroy do
+    def empty_batch
+      order(:start_time).select{|batch| batch.capacity != batch.candidates.count}.first
+    end
+  end
 
   has_many :events_candidates , :dependent => :destroy
   has_many :candidates, :through => :events_candidates
@@ -14,6 +20,7 @@ class Event < ActiveRecord::Base
   validates :experience, :name, :location, :category, :tech_spec, :presence => true
   validates :scheduled_at, :date => {:after => Proc.new {Time.zone.now}, :message => "Please Enter valid date"}
   
+  # before_save
   validate :atleast_one_batch
   validate :confirm_batch_gap
   
@@ -25,9 +32,12 @@ class Event < ActiveRecord::Base
   scope :past, lambda { where("scheduled_at < ?", Time.zone.now - DATEVALUE.day) }
   
   before_destroy :confirm_no_allocation
+  
+  # Not needed - Do not display description if empty
   before_save :default_value_description
 
    #not to create event with zero number of batches.
+   ### remove new_record?
    def atleast_one_batch
      if new_record? and batches.empty?
       errors.add(:base, "Please ADD atleast ONE BATCH") 
@@ -44,47 +54,36 @@ class Event < ActiveRecord::Base
    end
    
    def confirm_no_allocation
-     p "**************"
-     p self
-     p self.candidates
-     p self.events_candidates.valid.count
-     p self.events_candidates.count
-     p self.allocation_started?
-     p "******************"
      if(self.candidates.count > 0)
-       p "*********HERE********"
        raise 'cant delete event!'
        return false
      end
    end
    
+   # Remove
    def default_value_description
      if self.description.blank?
        self.description = 'No description available'
      end
    end
    
+
    def waitlist
-     events_candidates.where(:state => :waitlisted)
+     events_candidates.waitlist
    end
 
 
-   #check if all batches of an event are full.called at candidate.rb.
-   # remove event
-   # rename
+   # check if all batches of an event are full.called at candidate.rb.
    def capacity_full?
-     (batches.sum(:capacity) <= events_candidates.where('batch_id is not null').count)
+     (batches.sum(:capacity) <= events_candidates.count('batch_id is not null'))
    end
    
       
    #find the first batch that has an empty space, called at candidate.rb
-   # find_empty_batch
    def find_empty_batch
-     # event.batches.select{|batch| batch.capacity != batch.candidates.count)}.first
-     # scope
-     # batches.empty_batch
      batches.select{|batch| batch.capacity != batch.candidates.count}.first
    end
+   
    
    def allocation_started?
      (events_candidates.valid.count > 1)

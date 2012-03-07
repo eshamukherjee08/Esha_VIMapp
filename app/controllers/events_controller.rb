@@ -3,7 +3,7 @@ class EventsController < ApplicationController
   before_filter :find_event, :only => [:show, :edit, :update, :destroy, :wait_list]
 
   def index
-    if (params[:type])
+    if params[:type]
       @events = Event.past.order(:scheduled_at).paginate(:per_page => 2, :page => params[:page])
     else
       @events = Event.upcoming.order(:scheduled_at).paginate(:per_page => 2, :page => params[:page])
@@ -19,6 +19,17 @@ class EventsController < ApplicationController
     3.times { @event.batches.build }
   end
   
+  
+  def create
+    @event = Event.new(params[:event].merge!( { :admin_id => current_admin.id }))
+    if @event.save
+      redirect_to(events_path, :notice => 'Event was successfully created.') 
+    else
+      @event.batches.build
+      render :action => "new" 
+    end
+  end
+  
 
   def change_map
     @loc = params[:location]
@@ -29,15 +40,6 @@ class EventsController < ApplicationController
   end
 
 
-  def create
-    @event = Event.new(params[:event].merge!( { :admin_id => current_admin.id }))
-    if @event.save
-      redirect_to(events_path, :notice => 'Event was successfully created.') 
-    else
-      @event.batches.build
-      render :action => "new" 
-    end
-  end
 
 
   def update
