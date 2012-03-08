@@ -11,8 +11,11 @@ class EventsCandidatesController < ApplicationController
   protected
   
     def find_events_candidates
-      @events_candidates = EventsCandidate.where("id IN (#{params[:events_candidates][:ids].map {|u| u.to_i}.join(",")})")
-      redirect_to(root_path , :notice => 'Sorry! Data not found.') unless @events_candidates
+      if params[:events_candidates].nil?
+        render :js => "$('#display').html('Please Select Candidates For Marking Attendance!');";
+      else
+        @events_candidates = EventsCandidate.where("id IN (#{params[:events_candidates][:ids].map {|u| u.to_i}.join(",")})")
+      end
     end
   
 end

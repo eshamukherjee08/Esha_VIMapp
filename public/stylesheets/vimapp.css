@@ -415,3 +415,9 @@ h1 {
   color:maroon;
   font-size:1.17em;
 }
+
+#display{
+  margin-left:38%;
+  color:red;
+  font-size:1.2em;
+}

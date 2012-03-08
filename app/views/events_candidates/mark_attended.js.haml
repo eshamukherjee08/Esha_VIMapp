@@ -1,3 +1,4 @@
+$('#display').html('');
 - @events_candidates.each do |e|
   $('#attend_#{e.id}').html("#{escape_javascript (image_tag("check.jpg"))}");
   $('#status_#{e.candidate.id}').html("#{escape_javascript (render :partial => 'candidates/result_mark' , :locals => {:ele => e})}");
