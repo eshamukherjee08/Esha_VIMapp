@@ -12,9 +12,9 @@ class EventsCandidatesController < ApplicationController
   
     def find_events_candidates
       if params[:events_candidates].present?
-        render :js => "$('#display').html('Please Select Candidates For Marking Attendance!');";
-      else
         @events_candidates = EventsCandidate.where(:id => params[:events_candidates][:ids])
+      else
+        render :js => "$('#display').html('Please Select Candidates For Marking Attendance!');"
       end
     end
   

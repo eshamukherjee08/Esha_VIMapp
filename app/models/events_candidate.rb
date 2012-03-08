@@ -87,17 +87,7 @@ class EventsCandidate < ActiveRecord::Base
   end
   
   # Remove
-  def selected
-    select!
-  end
-  
-  def rejected
-    reject!
-  end
-  
-  def status_change
-    change_status!
-  end
+
   
   def can_cancel?
     event.scheduled_at.future? or event.scheduled_at.today?

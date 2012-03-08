@@ -55,4 +55,16 @@ class Candidate < ActiveRecord::Base
     events_candidates.where(:event_id => event.id).first.cancel!
   end
   
+  def select!(event)
+    events_candidates.where(:event_id => event.id).first.select!
+  end
+  
+  def reject!(event)
+    events_candidates.where(:event_id => event.id).first.reject!
+  end
+  
+  def status_change!(event)
+    events_candidates.where(:event_id => event.id).first.change_status!
+  end
+  
 end

@@ -10,9 +10,12 @@ class Batch < ActiveRecord::Base
   
   # before_destroy :check_allocation
   #http://api.rubyonrails.org/classes/ActiveRecord/AutosaveAssociation.html
+  # https://rails.lighthouseapp.com/projects/8994/tickets/3045-nested_attributes-doesnt-rollback-parent-when-before_saveafter_save-callbacks-fail
   validate :check_allocation
   
   # before_save
+  # before_save :check_gap
+  
   validate :check_gap
     
   after_update :waitlist_allocation
@@ -25,17 +28,20 @@ class Batch < ActiveRecord::Base
   end
   
   def check_gap
-    if (end_time <= start_time)
+    if end_time <= start_time
       errors.add(:base, "Keep a gap after start time: #{start_time.strftime('%H:%M')}")
+      return false
     end
   end
 
   # move waitlisted candidates to any new or old batch with available space.
   # if capacity change or new record
   def waitlist_allocation
-    selected_for_allocation = event.waitlist.limit(capacity - candidates.count)
-    if selected_for_allocation and candidates.count < capacity
-      waitlist_update(selected_for_allocation)
+    if capacity.changed? or new_record?
+      selected_for_allocation = event.waitlist.limit(capacity - candidates.count)
+      if selected_for_allocation and candidates.count < capacity
+        waitlist_update(selected_for_allocation)
+      end
     end
   end
   

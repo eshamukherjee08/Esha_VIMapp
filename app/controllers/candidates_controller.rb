@@ -2,11 +2,10 @@ class CandidatesController < ApplicationController
 
   skip_before_filter :authenticate_admin, :only => [:new, :create, :confirmation, :admitcard, :cancel, :show] 
   
-  before_filter :find_event, :only => [:create, :new, :show, :confirmation, :admitcard, :cancel]
-  before_filter :find_candidate, :only => [:show, :edit, :update, :destroy, :admitcard, :cancel, :mark_star] 
+  before_filter :find_event, :only => [:create, :new, :show, :confirmation, :admitcard, :cancel, :mark_selected, :mark_rejected, :edit_status]
+  before_filter :find_candidate, :only => [:show, :edit, :update, :destroy, :admitcard, :cancel, :mark_star, :mark_selected, :mark_rejected, :edit_status] 
   
   before_filter :find_events_candidate, :only => [:confirmation]
-  before_filter :find_marking_events_candidate, :only => [:mark_selected, :mark_rejected, :edit_status, :admitcard]
   
   layout :compute_layout
   
@@ -74,6 +73,7 @@ class CandidatesController < ApplicationController
   
   #creating admit card for confirmend candidates.
   def admitcard
+    @events_candidate = @event.events_candidates.where(:candidate_id => @candidate.id).first
   end
   
   
@@ -97,19 +97,19 @@ class CandidatesController < ApplicationController
   
   # @candidate.select!(@event)
   def mark_selected
-    @events_candidate.selected
+    @candidate.select!(@event)
   end
   
   # @candidate.reject!(@event)
   def mark_rejected
-    @events_candidate.rejected
+    @candidate.reject!(@event)
   end
 
   
   #allows admin to edit status of candidate.
   def edit_status
-    @events_candidate.status_change
-    redirect_to confirmed_event_candidates_path(@events_candidate.event)
+    @candidate.status_change!(@event)
+    redirect_to event_candidates_path(:event_id => @event.id, :type => 'confirmed')
   end
   
   protected
@@ -131,12 +131,6 @@ class CandidatesController < ApplicationController
     @events_candidate = EventsCandidate.where(:event_id => params[:event_id], :candidate_id => @candidate.id).first
     redirect_to(root_path , :notice => 'Sorry! Data not found.') unless @events_candidate or @candidate
   end 
-  
-  
-  def find_marking_events_candidate
-    @events_candidate = EventsCandidate.where(:event_id => params[:event_id], :candidate_id => params[:id]).first
-    redirect_to(root_path , :notice => 'Sorry! Data not found.') unless @events_candidate
-  end
   
   
   def compute_layout
