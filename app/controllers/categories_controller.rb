@@ -40,8 +40,7 @@ class CategoriesController < ApplicationController
   
   def find
     @category = Category.where(:id => params[:category]).first
-    @events_candidates = @category.all_events_candidates.paginate(:per_page => 10, :page => params[:page])
-    # @events_candidates = @category.events.event_candidates.paginate(:per_page => 10, :page => params[:page])
+    @events_candidates = @category.events.event_candidates.paginate(:per_page => 10, :page => params[:page])
   end
   
   
