@@ -10,10 +10,7 @@ class Event < ActiveRecord::Base
     end
   end
 
-  has_many :events_candidates , :dependent => :destroy # do
-  #     def mark_attendance
-  #     end
-  #   end
+  has_many :events_candidates, :dependent => :destroy
   
   has_many :candidates, :through => :events_candidates
   
@@ -25,14 +22,12 @@ class Event < ActiveRecord::Base
   validates :scheduled_at, :date => {:after => Proc.new {Time.zone.now}, :message => "Please Enter valid date"}
   
   # before_save
-  validate :atleast_one_batch
-  validate :confirm_batch_gap
+  before_save :atleast_one_batch
+  before_save :confirm_batch_gap
   
     
-  #scope to find upcoming events.  
   scope :upcoming, lambda { where("scheduled_at >= ?", Time.zone.now - DATEVALUE.day) }
   
-  #scope to find past events.
   scope :past, lambda { where("scheduled_at < ?", Time.zone.now - DATEVALUE.day) }
   
   before_destroy :confirm_no_allocation
@@ -41,6 +36,7 @@ class Event < ActiveRecord::Base
    def atleast_one_batch
      if batches.empty?
       errors.add(:base, "Please ADD atleast ONE BATCH") 
+      return false
      end
    end
    
@@ -49,15 +45,15 @@ class Event < ActiveRecord::Base
      batches.length.downto(2) do |index|
        if(batches[index-1].start_time < batches[index-2].end_time)
          errors.add(:base, "Please start batch #{index} after the end time of batch #{index-1}")
+         return false
        end
      end
    end
    
    def confirm_no_allocation
      if(self.candidates.count > 0)
-       raise 'cant delete event!'
+       raise 'Cannot delete Event!'
        # Remove return false
-       return false
      end
    end
    
@@ -77,7 +73,6 @@ class Event < ActiveRecord::Base
       
    #find the first batch that has an empty space, called at candidate.rb
    def find_empty_batch
-     # batches.select{|batch| batch.capacity != batch.candidates.count}.first
      batches.empty_batch
    end
 

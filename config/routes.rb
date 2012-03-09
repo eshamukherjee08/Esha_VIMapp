@@ -8,7 +8,6 @@ EshaVIMapp::Application.routes.draw do
 
   resources :candidates do
     collection do
-      # get :find_category
       get :starred, :to => "candidates#index", :defaults => {:type => 'starred'}
       # make member functions
     end

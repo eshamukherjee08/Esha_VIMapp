@@ -1,6 +1,5 @@
 class Candidate < ActiveRecord::Base
   
-  #associations of candidate model.
   has_many :events_candidates , :dependent => :destroy
 
   has_many :events, :through => :events_candidates
@@ -53,7 +52,7 @@ class Candidate < ActiveRecord::Base
   
   # events_candidates.where(:event_id => event.id).first.cancel!
   def cancel_registeration(event)
-    EventsCandidate.where(:event_id => event.id, :candidate_id => id).first.cancel!
+    events_candidates.where(:event_id => event.id).first.cancel!
   end
   
 end

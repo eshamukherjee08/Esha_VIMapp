@@ -23,7 +23,7 @@ class EventsController < ApplicationController
   def create
     @event = Event.new(params[:event].merge!( { :admin_id => current_admin.id }))
     if @event.save
-      redirect_to(events_path, :notice => 'Event was successfully created.') 
+      redirect_to(home_path, :notice => 'Event was successfully created.') 
     else
       @event.batches.build
       render :action => "new" 
@@ -42,7 +42,7 @@ class EventsController < ApplicationController
 
   def update
     if @event.update_attributes(params[:event])
-      redirect_to( events_path , :notice => 'Event was successfully updated.' )
+      redirect_to( home_path , :notice => 'Event was successfully updated.' )
     else
       render :action => "edit" 
     end
@@ -51,9 +51,13 @@ class EventsController < ApplicationController
   
   def destroy
     # begin
-      @event.destroy
-    # e.message
-    redirect_to events_path
+    begin
+      @event.destroy ? (notice = "Event Successfully Deleted!"): (notice = "Event cannot be Deleted!")
+    rescue Exception => e
+      #e.message
+      notice = e.message
+    end    
+    redirect_to( home_path, :notice => notice )
   end
   
   
@@ -62,6 +66,5 @@ class EventsController < ApplicationController
   def find_event
      @event = Event.where(:id => params[:id]).first
      redirect_to(root_path , :notice => 'Sorry! Event not found.') unless @event
-  end
-    
+  end 
 end
