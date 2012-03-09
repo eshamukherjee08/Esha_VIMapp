@@ -5,7 +5,6 @@ class ApplicationController < ActionController::Base
 
   protected
   
-  # before_filter
   def authenticate_admin 
     unless admin_signed_in?
       redirect_to root_path, :notice => "Please log in"

@@ -11,10 +11,10 @@ class EventsCandidatesController < ApplicationController
   protected
   
     def find_events_candidates
-      if params[:events_candidates].nil?
+      if params[:events_candidates].present?
         render :js => "$('#display').html('Please Select Candidates For Marking Attendance!');";
       else
-        @events_candidates = EventsCandidate.where("id IN (#{params[:events_candidates][:ids].map {|u| u.to_i}.join(",")})")
+        @events_candidates = EventsCandidate.where(:id => params[:events_candidates][:ids])
       end
     end
   

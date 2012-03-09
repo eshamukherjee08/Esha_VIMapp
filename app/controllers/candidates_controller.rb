@@ -19,7 +19,6 @@ class CandidatesController < ApplicationController
       @event = Event.where(:id => params[:event_id]).first 
       @events_candidates = @event.events_candidates.waitlist.paginate(:per_page => 10, :page => params[:page])
       
-    ## Change according to above
     elsif(params[:event_id] && params[:type] == 'confirmed')
       @event = Event.where(:id => params[:event_id]).first
       @events_candidates = @event.events_candidates.valid.paginate(:per_page => 10, :page => params[:page])
@@ -29,16 +28,20 @@ class CandidatesController < ApplicationController
     end 
   end
 
+
   def show
   end
   
+
   def new
     @candidate = Candidate.new
     @candidate.events_candidates.build
   end
 
+
   def edit
   end
+
 
   def create
     @candidate = Candidate.find_or_initialize_by_email_and_mobile_number(:email => params[:candidate][:email], :mobile_number => params[:candidate][:mobile_number])
@@ -51,11 +54,13 @@ class CandidatesController < ApplicationController
     end
   end
 
+
   def destroy
     @candidate.destroy
     redirect_to candidates_path
   end
   
+
   #On confirming mailed link, allots candidate roll number and marks candidate as confirmed.
   def confirmation
     if @events_candidate.registered?
@@ -66,6 +71,7 @@ class CandidatesController < ApplicationController
     end
   end
   
+  
   #creating admit card for confirmend candidates.
   def admitcard
   end
@@ -73,29 +79,32 @@ class CandidatesController < ApplicationController
   
   # allows candidate to cancel registration and triggers mail to admin.
   def cancel
-    # find_event => @event
     @candidate.cancel_registeration(@event)
     redirect_to(root_path , :notice => 'Your Registration has been Cancelled successfully!')
   end
   
-  # marks candidate star on admin's discretion.
+
   def mark_star
     @candidate.mark_star
   end
   
+
   def download_resume
     @events_candidate = EventsCandidate.where(:id => params[:id]).first
     send_file(@events_candidate.resume.path , :content_type => @events_candidate.resume_content_type)
   end
 
-
+  
+  # @candidate.select!(@event)
   def mark_selected
     @events_candidate.selected
   end
   
+  # @candidate.reject!(@event)
   def mark_rejected
     @events_candidate.rejected
   end
+
   
   #allows admin to edit status of candidate.
   def edit_status
@@ -105,15 +114,17 @@ class CandidatesController < ApplicationController
   
   protected
   
+  def find_event
+    @event = Event.where(:id => params[:event_id]).first
+    redirect_to(root_path , :notice => 'Sorry! Event not found.') unless @event
+  end
+  
+  
   def find_candidate
     @candidate = (params[:event_id] ? @event.candidates : Candidate).where(:id => params[:id]).first
     redirect_to(root_path , :notice => 'Sorry! Candidate not found.') unless @candidate
   end
   
-  def find_event
-    @event = Event.where(:id => params[:event_id]).first
-    redirect_to(root_path , :notice => 'Sorry! Event not found.') unless @event
-  end
   
   def find_events_candidate
     @candidate = Candidate.where(:perishable_token => params[:perishable_token]).first      #needed at confirmation view page.
@@ -121,13 +132,15 @@ class CandidatesController < ApplicationController
     redirect_to(root_path , :notice => 'Sorry! Data not found.') unless @events_candidate or @candidate
   end 
   
+  
   def find_marking_events_candidate
     @events_candidate = EventsCandidate.where(:event_id => params[:event_id], :candidate_id => params[:id]).first
     redirect_to(root_path , :notice => 'Sorry! Data not found.') unless @events_candidate
   end
   
+  
   def compute_layout
-   action_name == "admitcard" ? "admitcard" : "application"
+    action_name == "admitcard" ? "admitcard" : "application"
   end
   
 end

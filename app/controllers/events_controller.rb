@@ -50,11 +50,9 @@ class EventsController < ApplicationController
   
   
   def destroy
-    # begin
     begin
       @event.destroy ? (notice = "Event Successfully Deleted!"): (notice = "Event cannot be Deleted!")
     rescue Exception => e
-      #e.message
       notice = e.message
     end    
     redirect_to( home_path, :notice => notice )

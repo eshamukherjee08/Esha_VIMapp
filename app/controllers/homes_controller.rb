@@ -1,7 +1,6 @@
 class HomesController < ApplicationController
   skip_before_filter :authenticate_admin
   
-  # make this show
   def show
     @events = Event.upcoming.order(:scheduled_at).paginate(:per_page => 2, :page => params[:page])
   end

@@ -18,4 +18,3 @@ class Admin < ActiveRecord::Base
 end
 
 ## has_many created_events ?
-## Invitation_by_id, type => polymorphic

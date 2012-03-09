@@ -11,11 +11,12 @@ class Batch < ActiveRecord::Base
   # before_destroy :check_allocation
   #http://api.rubyonrails.org/classes/ActiveRecord/AutosaveAssociation.html
   validate :check_allocation
+  # before_save
   validate :check_gap
     
   after_update :waitlist_allocation
   
-  #not to delete a batch if allocation started.
+  # Cant delete a batch if allocation started.
   def check_allocation
     if marked_for_destruction? and !candidates.count.zero?
       errors.add(:base, "CANNOT DELETE BATCH")
@@ -29,7 +30,7 @@ class Batch < ActiveRecord::Base
   end
   
 
-  #move waitlisted candidates to any new or old batch with available space.
+  # move waitlisted candidates to any new or old batch with available space.
   def waitlist_allocation
     selected_for_allocation = event.waitlist.limit(capacity - candidates.count)
     if selected_for_allocation and candidates.count < capacity
@@ -37,10 +38,9 @@ class Batch < ActiveRecord::Base
     end
   end
     
-  #updating events_candidates on batch allocation.
+  # updating events_candidates on batch allocation.
   def waitlist_update(candidate_data)
    candidate_data.each do |element|
-     # self needed?
      events_candidates << element
      element.allot_batch!
      element.save

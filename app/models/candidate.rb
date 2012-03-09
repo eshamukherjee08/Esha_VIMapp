@@ -41,7 +41,7 @@ class Candidate < ActiveRecord::Base
     CandidateMailer.confirm_email(candidate, event_id).deliver
   end
   
-  #generating unique perishable token for candidate.
+  # generating unique perishable token for candidate.
   def generate_token
     self.perishable_token = Digest::MD5.hexdigest("#{Time.now}")
   end

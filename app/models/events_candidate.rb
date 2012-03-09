@@ -75,7 +75,6 @@ class EventsCandidate < ActiveRecord::Base
   #send mail to admin and updation after cancel.
   def after_cancel
     AdminMailer.cancel_notification(self).deliver
-    # self needed?
     self.update_attributes(:batch_id => nil)
     self.event.find_empty_batch.waitlist_allocation
   end
@@ -87,6 +86,7 @@ class EventsCandidate < ActiveRecord::Base
     CandidateMailer.allocation_email(self).deliver
   end
   
+  # Remove
   def selected
     select!
   end
