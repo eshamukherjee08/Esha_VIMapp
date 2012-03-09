@@ -14,6 +14,7 @@ class Event < ActiveRecord::Base
   #     def mark_attendance
   #     end
   #   end
+  
   has_many :candidates, :through => :events_candidates
   
   accepts_nested_attributes_for :batches, :allow_destroy => true, :reject_if => lambda { |attributes| attributes['capacity'].blank? }
@@ -36,10 +37,7 @@ class Event < ActiveRecord::Base
   
   before_destroy :confirm_no_allocation
   
-  # Not needed - Do not display description if empty
-
    #not to create event with zero number of batches.
-   ### remove new_record?
    def atleast_one_batch
      if batches.empty?
       errors.add(:base, "Please ADD atleast ONE BATCH") 
@@ -58,6 +56,7 @@ class Event < ActiveRecord::Base
    def confirm_no_allocation
      if(self.candidates.count > 0)
        raise 'cant delete event!'
+       # Remove return false
        return false
      end
    end

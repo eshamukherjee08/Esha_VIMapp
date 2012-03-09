@@ -50,7 +50,9 @@ class EventsController < ApplicationController
   
   
   def destroy
-    @event.destroy
+    # begin
+      @event.destroy
+    # e.message
     redirect_to events_path
   end
   
