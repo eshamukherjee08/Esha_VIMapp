@@ -38,7 +38,6 @@ class Candidate < ActiveRecord::Base
   
   
   #send confirmation mail to candidate on registration.
-  # Can we move this to callbacks
   def self.send_confirmation_mail(candidate, event_id)   #need event for mail, have to paas event explicitely so not in callback.
     CandidateMailer.confirm_email(candidate, event_id).deliver
   end
