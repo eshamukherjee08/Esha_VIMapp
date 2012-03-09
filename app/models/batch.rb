@@ -11,6 +11,7 @@ class Batch < ActiveRecord::Base
   # before_destroy :check_allocation
   #http://api.rubyonrails.org/classes/ActiveRecord/AutosaveAssociation.html
   validate :check_allocation
+  
   # before_save
   validate :check_gap
     
@@ -28,16 +29,17 @@ class Batch < ActiveRecord::Base
       errors.add(:base, "Keep a gap after start time: #{start_time.strftime('%H:%M')}")
     end
   end
-  
 
   # move waitlisted candidates to any new or old batch with available space.
+  # if capacity change or new record
   def waitlist_allocation
     selected_for_allocation = event.waitlist.limit(capacity - candidates.count)
     if selected_for_allocation and candidates.count < capacity
       waitlist_update(selected_for_allocation)
     end
   end
-    
+  
+  private  
   # updating events_candidates on batch allocation.
   def waitlist_update(candidate_data)
    candidate_data.each do |element|

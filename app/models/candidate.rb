@@ -23,15 +23,15 @@ class Candidate < ActiveRecord::Base
     
   
   #assigning candidate to a batch.
-  ## waitlist allocation => after save
   def assign_to_batch(eventid, candidate, events_candidate)
     event = Event.where(:id => eventid).first
     events_candidate.roll_num = UUID.new.generate.hex
+    
     if (event.capacity_full?)
-      events_candidate.allot_waitlist!      
+      events_candidate.allot_waitlist!      # AASM state
     else
       event.find_empty_batch.events_candidates << events_candidate
-      events_candidate.allot!
+      events_candidate.allot!              ## AASM state
     end
   end
   
