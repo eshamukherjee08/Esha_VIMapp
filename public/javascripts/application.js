@@ -44,7 +44,7 @@ function search_num(search_val) {
    $.ajax({
      url : "/find_search_data",
      dataType : 'script',
-     type : 'get',
+     type : 'post',
      data : "roll_num="+search_val
    });
 }
@@ -66,13 +66,3 @@ function show_map() {
     data : "location="+$("#event_location").attr("value")
   });
 }
- 
-// function mark_attendance(event_id) {
-//   $.each($("input:checked"), function(i, ele){ console.log($(ele).val());})
-//   $.ajax({
-//     url : ""/events/"+event_id+"/candidates/"+candidate_id+"/mark_selected"",
-//     dataType : 'script',
-//     type : 'get',
-//     data : "roll_num="+search_val
-//   });
-// } 

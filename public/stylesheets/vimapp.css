@@ -159,6 +159,7 @@ h1 {
 
 /* Styling for event form */
 #main_event {
+  overflow: overlay;
   border: 5px maroon outset;
   margin: 5%;
   padding: 20px; }
@@ -369,6 +370,12 @@ h1 {
 
 #special2 {
   margin-bottom:35px;
+}
+
+
+#special3{
+  overflow: overlay;
+  margin-bottom:20px;
 }
 
 #drop_box{

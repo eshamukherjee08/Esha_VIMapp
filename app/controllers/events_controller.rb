@@ -16,7 +16,7 @@ class EventsController < ApplicationController
 
   def new
     @event = Event.new
-    3.times { @event.batches.build }
+    @event.batches.build
   end
   
   
@@ -25,7 +25,6 @@ class EventsController < ApplicationController
     if @event.save
       redirect_to(home_path, :notice => 'Event was successfully created.') 
     else
-      @event.batches.build
       render :action => "new" 
     end
   end

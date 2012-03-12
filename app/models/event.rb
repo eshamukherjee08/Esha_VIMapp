@@ -23,8 +23,7 @@ class Event < ActiveRecord::Base
   
   # before_save
   before_save :atleast_one_batch
-  before_save :confirm_batch_gap
-  
+  before_save :confirm_batch_gap  
     
   scope :upcoming, lambda { where("scheduled_at >= ?", Time.zone.now - DATEVALUE.day) }
   

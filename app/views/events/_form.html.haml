@@ -40,20 +40,20 @@
           = f.label @event.experience
       #odd_field
         = f.text_area :tech_spec, :rows => 3, :cols => 70
-      
-    #odd_field.field
-      = f.label :location
-      \:
-      %span
-        = f.text_field :location, :size => 83, :onblur => "show_map();"
-    #batch_label
-      #single_break
-        Batches:
-    #main_batch
-      = f.fields_for :batches
-      %p
-        = f.link_to_add "Add a Batch", :batches
-    #map
-      %iframe{:src => "/google_map/index/?lat=28.635308&lon=77.22496&zoom=15"}
+    #special3  
+      #odd_field.field
+        = f.label :location
+        \:
+        %span
+          = f.text_field :location, :size => 83, :onblur => "show_map();"
+      #batch_label
+        #single_break
+          Batches:
+      #main_batch
+        = f.fields_for :batches
+        %p
+          = f.link_to_add "Add a Batch", :batches
+      #map
+        %iframe{:src => "/google_map/index/?lat=28.635308&lon=77.22496&zoom=15"}
     .but_div
       = f.submit

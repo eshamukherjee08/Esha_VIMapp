@@ -48,7 +48,6 @@ class CandidatesController < ApplicationController
       Candidate.send_confirmation_mail(@candidate, params[:event_id])
       redirect_to(event_candidate_path(@event, @candidate) , :notice => 'Registered Successfully.')
     else
-      @candidate.events_candidates.build
       render :action => "new"
     end
   end

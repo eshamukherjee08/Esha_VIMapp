@@ -18,7 +18,7 @@ EshaVIMapp::Application.routes.draw do
   end
      
   get "confirmation/:event_id/:perishable_token", :to => "candidates#confirmation", :as => "confirmation"
-  get :find_search_data, :to => "homes#search_by_rollnumber", :as => "find_search_data"
+  post :find_search_data, :to => "homes#search_by_rollnumber", :as => "find_search_data"
   
   
   resource :home, :only => :show do
