@@ -21,9 +21,9 @@
       %br/
       - if admin_signed_in?
         %span#details
-          = link_to 'Control Panel', home_path, :class => "#{'current_menu' if controller_name == 'home' && action_name == 'show'}"
+          = link_to 'Control Panel', home_path, :class => "#{'current_menu' if controller_name == 'homes' && action_name == 'show'}"
           |
-          = link_to 'Invite Admin', new_admin_invitation_path, :class => "#{'current_menu' if controller_name == 'admins/invitations' && action_name == 'new' }"
+          = link_to 'Invite Admin', new_admin_invitation_path, :class => "#{'current_menu' if controller_name == 'admins/invitations'}"
           |
           = link_to 'Events', events_path, :class => "#{'current_menu' if controller_name == 'events' && action_name == 'index' }"
           |

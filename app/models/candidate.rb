@@ -31,7 +31,7 @@ class Candidate < ActiveRecord::Base
       events_candidate.allot_waitlist!      # AASM state
     else
       event.find_empty_batch.events_candidates << events_candidate
-      events_candidate.allot!              ## AASM state
+      events_candidate.allot!              # AASM state
     end
   end
   

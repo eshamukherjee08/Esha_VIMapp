@@ -1,0 +1,22 @@
+- if notice
+  %p#notice
+    = notice
+#ad_signin
+  %h2
+    EDIT PASSWORD
+  %div#line
+  %br/
+  = form_for(@admin, :url => update_password_admins_path , :method => :put ) do |f|
+    %div#signin_div
+      = f.label :password
+      %br/
+      = f.password_field :password
+    %br/
+    %div#signin_div
+      = f.label :password_confirmation
+      %br/
+      = f.password_field :password_confirmation
+    %div
+      = f.submit "Update"
+    = link_to "Back", events_path
+    %br/
